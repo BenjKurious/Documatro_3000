@@ -27,8 +27,9 @@ theme:
 nav:
   - Accueil: index.md
   - OverTheWire:
-      - Intro : OverTheWire/bandit/intro.md
-      - Bandit 0: OverTheWire/bandit/bandit0.md
-      - Bandit 1: OverTheWire/bandit/bandit1.md
-      - Bandit 2: OverTheWire/bandit/bandit2.md
-      - Bandit 3: OverTheWire/bandit/bandit3.md
+    - Bandit:
+      - Intro : bandit/intro.md
+      - Bandit 0: bandit/bandit0.md
+      - Bandit 1: bandit/bandit1.md
+      - Bandit 2: bandit/bandit2.md
+      - Bandit 3: bandit/bandit3.md
