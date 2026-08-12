@@ -24,6 +24,20 @@ theme:
     - navigation.expand
     - content.code.copy # Ajoute un bouton pour copier les commandes en un clic
 
+plugins:
+  - search
+  - glightbox
+
+markdown_extensions:
+  - attr_list # Permet de redimensionner et d'aligner les images
+  - md_in_html
+  - pymdownx.blocks.caption # Ajoute une légende propre sous les images
+  - pymdownx.superfences
+  - pymdownx.tabbed
+  - pymdownx.emoji
+  - pymdownx.details
+  - pymdownx.superfences
+
 nav:
   - Accueil: index.md
   - OverTheWire:
