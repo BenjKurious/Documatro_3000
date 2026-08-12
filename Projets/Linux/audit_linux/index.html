@@ -2155,15 +2155,15 @@ risques futurs.</em></p>
 </ul>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image2.png" data-desc-position="bottom"><img alt="" src="../images/media/image2.png"></a></p>
 <ul>
-<li>'"Une seconde machine a été utilisée comme <strong>machine attaquante</strong>.
-  Cette machine tourne sur un système Kali Linux'"</li>
+<li>Une seconde machine a été utilisée comme <strong>machine attaquante</strong>.
+  Cette machine tourne sur un système Kali Linux.</li>
 </ul>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image3.png" data-desc-position="bottom"><img alt="" src="../images/media/image3.png"></a></p>
 <h3 id="22-service-vulnerable-installe">2.2 Service vulnérable installé :</h3>
 <ul>
-<li>'"Sur la <strong>machine cible</strong>, un service vulnérable a été installé, un
+<li>Sur la <strong>machine cible</strong>, un service vulnérable a été installé, un
   ancien serveur FTP (vsftpd 2.3.4), qui est connu pour sa
-  vulnérabilité'"</li>
+  vulnérabilité.</li>
 </ul>
 <p>Pour montrer que ce service est bien installé on va réaliser dans un
 premier temps un ping sur la machine cible pour bien vérifier que nos
@@ -2242,7 +2242,7 @@ la machine Kali :</p>
   exécutait une version vulnérable de vsftpd :</li>
 </ul>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/imaged.png" data-desc-position="bottom"><img alt="" src="../images/media/imaged.png"></a></p>
-<p>[]{#_Toc1430082113 .anchor}3.2 Vulnérabilités identifiées :</p>
+<p>[]3.2 Vulnérabilités identifiées :</p>
 <p>Comme nous avons pu voir lors du scan de nmap, la machine cible possède
 le service vsftpd 2.3.4. Si nous allons voir rapidement sur le net nous
 pouvons voir qu'un rapport de CVE (Common Vulnerabilities Exposure) a
@@ -2279,7 +2279,7 @@ vérifier les vulnérabilités potentielles dans ce service <strong>:</strong></
 comme Apache ou Nginx mais cela était pour trouver potentiellement
 d'autres failles à réaliser</p>
 <h2 id="4-exploitation-de-la-vulnerabilite">4. Exploitation de la vulnérabilité</h2>
-<p>[]{#_Toc1857875370 .anchor}4.1 Démarche d'exploitation : maintenant que
+<p>4.1 Démarche d'exploitation : maintenant que
 nous connaissons le logiciel exploité (vsftpd 2.3.4) nous pouvons
 démarrer notre attaque</p>
 <p>On démarre Metasploit :</p>
@@ -2379,7 +2379,7 @@ obtenons un accès complet au système</p>
 <p>Nous pouvons également voir que le message suivant s'est affiché,
 signifiant que nous étions en train de surveiller les ports ouverts :</p>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image25.png" data-desc-position="bottom"><img alt="" src="../images/media/image25.png"></a></p>
-<p>[]{#_Toc1923858165 .anchor}5.2 Chronologie de l''attaque :
+<p>5.2 Chronologie de l''attaque :
 Reconstitution des étapes de l'attaque en fonction des informations des
 logs.</p>
 <p>Pour reconstituer la chronologie on peut voir que dans un premier temps
@@ -2394,7 +2394,7 @@ pouvoir accéder aux systèmes mais à l'aide de la backdoor nous pouvons
 contourner le système PAM et donc nous connecter en tant que ROOT à la
 machine cible.</p>
 <h2 id="6-mesures-de-securisation">6. Mesures de sécurisation</h2>
-<p>[]{#_Toc1343483785 .anchor}6.1 Mise à jour du service vulnérable :
+<p>6.1 Mise à jour du service vulnérable :
 Applicage des correctifs ou mise à jour pour résoudre la vulnérabilité
 (changer la version du serveur FTP, configurer correctement le service).</p>
 <p>Voici ce que nous avons comme port ouvert exploité par des services avec
@@ -2425,7 +2425,7 @@ serversignature pour ne plus afficher de détails sur le logiciel utilisé
 commande sudo kill suivi de l'id du service :</p>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image2a.png" data-desc-position="bottom"><img alt="" src="../images/media/image2a.png"></a></p>
 <p>Ici 5049 et 15074</p>
-<p>[]{#_Toc641266495 .anchor}6.2 Configuration d'un pare-feu : Utilisation
+<p>6.2 Configuration d'un pare-feu : Utilisation
 de iptables ou ufw pour restreindre l''accès au service vulnérable.</p>
 <h4 id="621-les-regles-predefinies">6.2.1 : Les règles prédéfinies :</h4>
 <p>On va ensuite mettre en place un pare-feu, dans un premier temps je vais
@@ -2467,7 +2467,7 @@ pouvons voir que seul un service est encore visible openSSH</p>
 nous allons rajouter la règle suivante qui va empêcher toute connexion
 entrante sur le port 22 et donc Nmap ne pourra pas le détecter :</p>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image34.png" data-desc-position="bottom"><img alt="" src="../images/media/image34.png"></a></p>
-<p>[]{#_Toc1102801189 .anchor}6.3 : Verrouillage de l''accès à la machine
+<p>6.3 : Verrouillage de l''accès à la machine
 attaquante : Vérifier que l''attaquant n''a plus accès au service et à
 la machine.</p>
 <p>Nous allons ensuite verrouiller l'attaquant pour être sûr qu'il ne
@@ -2551,7 +2551,7 @@ machine</p>
 <p>Pour pallier cela, nous allons utiliser la commande suivante :</p>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image44.png" data-desc-position="bottom"><img alt="" src="../images/media/image44.png"></a>
 Pour tuer toutes les sessions SSH ouvertes par root</p>
-<p>[]{#_Toc1524352340 .anchor}6.4 Validation des mesures : Vérifier
+<p>6.4 Validation des mesures : Vérifier
 l''efficacité des mesures mises en place.</p>
 <p>Nous allons désormais essayer de nous connecter avec la même faille pour
 voir si c'est encore possible ou si le système de défense que nous avons
