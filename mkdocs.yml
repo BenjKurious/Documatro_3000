@@ -49,16 +49,17 @@ nav:
       - Bandit 1: bandit/bandit1.md
       - Bandit 2: bandit/bandit2.md
       - Bandit 3: bandit/bandit3.md
-    - Pwn.college:
-    - Root-Me:
-    - HackTheBox:
-    - SadServer:
-    - TryHackMe:
+    #- Pwn.college:
+    #- Root-Me:
+    #- HackTheBox:
+    #- SadServer:
+    #- TryHackMe:
   - Presentation:
     - CV: Presentation/CV.md
-  - Projets: 
-   - Windows Server: 
-   - Linux: 
-   - Virtualisation:
-   - Automatisation:
-   - Scripting:
+  - Projets:
+      - Windows Server:
+          - Mise en place d'une infrastructure Windows Server: Projets/Windows_Server/Mise_en_place_infrastructure.md
+  # - Linux:
+  # - Virtualisation:
+  # - Automatisation:
+  # - Scripting:
