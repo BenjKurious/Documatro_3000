@@ -28,7 +28,7 @@ nav:
   - Accueil: index.md
   - OverTheWire:
     - Bandit:
-      - Intro : bandit/intro.md
+      - Intro: bandit/intro.md
       - Bandit 0: bandit/bandit0.md
       - Bandit 1: bandit/bandit1.md
       - Bandit 2: bandit/bandit2.md
