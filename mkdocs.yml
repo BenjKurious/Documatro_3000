@@ -29,6 +29,7 @@ plugins:
   - glightbox
 
 markdown_extensions:
+  - admonition
   - attr_list # Permet de redimensionner et d'aligner les images
   - md_in_html
   - pymdownx.blocks.caption # Ajoute une légende propre sous les images
@@ -37,6 +38,7 @@ markdown_extensions:
   - pymdownx.emoji
   - pymdownx.details
   - pymdownx.superfences
+  
 
 nav:
   - Accueil: index.md
@@ -47,3 +49,5 @@ nav:
       - Bandit 1: bandit/bandit1.md
       - Bandit 2: bandit/bandit2.md
       - Bandit 3: bandit/bandit3.md
+  - Presentation:
+    - CV: Presentation/CV.md
