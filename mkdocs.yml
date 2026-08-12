@@ -49,5 +49,16 @@ nav:
       - Bandit 1: bandit/bandit1.md
       - Bandit 2: bandit/bandit2.md
       - Bandit 3: bandit/bandit3.md
+    - Pwn.college:
+    - Root-Me:
+    - HackTheBox:
+    - SadServer:
+    - TryHackMe:
   - Presentation:
     - CV: Presentation/CV.md
+  - Projets: 
+   - Windows Server: 
+   - Linux: 
+   - Virtualisation:
+   - Automatisation:
+   - Scripting:
