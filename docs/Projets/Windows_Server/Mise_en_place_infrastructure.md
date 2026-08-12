@@ -1,0 +1,79 @@
+!!! info "1.Contexte (Méthode STAR)" 
+    Situation / Problème :
+    La machine virtuelle Windows Server est juste installeée elle n'est pas encore équipée des outils pour la rendre fonctionnelle en tant que Server
+
+!!! info "Objectif (Tâche)"
+    Mettre en place un Contrôleur de Domaine.
+
+2. Architecture (Excalidraw)
+![alt text](images/schema.png)
+
+3. Configuration & Scripts Clés
+
+**Étape 1 : Renommage de la machine**
+
+![alt text](images/Rename.png)
+
+**Étape 2 : Visionnement de la configuration DHCP de la machine**
+![alt text](images/cmd_dhcp_config.png)
+
+**Étape 3 : Application d'une configuration réseau manuelle** :
+![alt text](images/manual_network_configuration.png)
+
+**Étape 4 : Ajout du service AD DS** :
+![alt text](images/AD_DS_Install.png)
+
+**Étape 5 : Promotion du serveur en tant que contrôleur de domaine** :
+![alt text](images/domain_controller.png)
+
+**Étape 6 : Modification de la configuration réseau de la 1ère machine cliente** :
+![alt text](images/DNS.png)
+
+**Étape 7 : Ajout de la machine cliente dans le domaine** :
+![alt text](images/add_domain.png)
+![alt text](images/welcome_domain.png)
+
+**Étape 8 : Création de l'unité d'organisation** :
+![alt text](images/New_OU.png)
+
+**Étape 9 : Création de 4-sous unité d'organisation** :
+![alt text](images/four_OU.png)
+
+**Étape 10 : création des comptes** : 
+![alt text](images/jean_dupont.png)
+![alt text](images/adm_ben.png)
+![alt text](images/Service_app.png)
+
+**Étape 11 : Connexion avec le nouveau compte admin** :
+![alt text](images/co_ben.png)
+
+**Étape 12 : Durcissement des règles concernant les mots de passes** :
+![alt text](images/Hardening_rules_pass.png)
+
+**Étape 13 : Durcissement des règles concernant le verrouillage des comptes** :
+![alt text](images/Hardening_rules_lock_account.png)
+
+**Étape 14 : Mise en place de l'UAC pour les administrateurs** : 
+![alt text](images/UAC_admin.png)
+![alt text](images/consent_asking.png)
+
+**Étape 15 : mise en place d'un objet gpo pour restreindre les permissions des utilisateurs** :
+![alt text](images/GPO_object_users.png)
+![alt text](images/GPO_object_users_2.png)
+
+**Étape 16 : Tests du bon fonctionnement des restrictions** :
+![alt text](images/restrict.png)
+![alt text](images/Jean_dupont_locked.png)
+
+**Étape 17 : Mise en place d'audits pour certaine actions precises** : 
+![alt text](images/audits_initiate.png)
+
+**Étape 18 : test des audits** : 
+![alt text](images/audits_verification.png)
+
+!!! info "4. Dépannage (Troubleshooting)"
+    Symptôme : J'ai indiqué l'adresse IP de Google en tant que DNS préférée, ça ne pouvait jamais marcher.
+    Solution : J'ai remplacé le DNS préférée par 127.0.0.1 ce qui signifie que lorsque la machine souhaite communiquer avec le contrôleur de domaine elle va se parler à lui même. Traduction : ah oui c'est vrai le contrôleur de domaine c'est moi
+
+!!! info "5. Bilan & Suite"
+    Résultat : La machine est renommé, Elle posséde une configuration réseau sans DHCP et L'AD est fonctionnel.

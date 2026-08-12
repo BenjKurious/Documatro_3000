@@ -1,5 +1,6 @@
 site_name: Documatro 3000
 site_author: Benjamin
+site_url: https://benjkurious.github.io/Documatro_3000/
 
 theme:
   name: material
@@ -59,7 +60,8 @@ nav:
   - Projets:
       - Windows Server:
           - Mise en place d'une infrastructure Windows Server: Projets/Windows_Server/Mise_en_place_infrastructure.md
-  # - Linux:
+      - Linux:
+          - Rapport d'Audit de sécurisation d'un service linux vulnérable: Projets/Linux/audit_linux.md
   # - Virtualisation:
   # - Automatisation:
   # - Scripting:

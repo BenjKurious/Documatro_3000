@@ -1,0 +1,2664 @@
+<!DOCTYPE html><html lang="en" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="Benjamin">
+      
+      
+        <link rel="canonical" href="https://benjkurious.github.io/Documatro_3000/Projets/Linux/audit_linux/">
+      
+      
+        <link rel="prev" href="../../Windows_Server/Mise_en_place_infrastructure/">
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Rapport d'Audit de sécurisation d'un service linux vulnérable - Documatro 3000</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <link href="../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#rapport-daudit-de-securisation-dun-service-linux-vulnerable" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Documatro 3000" class="md-header__button md-logo" aria-label="Documatro 3000" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Documatro 3000
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Rapport d'Audit de sécurisation d'un service linux vulnérable
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="cyan" aria-label="Mode clair" type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Mode clair" for="__palette_1" hidden="">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="cyan" aria-label="Mode sombre" type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Mode sombre" for="__palette_0" hidden="">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required="">
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix="">
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Documatro 3000" class="md-nav__button md-logo" aria-label="Documatro 3000" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+
+    </a>
+    Documatro 3000
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix="">
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Accueil
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2">
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OverTheWire
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    OverTheWire
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_1">
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bandit
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Bandit
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../bandit/intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Intro
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../bandit/bandit0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bandit 0
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../bandit/bandit1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bandit 1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../bandit/bandit2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bandit 2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../bandit/bandit3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bandit 3
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3">
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Presentation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Presentation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Presentation/CV/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CV
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked="">
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Projets
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Projets
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_1">
+        
+          
+          <label class="md-nav__link" for="__nav_4_1" id="__nav_4_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows Server
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Windows Server
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Windows_Server/Mise_en_place_infrastructure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mise en place d'une infrastructure Windows Server
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" checked="">
+        
+          
+          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linux
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Linux
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Rapport d'Audit de sécurisation d'un service linux vulnérable
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Rapport d'Audit de sécurisation d'un service linux vulnérable
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#1-introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Introduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mise-en-place-de-lenvironnement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mise en place de l'environnement
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Mise en place de l'environnement">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-machines-virtuelles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Machines virtuelles
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-service-vulnerable-installe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Service vulnérable installé
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-verification-de-laccessibilite" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Vérification de l'accessibilité
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-methode-dattaque" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 Méthode d'attaque
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-scan-et-collecte-dinformations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Scan et collecte d'informations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Scan et collecte d'informations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-scan-avec-nmap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Scan avec nmap
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-vulnerabilites-identifiees" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Vulnérabilités identifiées
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-scan-specifique-au-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Scan spécifique au service
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-exploitation-de-la-vulnerabilite" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Exploitation de la vulnérabilité
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Exploitation de la vulnérabilité">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-demarche-dexploitation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Démarche d'exploitation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-acces-non-autorise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Accès non autorisé
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-analyse-post-exploitation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Analyse post-exploitation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Analyse post-exploitation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-examen-des-logs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Examen des logs :
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-chronologie-de-lattaque" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Chronologie de l'attaque
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-mesures-de-securisation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Mesures de sécurisation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Mesures de sécurisation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-mise-a-jour-du-service-vulnerable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Mise à jour du service vulnérable
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6.1 Mise à jour du service vulnérable">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#611-mesure-de-protection-de-apache2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1.1 Mesure de protection de Apache2
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#612-masquage-de-la-version-du-serveur" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1.2 Masquage de la version du serveur
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#613-fermeture-manuellement-des-services-ftp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1.3 : Fermeture manuellement des services ftp :
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-configuration-dun-pare-feu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Configuration d'un pare-feu
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6.2 Configuration d'un pare-feu">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#621-les-regles-predefinies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2.1 : Les règles prédéfinies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#622-ajouts-de-nouvelles-regles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2.2 : Ajouts de nouvelles règles
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#623-autorisation-des-connexions-etablies-et-des-connexions-liees" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2.3 : Autorisation des connexions établies et des connexions liées
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#624-autorisation-des-connexions-en-ssh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2.4 : Autorisation des connexions en SSH
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6.2.4 : Autorisation des connexions en SSH">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#625-test-du-pare-feu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2.5 : Test du pare-feu
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-verrouillage-de-lacces-a-la-machine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 : Verrouillage de l'accès à la machine
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6.3 : Verrouillage de l'accès à la machine">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#631-identification-de-lattaquant" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3.1 : Identification de l'attaquant
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#632-blocage-sur-le-pare-feu-de-ladresse-ip-de-lattaquant" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3.2 : Blocage sur le pare-feu de l'adresse IP de l'attaquant
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#633-verification-des-sessions-ouvertes-sur-la-machine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3.3 : Vérification des sessions ouvertes sur la machine
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#634-verification-et-fermeture-des-connexions-ip-de-lattaquant" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3.4: Vérification et fermeture des connexions IP de l'attaquant
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#635-desactivation-de-lacces-root-a-laide-de-ssh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3.5 : Désactivation de l'accès root à l'aide de SSH
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#636-installation-et-configuration-de-loutil-fail2ban" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3.6 : Installation et configuration de l'outil fail2ban
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64-validation-des-mesures-verifier-lefficacite-des-mesures-mises-en-place" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 Validation des mesures : Vérifier l'efficacité des mesures mises en place.
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-conclusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7 : Conclusion
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-politique-de-securite-des-systemes-dinformation-pssi-serveur-linux" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8 : Politique de Sécurité des Systèmes d'Information (PSSI) -- Serveur Linux
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8 : Politique de Sécurité des Systèmes d'Information (PSSI) -- Serveur Linux">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-objectif-et-champ-dapplication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1. Objectif et champ d'application
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82-principes-generaux" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.2. Principes généraux
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#83-gestion-des-acces-et-authentification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.3. Gestion des accès et authentification
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#84-securisation-des-services-et-du-reseau" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.4. Sécurisation des services et du réseau
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#85-gestion-des-mises-a-jour-et-des-correctifs-de-securite" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.5 Gestion des mises à jour et des correctifs de sécurité
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#86-surveillance-et-detection-des-incidents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.6 Surveillance et détection des incidents
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#87-sauvegarde-et-plan-de-reprise-apres-incident" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.7 : Sauvegarde et plan de reprise après incident
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#88-plan-de-reponse-aux-incidents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.8 Plan de réponse aux incidents
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#1-introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Introduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mise-en-place-de-lenvironnement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mise en place de l'environnement
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Mise en place de l'environnement">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-machines-virtuelles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Machines virtuelles
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-service-vulnerable-installe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Service vulnérable installé
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-verification-de-laccessibilite" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Vérification de l'accessibilité
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-methode-dattaque" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 Méthode d'attaque
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-scan-et-collecte-dinformations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Scan et collecte d'informations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Scan et collecte d'informations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-scan-avec-nmap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Scan avec nmap
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-vulnerabilites-identifiees" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Vulnérabilités identifiées
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-scan-specifique-au-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Scan spécifique au service
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-exploitation-de-la-vulnerabilite" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Exploitation de la vulnérabilité
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Exploitation de la vulnérabilité">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-demarche-dexploitation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Démarche d'exploitation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-acces-non-autorise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Accès non autorisé
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-analyse-post-exploitation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Analyse post-exploitation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Analyse post-exploitation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-examen-des-logs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Examen des logs :
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-chronologie-de-lattaque" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Chronologie de l'attaque
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-mesures-de-securisation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Mesures de sécurisation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Mesures de sécurisation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-mise-a-jour-du-service-vulnerable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Mise à jour du service vulnérable
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6.1 Mise à jour du service vulnérable">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#611-mesure-de-protection-de-apache2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1.1 Mesure de protection de Apache2
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#612-masquage-de-la-version-du-serveur" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1.2 Masquage de la version du serveur
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#613-fermeture-manuellement-des-services-ftp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1.3 : Fermeture manuellement des services ftp :
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-configuration-dun-pare-feu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Configuration d'un pare-feu
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6.2 Configuration d'un pare-feu">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#621-les-regles-predefinies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2.1 : Les règles prédéfinies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#622-ajouts-de-nouvelles-regles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2.2 : Ajouts de nouvelles règles
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#623-autorisation-des-connexions-etablies-et-des-connexions-liees" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2.3 : Autorisation des connexions établies et des connexions liées
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#624-autorisation-des-connexions-en-ssh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2.4 : Autorisation des connexions en SSH
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6.2.4 : Autorisation des connexions en SSH">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#625-test-du-pare-feu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2.5 : Test du pare-feu
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-verrouillage-de-lacces-a-la-machine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 : Verrouillage de l'accès à la machine
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6.3 : Verrouillage de l'accès à la machine">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#631-identification-de-lattaquant" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3.1 : Identification de l'attaquant
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#632-blocage-sur-le-pare-feu-de-ladresse-ip-de-lattaquant" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3.2 : Blocage sur le pare-feu de l'adresse IP de l'attaquant
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#633-verification-des-sessions-ouvertes-sur-la-machine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3.3 : Vérification des sessions ouvertes sur la machine
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#634-verification-et-fermeture-des-connexions-ip-de-lattaquant" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3.4: Vérification et fermeture des connexions IP de l'attaquant
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#635-desactivation-de-lacces-root-a-laide-de-ssh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3.5 : Désactivation de l'accès root à l'aide de SSH
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#636-installation-et-configuration-de-loutil-fail2ban" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3.6 : Installation et configuration de l'outil fail2ban
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64-validation-des-mesures-verifier-lefficacite-des-mesures-mises-en-place" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 Validation des mesures : Vérifier l'efficacité des mesures mises en place.
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-conclusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7 : Conclusion
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-politique-de-securite-des-systemes-dinformation-pssi-serveur-linux" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8 : Politique de Sécurité des Systèmes d'Information (PSSI) -- Serveur Linux
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8 : Politique de Sécurité des Systèmes d'Information (PSSI) -- Serveur Linux">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-objectif-et-champ-dapplication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1. Objectif et champ d'application
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82-principes-generaux" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.2. Principes généraux
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#83-gestion-des-acces-et-authentification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.3. Gestion des accès et authentification
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#84-securisation-des-services-et-du-reseau" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.4. Sécurisation des services et du réseau
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#85-gestion-des-mises-a-jour-et-des-correctifs-de-securite" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.5 Gestion des mises à jour et des correctifs de sécurité
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#86-surveillance-et-detection-des-incidents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.6 Surveillance et détection des incidents
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#87-sauvegarde-et-plan-de-reprise-apres-incident" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.7 : Sauvegarde et plan de reprise après incident
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#88-plan-de-reponse-aux-incidents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.8 Plan de réponse aux incidents
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="rapport-daudit-de-securisation-dun-service-linux-vulnerable">Rapport d'Audit de Sécurisation d'un Service Linux Vulnérable</h1>
+<h2 id="1-introduction">1. Introduction</h2>
+<p><em>Le présent rapport décrit l'audit de sécurité effectué sur une machine
+virtuelle exécutant un service Linux vulnérable. L'objectif de cet audit
+est d'identifier les vulnérabilités d'un service mal configuré,
+d'exploiter cette faille pour obtenir un accès non autorisé, puis
+d'analyser l'activité et les journaux pour comprendre l'intrusion.
+Enfin, des mesures de sécurisation sont mises en place pour limiter les
+risques futurs.</em></p>
+<h2 id="mise-en-place-de-lenvironnement">Mise en place de l'environnement</h2>
+<h3 id="21-machines-virtuelles">2.1 Machines virtuelles</h3>
+<ul>
+<li>Une machine virtuelle a été configurée comme <strong>machine cible</strong>. Cette
+  machine tourne sur un système metasploitable2 qui contient déjà
+  beaucoup d'anciennes versions de logiciels qui contiennent des
+  vulnérabilités simples à exploiter.</li>
+</ul>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image2.png" data-desc-position="bottom"><img alt="" src="../images/media/image2.png"></a></p>
+<ul>
+<li>Une seconde machine a été utilisée comme <strong>machine attaquante</strong>.
+  Cette machine tourne sur un système Kali Linux.</li>
+</ul>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image3.png" data-desc-position="bottom"><img alt="" src="../images/media/image3.png"></a></p>
+<h3 id="22-service-vulnerable-installe">2.2 Service vulnérable installé</h3>
+<ul>
+<li>Sur la <strong>machine cible</strong>, un service vulnérable a été installé, un
+  ancien serveur FTP (vsftpd 2.3.4), qui est connu pour sa
+  vulnérabilité.</li>
+</ul>
+<p>Pour montrer que ce service est bien installé on va réaliser dans un
+premier temps un ping sur la machine cible pour bien vérifier que nos
+deux machines sont en communication :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image4.png" data-desc-position="bottom"><img alt="" src="../images/media/image4.png"></a></p>
+<p>On obtient bien une réponse de la part de la <strong>machine cible</strong> on peut
+donc en conclure qu'il y a bien communication entre les deux machines</p>
+<p>Pour débuter notre attaque et montrer la présence d'un ancien serveur
+FTP (vsftpd 2.3.4) nous allons réaliser une commande **nmap --sV
+<adresse_ip_de_la_machine_cible></adresse_ip_de_la_machine_cible></p>
+<p>Voilà ce que nous allons obtenir après le scan à l'aide de l'outil nmap
+qui nous permet d'analyser le trafic réseau et de voir les différents
+ports ouverts à l'aide de l'option sV :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image5.png" data-desc-position="bottom"><img alt="" src="../images/media/image5.png"></a></p>
+<p>Plus précisément nous voyons bien que l'ancien serveur ftp est bien
+présent :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image6.png" data-desc-position="bottom"><img alt="" src="../images/media/image6.png"></a></p>
+<ul>
+<li><em>Cette version est connue car les développeurs avaient installé une
+  backdoor pour des fonctions de maintenance et de réparation,
+  malheureusement il est alors très facile d'exploiter cette faille pour
+  réaliser une élévation de permissions et prendre le contrôle du
+  système.</em></li>
+</ul>
+<h3 id="23-verification-de-laccessibilite">2.3 Vérification de l'accessibilité</h3>
+<ul>
+<li>Le service était accessible via le réseau entre les deux machines
+  (testé en utilisant nmap).</li>
+</ul>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image7.png" data-desc-position="bottom"><img alt="" src="../images/media/image7.png"></a></p>
+<p>La communication est bien fonctionnelle entre les deux machines car le
+scan fonctionne et nous rapporte les ports ouverts ainsi que des détails
+sur les logiciels et leurs versions qui exploitent ces ports</p>
+<ul>
+<li>Ping pour vérifier la bonne communication entre les deux machines</li>
+</ul>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image8.png" data-desc-position="bottom"><img alt="" src="../images/media/image8.png"></a></p>
+<p>Même chose ici les pings sont bien fonctionnels à partir de l'adresse IP
+de notre machine cible, aucune erreur n'est à déployer et le temps en
+millisecondes de chaque ping est très rapide, rien ne pose donc un
+souci.</p>
+<h3 id="24-methode-dattaque">2.4 Méthode d'attaque</h3>
+<ul>
+<li>Utilisation du logiciel Metasploit déjà installé nativement sur la
+  machine Kali Linux, cela va permettre de rechercher une vulnérabilité
+  exploitable sur un logiciel déjà installé et allumé sur un port
+  ouvert, puis de l'exploiter pour réaliser diverses actions sur la
+  machine cible, dans notre cas nous cherchons à obtenir une élévation
+  de privilèges pour prendre le contrôle de la machine vulnérable.</li>
+</ul>
+<p>Comme nous pouvons le voir, le logiciel est déjà présent nativement sur
+la machine Kali :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image9.png" data-desc-position="bottom"><img alt="" src="../images/media/image9.png"></a></p>
+<p>Il est également possible de le lancer à l'aide de la commande suivante
+:</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/imagea.png" data-desc-position="bottom"><img alt="" src="../images/media/imagea.png"></a></p>
+<p>Voici à quoi ressemble l'interface de l'outil metasploit :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/imageb.png" data-desc-position="bottom"><img alt="" src="../images/media/imageb.png"></a></p>
+<h2 id="3-scan-et-collecte-dinformations">3. Scan et collecte d'informations</h2>
+<h3 id="31-scan-avec-nmap">3.1 Scan avec nmap</h3>
+<ul>
+<li>
+<p>Sur la machine attaquante, un scan Nmap a été effectué pour
+  identifier les ports ouverts et les services exposés sur la machine
+  cible.</p>
+</li>
+<li>
+<p>Commande nmap utilisée pour effectuer un scan du trafic réseau, pour
+  trouver les ports ouverts et obtenir des détails sur les logiciels qui
+  utilisent ces ports :</p>
+</li>
+</ul>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/imagec.png" data-desc-position="bottom"><img alt="" src="../images/media/imagec.png"></a></p>
+<ul>
+<li>Les résultats ont révélé que le port 21 (FTP) était ouvert et
+  exécutait une version vulnérable de vsftpd :</li>
+</ul>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/imaged.png" data-desc-position="bottom"><img alt="" src="../images/media/imaged.png"></a></p>
+<h3 id="32-vulnerabilites-identifiees">3.2 Vulnérabilités identifiées</h3>
+<p>Comme nous avons pu voir lors du scan de nmap, la machine cible possède
+le service vsftpd 2.3.4. Si nous allons voir rapidement sur le net nous
+pouvons voir qu'un rapport de CVE (Common Vulnerabilities Exposure) a
+déjà été déposé sur cette version de vsftpd :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/imagee.png" data-desc-position="bottom"><img alt="" src="../images/media/imagee.png"></a></p>
+<p>Nous pouvons voir que cette version contient une backdoor qui ouvre un
+terminal shell sur le port 6200/tcp</p>
+<p>Cette vulnérabilité a obtenu un score de 8.1 en CVSS ce qui signifie que
+cette faille peut provoquer des gros dégâts et qu'elle est très simple à
+exploiter</p>
+<p>Pour en parler rapidement, les CVSS (Common Vulnerabilities Scoring
+Systems) sont les scores attribués à une vulnérabilité, la note finale
+va de 1 à 10 avec 10 étant une vulnérabilité extrêmement problématique
+pour la cible (prise de contrôle de l'appareil, altération de fichiers
+importants, vol de données) et étant également très simple à exploiter
+pour un attaquant (par exemple une backdoor présente sur un logiciel)</p>
+<p>Ce système de score permet de connaître la dangerosité d'une
+vulnérabilité pour s'en prémunir le plus efficacement et rapidement
+possible, bien sûr, on ne va pas réagir aussi rapidement entre une CVE
+qui possède un score de 8 face à une vulnérabilité qui possède un score
+de 1,5 (donc qui va produire peu de dégâts et qui est vraiment compliqué
+à exploiter)</p>
+<p>Dans notre cas précis cette vulnérabilité est parfaite car c'est ce que
+nous cherchons pour prendre le contrôle de la machine cible. Nous allons
+donc passer à la phase d'attaque sur la machine cible</p>
+<p>Lien vers la CVE concernée :
+<a href="https://access.redhat.com/security/cve/cve-2011-2523">https://access.redhat.com/security/cve/cve-2011-2523</a></p>
+<h3 id="33-scan-specifique-au-service">3.3 Scan spécifique au service</h3>
+<p><strong>Utilisation de la commande Nikto</strong> pour scanner le service web et
+vérifier les vulnérabilités potentielles dans ce service <strong>:</strong></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/imagef.png" data-desc-position="bottom"><img alt="" src="../images/media/imagef.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image10.png" data-desc-position="bottom"><img alt="" src="../images/media/image10.png"></a></p>
+<p>Ce scan est plus spécifique pour des services utilisant les services web
+comme Apache ou Nginx mais cela était pour trouver potentiellement
+d'autres failles à réaliser</p>
+<h2 id="4-exploitation-de-la-vulnerabilite">4. Exploitation de la vulnérabilité</h2>
+<h3 id="41-demarche-dexploitation">4.1 Démarche d'exploitation</h3>
+<p>maintenant que nous connaissons le logiciel exploité (vsftpd 2.3.4) nous pouvons démarrer notre attaque</p>
+<p>On démarre Metasploit :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image11.png" data-desc-position="bottom"><img alt="" src="../images/media/image11.png"></a></p>
+<p>Nous allons ensuite taper la commande search qui permet de rechercher
+une vulnérabilité suivie du nom du service que nous souhaitons exploiter
+:</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image12.png" data-desc-position="bottom"><img alt="" src="../images/media/image12.png"></a></p>
+<p>On obtient deux failles concernant deux versions différentes de vsftpd :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image13.png" data-desc-position="bottom"><img alt="" src="../images/media/image13.png"></a></p>
+<p>Nous pouvons voir que deux failles sont disponibles, la première qui
+permet de réaliser un DDOS ou une interruption de service sur la version
+2.3.2, malheureusement, nous ne possédons pas cette version de vsftpd et
+le rang de la vulnérabilité est normal ce qui signifie qu'elle n'est pas
+si facile que cela à exploiter pour des résultats moins intéressants</p>
+<p>Heureusement la seconde vulnérabilité concerne notre version installée
+et son rang est excellent, nous allons donc vérifier les informations de
+cette vulnérabilité :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image14.png" data-desc-position="bottom"><img alt="" src="../images/media/image14.png"></a></p>
+<p>Voici les informations que nous obtenons :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image15.png" data-desc-position="bottom"><img alt="" src="../images/media/image15.png"></a></p>
+<p>Comme nous avons pu voir précédemment cette faille utilise une backdoor,
+elle est exploitable sur les plateformes Unix ce qui est une excellente
+nouvelle pour nous car il est possible d'avoir des CVE qui ne sont pas
+compatibles avec notre OS.</p>
+<p>Pour exploiter cette faille nous pouvons également voir que nous devons
+renseigner l'adresse IP de la cible ainsi que le numéro de port exploité
+:</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image16.png" data-desc-position="bottom"><img alt="" src="../images/media/image16.png"></a></p>
+<p>Maintenant que nous avons ces informations il est temps d'attaquer</p>
+<h3 id="42-acces-non-autorise">4.2 Accès non autorisé</h3>
+<p>Pour débuter l'attaque, nous allons utiliser la commande use suivi du
+chemin de la vulnérabilité que nous avons trouvé plus tôt :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image17.png" data-desc-position="bottom"><img alt="" src="../images/media/image17.png"></a></p>
+<p>Voici ce que cela va donner en commande :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image18.png" data-desc-position="bottom"><img alt="" src="../images/media/image18.png"></a></p>
+<p>Désormais il ne nous reste plus qu'à renseigner l'adresse IP de l'hôte
+et le ping exploité</p>
+<p>Renseignement de l'adresse IP de l'hôte ou de la cible :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image19.png" data-desc-position="bottom"><img alt="" src="../images/media/image19.png"></a></p>
+<p>Puis renseigment du port exploité :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image1a.png" data-desc-position="bottom"><img alt="" src="../images/media/image1a.png"></a></p>
+<p>Il n'y a plus qu'à lancer la commande exploit pour lancer un terminal
+sur la machine cible avec une élévation de privilège :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image1b.png" data-desc-position="bottom"><img alt="" src="../images/media/image1b.png"></a></p>
+<p>Nous allons obtenir le résultat suivant :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image1c.png" data-desc-position="bottom"><img alt="" src="../images/media/image1c.png"></a></p>
+<p>On peut voir que nous avons bien pu démarrer un terminal en tant que
+l'utilisateur root</p>
+<p>Désormais nous allons tester ce que nous pouvons faire avec nos nouveaux
+privilèges</p>
+<p>Si je fais la commande <strong>ls</strong> je peux voir tous les répertoires présents
+sur la machine :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image1d.png" data-desc-position="bottom"><img alt="" src="../images/media/image1d.png"></a></p>
+<p>Si je fais un pwd du côté de la machine cible je peux voir que je me
+trouve dans le répertoire suivant :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image1e.png" data-desc-position="bottom"><img alt="" src="../images/media/image1e.png"></a></p>
+<p>Du côté de ma machine attaquante, je vais donc créer un nouveau fichier
+dans ce répertoire pour voir si la modification est bien présente sur la
+machine cible</p>
+<p>Je me rends donc dans le répertoire utilisé par l'admin sur la machine
+cible puis je crée un fichier qui s'appelle HACKED :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image1f.png" data-desc-position="bottom"><img alt="" src="../images/media/image1f.png"></a></p>
+<p>Et si je regarde du côté de ma machine cible le fichier est donc bien
+présent :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image20.png" data-desc-position="bottom"><img alt="" src="../images/media/image20.png"></a></p>
+<p>Je peux également utiliser la commande "whoami" pour prouver que je suis
+bien connecté en tant qu'utilisateur super-user ou root</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image21.png" data-desc-position="bottom"><img alt="" src="../images/media/image21.png"></a></p>
+<p>Ainsi j'ai bien pu me connecter en tant que root à la machine cible et
+créer un fichier du nom de HACKED, désormais je vais me déconnecter et
+nous allons passer à l'analyse post-exploitation, pour vérifier les
+différentes traces liées à l'attaque.</p>
+<h2 id="5-analyse-post-exploitation">5. Analyse post-exploitation</h2>
+<h3 id="51-examen-des-logs">5.1 Examen des logs :</h3>
+<ul>
+<li>Identifier les fichiers de log à analyser (/var/log/syslog,
+  /var/log/auth.log, /var/log/secure, etc.).</li>
+</ul>
+<p>En inspectant le fichier /var/log/syslog nous pouvons voir que l'adresse
+IP 192.168.126.130 s'est connectée à notre machine sans notre
+autorisation à l'aide du logiciel metasploit vers 8h41 (la bonne heure
+n'est pas renseignée sur notre machine metasploit) :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image22.png" data-desc-position="bottom"><img alt="" src="../images/media/image22.png"></a></p>
+<p>Cette image est également intéressante car on peut voir que Metasploit
+surveille les adresses réseau de notre machine cible :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image23.png" data-desc-position="bottom"><img alt="" src="../images/media/image23.png"></a></p>
+<p>On obtient de plus amples détails en inspectant le fichier
+/var/log/auth.log :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image24.png" data-desc-position="bottom"><img alt="" src="../images/media/image24.png"></a></p>
+<p>L'adresse IP 192.168.126.130 s'est connectée en tant que root au port
+22 à l'aide du logiciel metasploit, il y a eu une erreur de login car
+cet utilisateur n'est pas reconnu par le système et donc ne devrait pas
+normalement avoir un droit de connexion sur tout en tant que root, ainsi
+nous arrivons à outrepasser le service d'authentification pam et nous
+obtenons un accès complet au système</p>
+<p>Nous pouvons également voir que le message suivant s'est affiché,
+signifiant que nous étions en train de surveiller les ports ouverts :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image25.png" data-desc-position="bottom"><img alt="" src="../images/media/image25.png"></a></p>
+<h3 id="52-chronologie-de-lattaque">5.2 Chronologie de l'attaque</h3>
+<p>Reconstitution des étapes de l'attaque en fonction des informations des
+logs.</p>
+<p>Pour reconstituer la chronologie on peut voir que dans un premier temps
+Metasploit a analysé le port 22 qui est le port relatif au protocole SSH
+pour donner suite à l'utilisation de notre commande nmap --sV. Ensuite
+il a analysé les interfaces et les adresses IPv4 et IPv6.</p>
+<p>Ensuite il a tenté de se connecter en root à l'aide de la commande
+exploit et des différents paramètres que nous lui avons passés,
+normalement nous n'aurions pas pu nous connecter car le système cible
+était équipé d'un système PAM qui nécessite d'être utilisateur pour
+pouvoir accéder aux systèmes mais à l'aide de la backdoor nous pouvons
+contourner le système PAM et donc nous connecter en tant que ROOT à la
+machine cible.</p>
+<h2 id="6-mesures-de-securisation">6. Mesures de sécurisation</h2>
+<h3 id="61-mise-a-jour-du-service-vulnerable">6.1 Mise à jour du service vulnérable</h3>
+<p>Applicage des correctifs ou mise à jour pour résoudre la vulnérabilité
+(changer la version du serveur FTP, configurer correctement le service).</p>
+<p>Voici ce que nous avons comme port ouvert exploité par des services avec
+leur version visible en clair :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image26.png" data-desc-position="bottom"><img alt="" src="../images/media/image26.png"></a></p>
+<p>Dans un premier temps nous allons faire une mise à jour complète des
+différents logiciels pour ne plus avoir de vulnérabilité de ce côté,
+nous rajouterons d'autres mesures de sécurité ensuite</p>
+<p>Nous allons donc vérifier s'il y a des MAJ disponibles</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sudo<span class="w"> </span>apt<span class="w"> </span>upgrade<span class="w"> </span>-y
+</code></pre></div>
+<p>Cela va permettre de mettre à jour nos versions de logiciels et
+patcher certaines des vulnérabilités</p>
+<p>Nous obtenons les mêmes résultats dans sV. Nous allons faire en sorte de
+ne plus pouvoir voir les logiciels pour une personne extérieure :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image27.png" data-desc-position="bottom"><img alt="" src="../images/media/image27.png"></a></p>
+<h4 id="611-mesure-de-protection-de-apache2">6.1.1 Mesure de protection de Apache2</h4>
+<p>Pour protéger Apache nous allons ajouter la ligne server tokens et
+serversignature pour ne plus afficher de détails sur le logiciel utilisé
+:</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image28.png" data-desc-position="bottom"><img alt="" src="../images/media/image28.png"></a></p>
+<h4 id="612-masquage-de-la-version-du-serveur">6.1.2 Masquage de la version du serveur</h4>
+<p>On rajoute dans le fichier /etc/ssh/sshd_config la commande
+"VersionAddendum none" pour ne plus afficher la version du serveur :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image29.png" data-desc-position="bottom"><img alt="" src="../images/media/image29.png"></a></p>
+<h4 id="613-fermeture-manuellement-des-services-ftp">6.1.3 : Fermeture manuellement des services ftp :</h4>
+<p>On va ensuite fermer manuellement les services FTP à l'aide de la
+commande sudo kill suivi de l'id du service :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image2a.png" data-desc-position="bottom"><img alt="" src="../images/media/image2a.png"></a></p>
+<p>Ici 5049 et 15074</p>
+<h3 id="62-configuration-dun-pare-feu">6.2 Configuration d'un pare-feu</h3>
+<p>Utilisation de iptables ou ufw pour restreindre l'accès au service vulnérable.</p>
+<h4 id="621-les-regles-predefinies">6.2.1 : Les règles prédéfinies</h4>
+<p>On va ensuite mettre en place un pare-feu, dans un premier temps je vais
+vérifier les règles de sécurité mises en place :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image2b.png" data-desc-position="bottom"><img alt="" src="../images/media/image2b.png"></a></p>
+<p>Voici les règles prédéfinies :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image2c.png" data-desc-position="bottom"><img alt="" src="../images/media/image2c.png"></a></p>
+<h4 id="622-ajouts-de-nouvelles-regles">6.2.2 : Ajouts de nouvelles règles</h4>
+<p>Nous allons désormais ajouter plusieurs règles pour filtrer le trafic
+entrant et sortant :</p>
+<p>La commande suivante :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image2d.png" data-desc-position="bottom"><img alt="" src="../images/media/image2d.png"></a></p>
+<p>Va permettre de bloquer tout le trafic entrant</p>
+<p>La commande suivante :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image2e.png" data-desc-position="bottom"><img alt="" src="../images/media/image2e.png"></a></p>
+<p>Va permettre d'autoriser tout le trafic sortant</p>
+<p>La commande suivante :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image2f.png" data-desc-position="bottom"><img alt="" src="../images/media/image2f.png"></a></p>
+<p>Va permettre de bloquer tout le trafic de transfert</p>
+<h4 id="623-autorisation-des-connexions-etablies-et-des-connexions-liees">6.2.3 : Autorisation des connexions établies et des connexions liées</h4>
+<p>On va ensuite autoriser les connexions établies et les connexions liées,
+Pour permettre aux connexions déjà établies de continuer à fonctionner
+(par exemple, une session SSH active)</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image30.png" data-desc-position="bottom"><img alt="" src="../images/media/image30.png"></a></p>
+<h3 id="624-autorisation-des-connexions-en-ssh">6.2.4 : Autorisation des connexions en SSH</h3>
+<p>On va ensuite ajouter la règle suivante pour permettre les connexions
+SSH :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image31.png" data-desc-position="bottom"><img alt="" src="../images/media/image31.png"></a></p>
+<h4 id="625-test-du-pare-feu">6.2.5 : Test du pare-feu</h4>
+<p>Désormais si on fait un scan à l'aide de nmap via la machine Kali voyons
+ce que nous obtenons :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image32.png" data-desc-position="bottom"><img alt="" src="../images/media/image32.png"></a></p>
+<p>Pour donner suite aux différentes règles que nous avons appliquées nous
+pouvons voir que seul un service est encore visible openSSH</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image33.png" data-desc-position="bottom"><img alt="" src="../images/media/image33.png"></a></p>
+<p>Pour que l'attaquant ne puisse plus voir le service OpenSSH via nmap
+nous allons rajouter la règle suivante qui va empêcher toute connexion
+entrante sur le port 22 et donc Nmap ne pourra pas le détecter :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image34.png" data-desc-position="bottom"><img alt="" src="../images/media/image34.png"></a></p>
+<h3 id="63-verrouillage-de-lacces-a-la-machine">6.3 : Verrouillage de l'accès à la machine</h3>
+<p>attaquante : Vérifier que l'attaquant n'a plus accès au service et à
+la machine.</p>
+<p>Nous allons ensuite verrouiller l'attaquant pour être sûr qu'il ne
+pourra plus avoir accès à notre machine même en utilisant une faille de
+sécurité</p>
+<h4 id="631-identification-de-lattaquant">6.3.1 : Identification de l'attaquant</h4>
+<p>Pour débuter nous allons nous rendre dans le fichier /var/log/vsftpd.log
+à l'aide de la commande suivante :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image35.png" data-desc-position="bottom"><img alt="" src="../images/media/image35.png"></a></p>
+<p>Voici ce que le fichier nous retourne</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image36.png" data-desc-position="bottom"><img alt="" src="../images/media/image36.png"></a></p>
+<p>Nous pouvons donc voir que l'adresse IP de la machine attaquante est
+192.168.126.130</p>
+<p>Il est donc temps de bloquer cette adresse IP pour éviter toute future
+attaque</p>
+<h4 id="632-blocage-sur-le-pare-feu-de-ladresse-ip-de-lattaquant">6.3.2 : Blocage sur le pare-feu de l'adresse IP de l'attaquant</h4>
+<p>Nous allons ajouter la règle suivante dans notre pare-feu :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image37.png" data-desc-position="bottom"><img alt="" src="../images/media/image37.png"></a></p>
+<p>Ainsi cette IP est bloquée, elle ne pourra plus se connecter à notre
+machine même à l'aide d'une backdoor ou d'une autre vulnérabilité en
+théorie</p>
+<p>Pour finir nous allons mettre fin aux potentielles sessions de
+l'attaquant encore ouvertes pour lui réfuter tout accès à notre machine</p>
+<h4 id="633-verification-des-sessions-ouvertes-sur-la-machine">6.3.3 : Vérification des sessions ouvertes sur la machine</h4>
+<p>On va utiliser la commande suivante pour voir les processus actifs
+utilisés en SSH :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image38.png" data-desc-position="bottom"><img alt="" src="../images/media/image38.png"></a></p>
+<p>Voici ce que nous retourne la commande :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image39.png" data-desc-position="bottom"><img alt="" src="../images/media/image39.png"></a></p>
+<p>Deux utilisateurs sont connectés en SSH, le premier qui est msfadmin qui
+est la session par défaut pour pouvoir se connecter à la machine mais il
+y a également un second utilisateur qui est connecté en root, cela doit
+être la session de l'attaquant qui n'a pas été éteinte, nous allons nous
+empresser de le faire</p>
+<p>On va utiliser la commande suivante :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image3a.png" data-desc-position="bottom"><img alt="" src="../images/media/image3a.png"></a></p>
+<p>Pour pouvoir tuer la connexion SSH en root donc celle utilisée par
+l'attaquant</p>
+<h4 id="634-verification-et-fermeture-des-connexions-ip-de-lattaquant">6.3.4: Vérification et fermeture des connexions IP de l'attaquant</h4>
+<p>En utilisant la commande suivante :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image3b.png" data-desc-position="bottom"><img alt="" src="../images/media/image3b.png"></a></p>
+<p>Nous pouvons voir toutes les connexions IP de la machine attaquante sur
+notre machine</p>
+<p>Pour toutes les fermer, nous allons utiliser la commande suivante :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image3c.png" data-desc-position="bottom"><img alt="" src="../images/media/image3c.png"></a></p>
+<p>Désormais pour renforcer la sécurité nous allons modifier certaines
+parties de notre machine</p>
+<h4 id="635-desactivation-de-lacces-root-a-laide-de-ssh">6.3.5 : Désactivation de l'accès root à l'aide de SSH</h4>
+<p>Dans un premier temps, nous allons désactiver l'accès au compte root à
+l'aide du protocole SSH</p>
+<p>Nous allons nous rendre dans le fichier /etc/ssh/sshd_config, puis on va
+changer la ligne PermitRootLoginin de yes en no :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image3d.png" data-desc-position="bottom"><img alt="" src="../images/media/image3d.png"></a></p>
+<p>Devient</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image3e.png" data-desc-position="bottom"><img alt="" src="../images/media/image3e.png"></a></p>
+<h4 id="636-installation-et-configuration-de-loutil-fail2ban">6.3.6 : Installation et configuration de l'outil fail2ban</h4>
+<p>Nous allons activer le bannissement des IP suspectes à l'aide de l'outil
+fail2ban, dans un premier temps nous allons l'installer :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image3f.png" data-desc-position="bottom"><img alt="" src="../images/media/image3f.png"></a></p>
+<p>Nous allons ensuite taper la commande suivante pour copier le fichier de
+configuration par défaut</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image40.png" data-desc-position="bottom"><img alt="" src="../images/media/image40.png"></a></p>
+<p>Une fois dans le fichier, nous allons nous rendre dans la partie SSH
+pour modifier les lignes suivantes</p>
+<p>Cette partie</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image41.png" data-desc-position="bottom"><img alt="" src="../images/media/image41.png"></a></p>
+<p>Devient :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image42.png" data-desc-position="bottom"><img alt="" src="../images/media/image42.png"></a></p>
+<p>Ainsi on indique bien le bon port (port 22), le maxretry bannis l'IP au
+bout de 3 mauvais mot de passe ce qui réduit le risque d'intrusion d'un
+personnel non autorisé et on ajoute un bantime de 600 secondes qui
+bloque les IP pendant ce temps ce qui évite de nouvelles tentatives de
+connexion d'individu criminel</p>
+<p>Lorsqu'on tape la commande who on peut voir que deux users sont
+connectés sur la machine, l'user de base sur le terminal et un root qui
+est connecté à distance donc potentiellement via SSH ou FTP par exemple
+:</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image43.png" data-desc-position="bottom"><img alt="" src="../images/media/image43.png"></a></p>
+<p>Pts/0 signifie que la connexion est à distance, et non localement sur la
+machine</p>
+<p>Pour pallier cela, nous allons utiliser la commande suivante :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image44.png" data-desc-position="bottom"><img alt="" src="../images/media/image44.png"></a>
+Pour tuer toutes les sessions SSH ouvertes par root</p>
+<h3 id="64-validation-des-mesures-verifier-lefficacite-des-mesures-mises-en-place">6.4 Validation des mesures : Vérifier l'efficacité des mesures mises en place.</h3>
+<p>Nous allons désormais essayer de nous connecter avec la même faille pour
+voir si c'est encore possible ou si le système de défense que nous avons
+mis en place va nous bloquer</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image45.png" data-desc-position="bottom"><img alt="" src="../images/media/image45.png"></a></p>
+<p>Comme nous pouvons voir, il nous est désormais impossible de nous
+connecter via le service vsftpd, ni par l'hôte en lui-même d'ailleurs
+puisque nous avons interdit toutes les connexions distantes et nous
+avons également bloqué l'adresse IP de la machine attaquante</p>
+<h2 id="7-conclusion">7 : Conclusion</h2>
+<p>Ainsi notre machine metasploit est enfin protégée de notre machine kali,
+bien sûr toutes les différentes failles n'ont pas été patchées puisque
+les machines metasploit sont conçues pour contenir énormément de failles
+pour pouvoir réaliser facilement des tests d'intrusion</p>
+<p><em>L'attaquant est désormais bloqué grâce aux mesures suivantes :</em></p>
+<ol>
+<li>
+<p>Bannissement de son adresse IP via le pare-feu.</p>
+</li>
+<li>
+<p>Filtrage des connexions avec un pare-feu (iptables).</p>
+</li>
+<li>
+<p>Désactivation des accès non autorisés (interdiction de connexion
+    root en SSH).</p>
+</li>
+<li>
+<p>Installation et configuration de Fail2Ban pour bloquer les
+    tentatives de connexions répétées.</p>
+</li>
+<li>
+<p>Scan avec Nmap inefficace : le service FTP est inaccessible et
+    Metasploit ne peut plus exploiter la faille.</p>
+</li>
+</ol>
+<h2 id="8-politique-de-securite-des-systemes-dinformation-pssi-serveur-linux">8 : Politique de Sécurité des Systèmes d'Information (PSSI) -- Serveur Linux</h2>
+<h3 id="81-objectif-et-champ-dapplication">8.1. Objectif et champ d'application</h3>
+<div class="admonition info">
+<p class="admonition-title">Objectif et champ d'application</p>
+<p>Cette PSSI définit les règles de sécurité applicables à un serveur
+Linux afin de garantir la protection des données, la disponibilité des
+services et la prévention des cyberattaques. Elle s'applique à
+l'ensemble des utilisateurs, administrateurs et services ayant accès
+au système.</p>
+</div>
+<h3 id="82-principes-generaux">8.2. Principes généraux</h3>
+<ol>
+<li>
+<p><strong>Confidentialité</strong> : Protéger les accès aux informations sensibles.</p>
+</li>
+<li>
+<p><strong>Intégrité</strong> : Garantir que les fichiers et configurations ne
+    soient pas altérés.</p>
+</li>
+<li>
+<p><strong>Disponibilité</strong> : Maintenir les services critiques en
+    fonctionnement sécurisé.</p>
+</li>
+</ol>
+<h3 id="83-gestion-des-acces-et-authentification">8.3. Gestion des accès et authentification</h3>
+<div class="admonition danger">
+<p class="admonition-title">Obligations</p>
+<ol>
+<li><strong>Accès restreint</strong> : L'accès au serveur est strictement réservé aux utilisateurs autorisés.</li>
+<li><strong>Mots de passe</strong> : Authentification par mot de passe fort obligatoire (12+ caractères, majuscules, minuscules, chiffres, caractères spéciaux).</li>
+<li><strong>SSH Root</strong> : L'accès <code>root</code> direct en SSH est strictement interdit (<code>PermitRootLogin no</code> dans <code>/etc/ssh/sshd_config</code>).</li>
+<li><strong>Élévation</strong> : Connexion via compte à privilèges limités puis élévation via <code>sudo</code>.</li>
+<li><strong>Clés SSH</strong> : Authentification par clés requise (<code>PasswordAuthentication no</code>).</li>
+</ol>
+</div>
+<div class="admonition example">
+<p class="admonition-title">Recommandations</p>
+<ul>
+<li><strong>2FA</strong> : Authentification à deux facteurs conseillée pour SSH.</li>
+<li><strong>IP Whitelisting</strong> : Limiter les accès SSH aux IP autorisées via <code>/etc/hosts.allow</code>.</li>
+<li><strong>Port SSH</strong> : Modifier le port par défaut (ex: <code>2222</code> au lieu de <code>22</code>).</li>
+</ul>
+</div>
+<h3 id="84-securisation-des-services-et-du-reseau">8.4. Sécurisation des services et du réseau</h3>
+<div class="admonition danger">
+<p class="admonition-title">Obligations</p>
+<ol>
+<li><strong>Minimisation des services</strong> : Seuls les services nécessaires doivent être installés et activés.</li>
+<li><strong>Fermeture des ports</strong> : Les ports inutilisés doivent être fermés (<code>netstat -tulnp</code> pour identifier les services actifs).</li>
+<li><strong>Pare-feu</strong> : Un pare-feu (<code>iptables</code> ou <code>ufw</code>) doit être configuré pour bloquer tout trafic non autorisé.</li>
+<li><strong>Fail2Ban</strong> : Doit être installé et activé pour bloquer les tentatives répétées d'accès.</li>
+<li><strong>Masquage de version</strong> : Masquer la version des services pour éviter la fuite d'informations (<code>ServerTokens Prod</code> et <code>ServerSignature Off</code> pour Apache).</li>
+</ol>
+</div>
+<div class="admonition example">
+<p class="admonition-title">Recommandations</p>
+<ul>
+<li><strong>Segmentation</strong> : Activer la isolation des services critiques via VLANs.</li>
+<li><strong>Limitation des connexions</strong> : Limiter le nombre de connexions simultanées par IP (<code>MaxStartups</code> pour SSH).</li>
+</ul>
+</div>
+<h3 id="85-gestion-des-mises-a-jour-et-des-correctifs-de-securite">8.5 Gestion des mises à jour et des correctifs de sécurité</h3>
+<div class="admonition danger">
+<p class="admonition-title">Obligations</p>
+<ol>
+<li><strong>Mises à jour régulières</strong> : Le serveur doit être maintenu à jour fréquemment via les dépôts officiels.</li>
+<li><strong>Automatisation</strong> : Un script automatique ou une tâche cron doit être configuré pour appliquer les correctifs critiques.</li>
+<li><strong>Nettoyage des paquets</strong> : Désinstaller tout service obsolète ou non utilisé (<code>apt remove &lt;service&gt;</code>).</li>
+</ol>
+</div>
+<div class="admonition example">
+<p class="admonition-title">Recommandations</p>
+<ol>
+<li><strong>Automatisation avancée</strong> : Vérifier la disponibilité des mises à jour de sécurité avec unattended-upgrades.</li>
+<li><strong>Notifications</strong> : Configurer une alerte automatique pour être notifié lorsqu'une mise à jour critique est disponible.</li>
+</ol>
+</div>
+<h3 id="86-surveillance-et-detection-des-incidents">8.6 Surveillance et détection des incidents</h3>
+<div class="admonition danger">
+<p class="admonition-title">Obligations</p>
+<ol>
+<li><strong>Journalisation</strong> : Tous les accès et activités doivent être enregistrés dans <code>/var/log/auth.log</code>, <code>/var/log/syslog</code> et <code>/var/log/fail2ban.log</code>.</li>
+<li><strong>Supervision</strong> : Une solution d'analyse de logs et d'alerte (Logwatch, OSSEC, Fail2Ban avec notification courriel) doit être active.</li>
+<li><strong>Audit régulier</strong> : L'administrateur doit contrôler périodiquement les journaux à la recherche d'anomalies ou de tentatives d'intrusion.</li>
+</ol>
+</div>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image47.png" data-desc-position="bottom"><img alt="" src="../images/media/image47.png"></a></p>
+<div class="admonition example">
+<p class="admonition-title">Recommandations</p>
+<ul>
+<li><strong>Détection d'intrusion (IDS)</strong> : Installer une solution réseau/hôte comme Suricata ou Snort.</li>
+<li><strong>Alertes temps réel</strong> : Configurer une alerte immédiate en cas de connexion du compte <code>root</code> ou de modification des fichiers sensibles.</li>
+</ul>
+</div>
+<h3 id="87-sauvegarde-et-plan-de-reprise-apres-incident">8.7 : Sauvegarde et plan de reprise après incident</h3>
+<div class="admonition danger">
+<p class="admonition-title">Obligations</p>
+<ol>
+<li><strong>Sauvegardes automatiques</strong> : Une sauvegarde automatique des fichiers critiques doit être effectuée quotidiennement avec <code>rsync</code> vers un serveur distant sécurisé.</li>
+<li><strong>Isolation des copies</strong> : Des copies hors ligne (air-gapped) doivent être conservées pour prévenir la perte de données en cas d'attaque (ex : ransomware).</li>
+<li><strong>Procédure de restauration</strong> : Une procédure de restauration des données doit être testée et documentée.</li>
+</ol>
+</div>
+<div class="admonition example">
+<p class="admonition-title">Recommandations</p>
+<ul>
+<li><strong>Chiffrement</strong> : Utiliser un serveur de sauvegarde chiffré pour protéger les données au repos et en transit.</li>
+<li><strong>Synchronisation Cloud</strong> : Activer une synchronisation automatique avec une solution cloud sécurisée.</li>
+</ul>
+</div>
+<h3 id="88-plan-de-reponse-aux-incidents">8.8 Plan de réponse aux incidents</h3>
+<div class="admonition danger">
+<p class="admonition-title">Obligations</p>
+<p>En cas de détection d'intrusion, l'administrateur doit immédiatement exécuter les actions suivantes :</p>
+<ol>
+<li><strong>Identification</strong> : Relever l'adresse IP de l'attaquant (<code>last -i</code>).</li>
+<li><strong>Isolement</strong> : Bloquer l'IP avec le pare-feu.</li>
+<li><strong>Expulsion</strong> : Fermer toutes les sessions suspectes (<code>who</code> puis <code>pkill -u &lt;user&gt;</code>).</li>
+<li><strong>Contrôle d'intégrité</strong> : Vérifier l'intégrité des fichiers système (<code>debsums</code>, <code>chkrootkit</code>).</li>
+<li><strong>Remédiation</strong> : Analyser les journaux et corriger la faille exploitée.</li>
+</ol>
+</div>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image48.png" data-desc-position="bottom"><img alt="" src="../images/media/image48.png"></a></p>
+<div class="admonition example">
+<p class="admonition-title">Recommandations</p>
+<ul>
+<li><strong>Plan de communication</strong> : Définir une procédure d'escalade pour signaler l'incident aux responsables et documenter les actions correctives.</li>
+<li><strong>Exercices pratiques</strong> : Tester régulièrement la capacité de réponse aux incidents via des simulations d'attaque.</li>
+</ul>
+</div>
+<hr>
+<p>Ce rapport démontre l'importance de la mise en place de mesures de sécurité adaptées pour réduire les risques d'attaques. L'application des bonnes pratiques définies dans la PSSI garantit un environnement plus sûr et résilient.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.expand", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>
