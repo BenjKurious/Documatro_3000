@@ -68,7 +68,10 @@ nav:
           - Sécurisation & Orchestration d'un Cluster Docker Swarm: Projets/Conteneurisation/cluster_swarm.md
       - Automatisation:
           - Déploiement d'une Stack Applicative avec Terraform & Docker: Projets/Automatisation/docker_tech_stack.md
+          - Terraformer sur Proxmox: Projets/Automatisation/terraform_on_proxmox.md
+          - Haute Disponibilité sur Proxmox: Projets/Automatisation/terraform_ha_proxmox.md
       - Cloud:
           - Audit, Durcissement IaC & Détection de Menaces sur Azure: Projets/Cloud/audit_detect_Azure.md
+          - Déploiement d'une Application Web sur Azure (CLI vs Terraform): Projets/Cloud/terraform_on_azure.md
   # - Virtualisation:
   # - Scripting:

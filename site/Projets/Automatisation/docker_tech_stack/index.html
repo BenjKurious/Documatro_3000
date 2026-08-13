@@ -1406,19 +1406,20 @@
 <p>On y voit directement les 3 conteneurs qui tournent, ce qui correspond bien à ce qui était attendu : le service web (app), la base de données (db) et Portainer lui-même. On remarque aussi les 4 volumes créés, ce qui indique que la persistance des données a bien été prise en compte.</p>
 <h2 id="11-code-terraform-dinfrastructure">1.1 Code Terraform d'infrastructure</h2>
 <p>Voici un extrait de la configuration Terraform utilisée pour provisionner l'application web :</p>
-<p>```hcl
-resource "docker_image" "php_app" {
-  name         = "dirtsimple/php-server:8.3-alpine3.18"
-  keep_locally = true
-}</p>
-<p>resource "docker_container" "app" {
-  image = docker_image.php_app.image_id
-  name  = "app"
-  ports {
-    internal = 80
-    external = 8080
-  }
-}</p>
+<div class="highlight"><pre><span></span><code><span class="kr">resource</span><span class="w"> </span><span class="nc">"docker_image"</span><span class="w"> </span><span class="nv">"php_app"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">name</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="s2">"dirtsimple/php-server:8.3-alpine3.18"</span>
+<span class="w">  </span><span class="na">keep_locally</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">true</span>
+<span class="p">}</span>
+
+<span class="kr">resource</span><span class="w"> </span><span class="nc">"docker_container"</span><span class="w"> </span><span class="nv">"app"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">image</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">docker_image.php_app.image_id</span>
+<span class="w">  </span><span class="na">name</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">"app"</span>
+<span class="w">  </span><span class="nb">ports</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="na">internal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">80</span>
+<span class="w">    </span><span class="na">external</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8080</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
 <h2 id="2-les-conteneurs-en-detail">2. Les conteneurs en détail</h2>
 <p>Si on zoome sur la partie conteneurs, on retrouve bien nos trois
 services.<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image2.jpg" data-desc-position="bottom"><img alt="" src="../images/media/image2.jpg"></a></p>
