@@ -30,7 +30,7 @@ Depuis le premier nœud, on récupère les informations de jonction du cluster.
 
 En se connectant au second nœud, on renseigne les informations du cluster ainsi que le mot de passe du nœud primaire pour l'y intégrer.
 
-![](./images/media/image6.png)
+![](./images_thaprox/media/image6.png)
 ![](./images_thaprox/media/image7.png)
 
 La même opération est réalisée pour le troisième nœud. Les trois machines font désormais partie du même cluster.
