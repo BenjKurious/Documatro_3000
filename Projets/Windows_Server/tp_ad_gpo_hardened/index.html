@@ -1,0 +1,1742 @@
+<!DOCTYPE html><html lang="en" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="Benjamin">
+      
+      
+        <link rel="canonical" href="https://benjkurious.github.io/Documatro_3000/Projets/Windows_Server/tp_ad_gpo_hardened/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Audit et Sécurisation d'une infrastructure Windows Server (AD + GPO) - Documatro 3000</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <link href="../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#audit-et-securisation-dune-infrastructure-windows-server-ad-gpo" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Documatro 3000" class="md-header__button md-logo" aria-label="Documatro 3000" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Documatro 3000
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Audit et Sécurisation d'une infrastructure Windows Server (AD + GPO)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="cyan" aria-label="Mode clair" type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Mode clair" for="__palette_1" hidden="">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="cyan" aria-label="Mode sombre" type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Mode sombre" for="__palette_0" hidden="">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required="">
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix="">
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Documatro 3000" class="md-nav__button md-logo" aria-label="Documatro 3000" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+
+    </a>
+    Documatro 3000
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix="">
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Accueil
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2">
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OverTheWire
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    OverTheWire
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_1">
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bandit
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Bandit
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../bandit/intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Intro
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../bandit/bandit0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bandit 0
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../bandit/bandit1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bandit 1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../bandit/bandit2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bandit 2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../bandit/bandit3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bandit 3
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3">
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Presentation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Presentation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Presentation/CV/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CV
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4">
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Projets
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Projets
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_1">
+        
+          
+          <label class="md-nav__link" for="__nav_4_1" id="__nav_4_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows Server
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Windows Server
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Mise_en_place_infrastructure.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mise en place d'une infrastructure Windows Server
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_2">
+        
+          
+          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linux
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Linux
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Linux/audit_linux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Rapport d'Audit de sécurisation d'un service linux vulnérable
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#1-configuration-de-base-pour-notre-machine-serveur" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Configuration de base pour notre machine serveur
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-installation-et-configuration-dad-ds" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Installation et configuration d'AD DS
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-creation-des-unites-dorganisation-et-comptes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Création des Unités d'Organisation et Comptes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-ajout-de-la-machine-cliente-dans-le-domaine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Ajout de la machine cliente dans le domaine
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-deploiement-des-politiques-de-securite-gpo-hardening" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Déploiement des Politiques de Sécurité (GPO &amp; Hardening)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Déploiement des Politiques de Sécurité (GPO &amp; Hardening)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-gpo-daudit-avance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 GPO d'Audit Avancé
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-gpo-firewall" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 GPO Firewall
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-configuration-dapplocker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Configuration d'AppLocker
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-tests-audits-et-remediations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Tests, Audits et Remédiations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Tests, Audits et Remédiations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-validation-des-politiques-de-base-mots-de-passe-applocker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1. Validation des politiques de base (Mots de passe &amp; AppLocker)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6.1. Validation des politiques de base (Mots de passe &amp; AppLocker)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#modification-du-mot-de-passe-dalice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Modification du mot de passe d'Alice
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verification-du-fonctionnement-applocker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vérification du fonctionnement AppLocker
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-verrouillage-de-comptes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Test Verrouillage de comptes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mise-en-place-de-nouveaux-comptes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mise en place de nouveaux comptes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-phase-1-observation-cartographie-et-securisation-des-identites" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2. Phase 1 : Observation, Cartographie et Sécurisation des Identités
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6.2. Phase 1 : Observation, Cartographie et Sécurisation des Identités">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#etape-1-lister-les-privileges-et-appliquer-le-moindre-privilege" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 1 : Lister les privilèges et appliquer le moindre privilège
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-2-analyser-et-restreindre-les-acls-reseau" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 2 : Analyser et restreindre les ACLs réseau
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-3-verification-des-droits-locaux" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 3 : Vérification des droits locaux
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-phase-2-authentification-et-securisation-avancee" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3. Phase 2 : Authentification et Sécurisation Avancée
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6.3. Phase 2 : Authentification et Sécurisation Avancée">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#etape-1-audit-kerberos-vs-ntlm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 1 : Audit Kerberos vs NTLM
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-2-analyse-et-migration-des-comptes-de-service-gmsa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 2 : Analyse et migration des comptes de service (gMSA)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-3-application-dune-politique-de-mot-de-passe-granulaire-pso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 3 : Application d'une politique de mot de passe granulaire (PSO)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-bilan-synthese-securite" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Bilan &amp; Synthèse Sécurité
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="audit-et-securisation-dune-infrastructure-windows-server-ad-gpo">Audit et Sécurisation d'une infrastructure Windows Server (AD + GPO)</h1>
+<div class="admonition info">
+<p class="admonition-title">Contexte du projet (Méthode STAR)</p>
+<ul>
+<li><strong>Situation</strong> : Déploiement d'un domaine Active Directory d'entreprise sur Windows Server 2022 nécessitant une mise en conformité avec les bonnes pratiques de sécurité.</li>
+<li><strong>Tâche</strong> : Configurer les services de base (AD DS, DNS), joindre les postes clients, et appliquer un durcissement (Hardening) complet des accès, des identités et du réseau.</li>
+<li><strong>Action</strong> : Restructuration des OU, mise en place de GPO (Firewall, AppLocker, Audit), suppression des privilèges excessifs via RBAC, migration vers un compte de service gMSA et création d'une PSO pour les comptes admins.</li>
+<li><strong>Résultat</strong> : Un annuaire sécurisé, auditable, conforme au principe du moindre privilège et protégé contre les attaques d'élévation de privilèges courantes.</li>
+</ul>
+</div>
+<p>Installation de nos deux machines pour le TP :</p>
+<p>Machine cliente :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image1.png" data-desc-position="bottom"><img alt="" src="../images/media/image1.png"></a></p>
+<p>Machine-serveur :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image2.png" data-desc-position="bottom"><img alt="" src="../images/media/image2.png"></a></p>
+<p>La machine-cliente tourne sous Windows 10, tandis que la machine serveur
+tourne sous Windows Server 2022</p>
+<h2 id="1-configuration-de-base-pour-notre-machine-serveur">1. Configuration de base pour notre machine serveur</h2>
+<p>Avant d'installer notre active directory plusieurs actions a effectuées
+:</p>
+<ul>
+<li>
+<p>Renommage de notre machine serveur</p>
+</li>
+<li>
+<p>Attribution d'une IP statique à notre machine serveur</p>
+</li>
+<li>
+<p>Mise en place d'une snapshot pour avoir une sauvegarde complète et
+  accessible de notre machine serveur avant la mise en place des
+  différents services</p>
+</li>
+</ul>
+<p>Renommage de notre machine serveur :</p>
+<p>Notre machine à bien été renommer, elle n'utilise plus un nom par défaut</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image3.png" data-desc-position="bottom"><img alt="" src="../images/media/image3.png"></a></p>
+<p>Attribution d'une IP statique :</p>
+<p>Dans un premier temps nous allons lancer dans un cmd la commande</p>
+<div class="highlight"><pre><span></span><code>ipconfig/all
+</code></pre></div>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image4.png" data-desc-position="bottom"><img alt="" src="../images/media/image4.png"></a></p>
+<p>Nous pouvons voir que notre adresse IP actuelle est : 192.168.126.134</p>
+<p>Notre masque de sous-réseau est 255.255.255.0</p>
+<p>Notre adresse de passerelle par défaut est 192.168.126.2</p>
+<p>Notre serveur DHCP est 192.168.126.254</p>
+<p>Maintenant que nous avons nos informations nous pouvons les rentrer
+manuellement dans nos paramètres réseaux :</p>
+<p>Nous allons cliquer sur notre icône de réseau :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image5.png" data-desc-position="bottom"><img alt="" src="../images/media/image5.png"></a></p>
+<p>Puis dans Paramètres réseau &amp; Internet</p>
+<p>Ensuite Modifier les options d'adaptateur :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image6.png" data-desc-position="bottom"><img alt="" src="../images/media/image6.png"></a></p>
+<p>Ensuite clic droit sur notre réseau Ethernet puis Propriétés</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image7.png" data-desc-position="bottom"><img alt="" src="../images/media/image7.png"></a></p>
+<p>Puis nous allons nous rendre dans les propriétés du protocole IPV4 :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image8.png" data-desc-position="bottom"><img alt="" src="../images/media/image8.png"></a></p>
+<p>On ajoute notre configuration réseau puis une coche la case valider les
+paramètres en quittant bien sûr :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image9.png" data-desc-position="bottom"><img alt="" src="../images/media/image9.png"></a>
+Notre configuration réseau a bien été pris en compte :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image10.png" data-desc-position="bottom"><img alt="" src="../images/media/image10.png"></a></p>
+<p>Avant d'installer notre Active Directory, il ne nous reste plus qu'à
+créer une snapshot de notre configuration actuelle :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image11.png" data-desc-position="bottom"><img alt="" src="../images/media/image11.png"></a></p>
+<p>La snapshot avant AD a bien été mis en place on peut passer à la suite</p>
+<h2 id="2-installation-et-configuration-dad-ds">2. Installation et configuration d'AD DS</h2>
+<p>Après avoir installé AD DS, nous pouvons voir qu'il est bien dispo dans
+notre gestionnaire de serveur :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image12.png" data-desc-position="bottom"><img alt="" src="../images/media/image12.png"></a></p>
+<p>Nous devons désormais le configurer :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image13.png" data-desc-position="bottom"><img alt="" src="../images/media/image13.png"></a></p>
+<p>Nous allons ajouter la nouvelle forêt lab.local :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image14.png" data-desc-position="bottom"><img alt="" src="../images/media/image14.png"></a></p>
+<p>On laisse les options comme telle et on définit un mot de passe pour la
+restauration des services d'annuaire (DSRM)</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image15.png" data-desc-position="bottom"><img alt="" src="../images/media/image15.png"></a></p>
+<p>On ajoute un nom de domaine Netbios :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image16.png" data-desc-position="bottom"><img alt="" src="../images/media/image16.png"></a></p>
+<p>Malheureusement lorsqu'on essaye de passer à l'installation nous avons
+une erreur critique car notre Administrateur n'a pas de mot de passe
+définit ce qui est une violation des règles de sécurité sur notre
+Serveur</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image17.png" data-desc-position="bottom"><img alt="" src="../images/media/image17.png"></a></p>
+<p>Nous allons donc le modifier via PowerShell en admin :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image18.png" data-desc-position="bottom"><img alt="" src="../images/media/image18.png"></a></p>
+<p>Le mot de passe de notre utilisateur Admin a donc été modifié :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image19.png" data-desc-position="bottom"><img alt="" src="../images/media/image19.png"></a></p>
+<p>Après ajout d'un mot de passe à notre Administrateur nous n'avons plus
+d'erreurs critiques et nous pouvons donc procéder à l'installation de
+notre nouvelle configuration :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image20.png" data-desc-position="bottom"><img alt="" src="../images/media/image20.png"></a></p>
+<p>Une fois l'installation complété notre serveur redémarre :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image21.png" data-desc-position="bottom"><img alt="" src="../images/media/image21.png"></a></p>
+<p>Au prochain login on est bien sur le domaine :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image22.png" data-desc-position="bottom"><img alt="" src="../images/media/image22.png"></a></p>
+<p>Il ne nous reste plus qu'à nous connecter avec nos identifiants</p>
+<p>Pour donner suite à l'ajout de notre machine dans le domaine notre
+configuration réseau à changer mais ce n'est pas grave nous allons juste
+ajouter le dns auxiliaire 8.8.8.8 qui redirige vers internet pour avoir
+de la connexion internet :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image23.png" data-desc-position="bottom"><img alt="" src="../images/media/image23.png"></a></p>
+<p>Ce qui intéressant de noter c'est qu'il n'est pas nécessaire de remettre
+notre adresse IP à la place du serveur DNS préféré, 127.0.0.1 fait déjà
+référence à l'adresse IP de notre machine locale, il va toujours
+s'interroger en premier</p>
+<p>Avant :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image24.png" data-desc-position="bottom"><img alt="" src="../images/media/image24.png"></a></p>
+<p>Après :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image25.png" data-desc-position="bottom"><img alt="" src="../images/media/image25.png"></a></p>
+<p>Notre connexion internet est bien revenu</p>
+<p>Avant d'ajouter des utilisateurs nous allons faire un test DNS pour être
+sûr que le DNS et l'AD sont bien fonctionnel</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image26.png" data-desc-position="bottom"><img alt="" src="../images/media/image26.png"></a></p>
+<p>On obtient bien notre nom de domaine ainsi que notre adresse IP</p>
+<p>Nous allons désormais créer une OU et y rajouter des utilisateurs via
+powershell en admin</p>
+<h2 id="3-creation-des-unites-dorganisation-et-comptes">3. Création des Unités d'Organisation et Comptes</h2>
+<p>Nous allons créer les Unités d'Organisation (OU) nécessaires ainsi que les comptes utilisateurs initiaux via PowerShell en tant qu'administrateur :</p>
+<div class="highlight"><pre><span></span><code><span class="c"># 1. Création des Unités d'Organisation (OU)</span>
+<span class="nb">New-ADOrganizationalUnit</span> <span class="n">-Name</span> <span class="s2">"Students"</span> <span class="n">-Path</span> <span class="s2">"DC=lab,DC=local"</span>
+<span class="nb">New-ADOrganizationalUnit</span> <span class="n">-Name</span> <span class="s2">"Servers"</span> <span class="n">-Path</span> <span class="s2">"DC=lab,DC=local"</span>
+
+<span class="c"># 2. Création des comptes utilisateurs standards</span>
+<span class="nb">New-ADUser</span> <span class="n">-Name</span> <span class="s2">"Alice Student"</span> <span class="n">-SamAccountName</span> <span class="s2">"alice"</span> <span class="n">-AccountPassword</span> <span class="p">(</span><span class="nb">ConvertTo-SecureString</span> <span class="s2">"P@ssw0rd123!"</span> <span class="n">-AsPlainText</span> <span class="n">-Force</span><span class="p">)</span> <span class="n">-Enabled</span> <span class="nv">$true</span> <span class="n">-Path</span> <span class="s2">"OU=Students,DC=lab,DC=local"</span>
+<span class="nb">New-ADUser</span> <span class="n">-Name</span> <span class="s2">"Bob Student"</span> <span class="n">-SamAccountName</span> <span class="s2">"bob"</span> <span class="n">-AccountPassword</span> <span class="p">(</span><span class="nb">ConvertTo-SecureString</span> <span class="s2">"P@ssw0rd123!"</span> <span class="n">-AsPlainText</span> <span class="n">-Force</span><span class="p">)</span> <span class="n">-Enabled</span> <span class="nv">$true</span> <span class="n">-Path</span> <span class="s2">"OU=Students,DC=lab,DC=local"</span>
+
+<span class="c"># 3. Création du compte administratif pédagogique</span>
+<span class="nb">New-ADUser</span> <span class="n">-Name</span> <span class="s2">"LabAdmin"</span> <span class="n">-SamAccountName</span> <span class="s2">"labadmin"</span> <span class="n">-AccountPassword</span> <span class="p">(</span><span class="nb">ConvertTo-SecureString</span> <span class="s2">"AdminP@ss!"</span> <span class="n">-AsPlainText</span> <span class="n">-Force</span><span class="p">)</span> <span class="n">-Enabled</span> <span class="nv">$true</span> <span class="n">-Path</span> <span class="s2">"OU=Students,DC=lab,DC=local"</span>
+</code></pre></div>
+<h2 id="4-ajout-de-la-machine-cliente-dans-le-domaine">4. Ajout de la machine cliente dans le domaine</h2>
+<p>Tout d'abord nous allons modifier la configuration réseau de notre
+machine cliente :</p>
+<p>Via la commande ipconfig voici les paramètres que nous pouvons trouver :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image32.png" data-desc-position="bottom"><img alt="" src="../images/media/image32.png"></a></p>
+<p>L'adresse IP est 192.168.126.35</p>
+<p>Le masque de sous-réseau est 255.255.255.0</p>
+<p>L'adresse de passerelle est 192.168.126.2</p>
+<p>On va donc mettre cette configuration sur la machine cliente :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image33.png" data-desc-position="bottom"><img alt="" src="../images/media/image33.png"></a></p>
+<p>Nous allons également indiquer l'adresse IP de notre serveur en tant que
+DNS</p>
+<p>Même après le changement d'internet notre machine est toujours connectée
+au réseau, notre configuration est donc correcte :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image34.png" data-desc-position="bottom"><img alt="" src="../images/media/image34.png"></a></p>
+<p>On peut également faire un test de connectivité avant le déploiement :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image35.png" data-desc-position="bottom"><img alt="" src="../images/media/image35.png"></a></p>
+<p>Notre domaine est bien accessible, on peut passer au déploiement</p>
+<p>Pour faire en sorte que le PC rejoigne le domaine nous allons aller dans
+les paramètres Windows -&gt; à propos de -&gt; Renommer ce PC (avancé)</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image36.png" data-desc-position="bottom"><img alt="" src="../images/media/image36.png"></a></p>
+<p>Puis dans la fenêtre qui s'ouvre nous allons nous rendre dans modifier :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image37.png" data-desc-position="bottom"><img alt="" src="../images/media/image37.png"></a></p>
+<p>On va rentrer le nom de notre domaine pour pouvoir le rejoindre :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image38.png" data-desc-position="bottom"><img alt="" src="../images/media/image38.png"></a></p>
+<p>On va nous demander de rentrer le compte d'un compte autorisé à se
+connecter sur le domaine nous allons indiquer le compte admin de notre
+machine serveur :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image39.png" data-desc-position="bottom"><img alt="" src="../images/media/image39.png"></a></p>
+<p>Nous sommes désormais bien connectées sur le domaine :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image40.png" data-desc-position="bottom"><img alt="" src="../images/media/image40.png"></a></p>
+<p>Pour tester le bon fonctionnement de notre domaine nous allons nous
+déconnecter pour pouvoir se connecter avec un compte utilisateur</p>
+<p>Nous allons désormais tenter de nous connecter avec le compte Alice :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image41.png" data-desc-position="bottom"><img alt="" src="../images/media/image41.png"></a></p>
+<p>La commande whoami nous montre qu'on est bien connectée en tant
+qu'Alice :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image42.png" data-desc-position="bottom"><img alt="" src="../images/media/image42.png"></a></p>
+<div class="highlight"><pre><span></span><code><span class="n">Gpresult</span> <span class="p">/</span><span class="nb">r </span>
+</code></pre></div>
+<p>permet de montrer la stratégie de groupe actuellement appliquer :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image43.png" data-desc-position="bottom"><img alt="" src="../images/media/image43.png"></a></p>
+<h2 id="5-deploiement-des-politiques-de-securite-gpo-hardening">5. Déploiement des Politiques de Sécurité (GPO &amp; Hardening)</h2>
+<p>Pour modifier ceci ont doit aller dans notre gestionnaire de serveur -&gt;
+outils -&gt; Gestion des stratégies de groupe</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image44.png" data-desc-position="bottom"><img alt="" src="../images/media/image44.png"></a></p>
+<p>On déroule jusqu'à trouver notre domaine :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image45.png" data-desc-position="bottom"><img alt="" src="../images/media/image45.png"></a></p>
+<p>Clic droit sur default domain policy puis modifier :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image46.png" data-desc-position="bottom"><img alt="" src="../images/media/image46.png"></a></p>
+<p>Ensuite dans la fenêtre qui va s'ouvrir on fait défiler jusqu'à
+Stratégies de mots de passe :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image47.png" data-desc-position="bottom"><img alt="" src="../images/media/image47.png"></a></p>
+<p>On va modifier nos règles en termes de sécurité de cette manière :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image48.png" data-desc-position="bottom"><img alt="" src="../images/media/image48.png"></a></p>
+<p>Nous allons désormais appliquer une stratégie concernant le verrouillage
+de compte :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image49.png" data-desc-position="bottom"><img alt="" src="../images/media/image49.png"></a></p>
+<p>On modifie les paramètres de cette manière :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image50.png" data-desc-position="bottom"><img alt="" src="../images/media/image50.png"></a></p>
+<h3 id="51-gpo-daudit-avance">5.1 GPO d'Audit Avancé</h3>
+<p>Pour faire ceci on va faire un clic droit sur notre nom de domaine puis
+on va cliquer sur "Créer un objet GPO dans ce domaine, et le lier ici :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image51.png" data-desc-position="bottom"><img alt="" src="../images/media/image51.png"></a></p>
+<p>On va nommer notre GPO de cette manière :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image52.png" data-desc-position="bottom"><img alt="" src="../images/media/image52.png"></a></p>
+<p>Nous allons ensuite faire un clic droit sur cette gpo puis modifier :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image53.png" data-desc-position="bottom"><img alt="" src="../images/media/image53.png"></a></p>
+<p>On déroule jusqu'à trouver stratégie d'audit :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image54.png" data-desc-position="bottom"><img alt="" src="../images/media/image54.png"></a></p>
+<p>Dans ouvrir/fermer la sessions nous allons mettre en place les
+paramètres suivants :
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image55.png" data-desc-position="bottom"><img alt="" src="../images/media/image55.png"></a></p>
+<p>Dans connexion de compte on met en place le paramètre suivant :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image56.png" data-desc-position="bottom"><img alt="" src="../images/media/image56.png"></a></p>
+<p>Dans accès DS on met en place les paramètres suivants :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image57.png" data-desc-position="bottom"><img alt="" src="../images/media/image57.png"></a></p>
+<p>Nous allons désormais forcer la mise en place de nos politiques de
+sécurité :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image58.png" data-desc-position="bottom"><img alt="" src="../images/media/image58.png"></a>
+Voilà notre stratégie de domaine à bien été modifié</p>
+<h3 id="52-gpo-firewall">5.2 GPO Firewall</h3>
+<p>Après avoir créé notre GPO firewall nous allons la lier à l'OU students
+:</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image59.png" data-desc-position="bottom"><img alt="" src="../images/media/image59.png"></a></p>
+<p>En plus de notre domaine, notre nouvelle GPO est bien liée à l'OU
+students :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image60.png" data-desc-position="bottom"><img alt="" src="../images/media/image60.png"></a></p>
+<p>On déroule jusqu'à trouver pare-feu Windows Defender avec fonctions
+avancées de sécurité :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image61.png" data-desc-position="bottom"><img alt="" src="../images/media/image61.png"></a></p>
+<p>On va cliquer sur propriété du pare-feu Windows Defender :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image62.png" data-desc-position="bottom"><img alt="" src="../images/media/image62.png"></a></p>
+<p>Nous allons modifier les paramètres du pare-feu de cette manière :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image63.png" data-desc-position="bottom"><img alt="" src="../images/media/image63.png"></a></p>
+<p>Nous allons ensuite modifier les paramètres des règles du trafic entrant
+:</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image64.png" data-desc-position="bottom"><img alt="" src="../images/media/image64.png"></a></p>
+<p>Nous allons créer une nouvelle règle :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image65.png" data-desc-position="bottom"><img alt="" src="../images/media/image65.png"></a></p>
+<p>Nous allons sélectionner Port :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image66.png" data-desc-position="bottom"><img alt="" src="../images/media/image66.png"></a></p>
+<p>On applique la règle suivante :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image67.png" data-desc-position="bottom"><img alt="" src="../images/media/image67.png"></a></p>
+<p>On autorise la connexion :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image68.png" data-desc-position="bottom"><img alt="" src="../images/media/image68.png"></a></p>
+<p>Ainsi notre règle de trafic entrant est bien mise en place :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image69.png" data-desc-position="bottom"><img alt="" src="../images/media/image69.png"></a></p>
+<h3 id="53-configuration-dapplocker">5.3 Configuration d'AppLocker</h3>
+<p>On créer une nouvelle GPO</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image70.png" data-desc-position="bottom"><img alt="" src="../images/media/image70.png"></a></p>
+<p>On déroule jusqu'à trouver applocker :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image71.png" data-desc-position="bottom"><img alt="" src="../images/media/image71.png"></a>
+On clique droit dessus puis propriétés :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image72.png" data-desc-position="bottom"><img alt="" src="../images/media/image72.png"></a></p>
+<p>On ajoute cette règle dans les propriétés :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image73.png" data-desc-position="bottom"><img alt="" src="../images/media/image73.png"></a></p>
+<p>Nous allons ensuite dans règles de l'exécutable :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image74.png" data-desc-position="bottom"><img alt="" src="../images/media/image74.png"></a></p>
+<p>Puis créer des règles par défaut :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image75.png" data-desc-position="bottom"><img alt="" src="../images/media/image75.png"></a></p>
+<p>Nos règles sont bien ajoutées :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image76.png" data-desc-position="bottom"><img alt="" src="../images/media/image76.png"></a></p>
+<p>On applique notre nouvelle stratégie :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image77.png" data-desc-position="bottom"><img alt="" src="../images/media/image77.png"></a></p>
+<p>Les objets de stratégie de groupe sont bien présents :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image78.png" data-desc-position="bottom"><img alt="" src="../images/media/image78.png"></a></p>
+<p>On utilise bien Kerberos au lieu de NTLM :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image79.png" data-desc-position="bottom"><img alt="" src="../images/media/image79.png"></a></p>
+<p>La politique en termes de mot de passe est bien mise en place :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image80.png" data-desc-position="bottom"><img alt="" src="../images/media/image80.png"></a></p>
+<h2 id="6-tests-audits-et-remediations">6. Tests, Audits et Remédiations</h2>
+<h3 id="61-validation-des-politiques-de-base-mots-de-passe-applocker">6.1. Validation des politiques de base (Mots de passe &amp; AppLocker)</h3>
+<h4 id="modification-du-mot-de-passe-dalice">Modification du mot de passe d'Alice</h4>
+<p>Ici on va tenter de modifer le mot de passe d'alice pour quelquechose de
+beaucoup plus faible :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image81.png" data-desc-position="bottom"><img alt="" src="../images/media/image81.png"></a></p>
+<p>On obtient une erreur car ce nouveau MDP ne respecte pas les règles mise
+en place en termes de mots de passe.</p>
+<h4 id="verification-du-fonctionnement-applocker">Vérification du fonctionnement AppLocker</h4>
+<p>Pour vérifier son bon fonctionnement nous allons ouvrir un programme,
+n'importe</p>
+<p>Ici j'ai ouvert la calculatrice :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image82.png" data-desc-position="bottom"><img alt="" src="../images/media/image82.png"></a></p>
+<p>Je vais ensuite démarrer l'observateurs d'événements</p>
+<p>Nous allons nous rendre dans journaux des applications et des services
+-&gt; Microsoft puis Windows</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image83.png" data-desc-position="bottom"><img alt="" src="../images/media/image83.png"></a></p>
+<p>Dans toutes les applis et services disponibles nous allons chercher le
+AppLocker :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image84.png" data-desc-position="bottom"><img alt="" src="../images/media/image84.png"></a></p>
+<p>Puis dans EXE et DLL on trouve bien la trace que notre calculatrice est
+allumée et que AppLocker là vu ce qui prouve qu'il analyse en permanence</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image85.png" data-desc-position="bottom"><img alt="" src="../images/media/image85.png"></a></p>
+<h4 id="test-verrouillage-de-comptes">Test Verrouillage de comptes</h4>
+<p>Après avoir tenté de se connecter au compte Alice avec un mauvais mot de
+passe on obtient le message suivant :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image86.png" data-desc-position="bottom"><img alt="" src="../images/media/image86.png"></a></p>
+<h4 id="mise-en-place-de-nouveaux-comptes">Mise en place de nouveaux comptes</h4>
+<p>Création des comptes d'administration et de service via PowerShell :</p>
+<div class="highlight"><pre><span></span><code><span class="c"># 1. Création du compte de service de sauvegarde</span>
+<span class="nb">New-ADUser</span> <span class="n">-Name</span> <span class="s2">"ServiceBackup"</span> <span class="n">-SamAccountName</span> <span class="s2">"svc_backup"</span> <span class="n">-AccountPassword</span> <span class="p">(</span><span class="nb">ConvertTo-SecureString</span> <span class="s2">"P@ssw0rd123!"</span> <span class="n">-AsPlainText</span> <span class="n">-Force</span><span class="p">)</span> <span class="n">-Enabled</span> <span class="nv">$true</span> <span class="n">-Path</span> <span class="s2">"OU=Students,DC=lab,DC=local"</span>
+
+<span class="c"># 2. Création du compte d'audit sécurité</span>
+<span class="nb">New-ADUser</span> <span class="n">-Name</span> <span class="s2">"AuditSec"</span> <span class="n">-SamAccountName</span> <span class="s2">"auditsec"</span> <span class="n">-AccountPassword</span> <span class="p">(</span><span class="nb">ConvertTo-SecureString</span> <span class="s2">"P@ssw0rd123!"</span> <span class="n">-AsPlainText</span> <span class="n">-Force</span><span class="p">)</span> <span class="n">-Enabled</span> <span class="nv">$true</span> <span class="n">-Path</span> <span class="s2">"OU=Students,DC=lab,DC=local"</span>
+
+<span class="c"># 3. Création du compte technicien administrateur</span>
+<span class="nb">New-ADUser</span> <span class="n">-Name</span> <span class="s2">"TechAdmin"</span> <span class="n">-SamAccountName</span> <span class="s2">"techadmin"</span> <span class="n">-AccountPassword</span> <span class="p">(</span><span class="nb">ConvertTo-SecureString</span> <span class="s2">"P@ssw0rd123!"</span> <span class="n">-AsPlainText</span> <span class="n">-Force</span><span class="p">)</span> <span class="n">-Enabled</span> <span class="nv">$true</span> <span class="n">-Path</span> <span class="s2">"OU=Students,DC=lab,DC=local"</span>
+
+<span class="c"># 4. Ajout initial de TechAdmin au groupe Admins du domaine (Faille à remédier)</span>
+<span class="nb">Add-ADGroupMember</span> <span class="n">-Identity</span> <span class="s2">"Admins du domaine"</span> <span class="n">-Members</span> <span class="s2">"techadmin"</span>
+</code></pre></div>
+<h3 id="62-phase-1-observation-cartographie-et-securisation-des-identites">6.2. Phase 1 : Observation, Cartographie et Sécurisation des Identités</h3>
+<h4 id="etape-1-lister-les-privileges-et-appliquer-le-moindre-privilege">Étape 1 : Lister les privilèges et appliquer le moindre privilège</h4>
+<p>Lorsqu'on se rend dans l'outils "Utilisateurs et ordinateurs Active
+Directory" -&gt; Users -&gt; Admins du domaine nous pouvons voir les
+utilisateurs qui appartiennent à ce groupe :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image91.png" data-desc-position="bottom"><img alt="" src="../images/media/image91.png"></a></p>
+<p>Évidemment, TechAdmin ne devraient absolument pas être dans ce groupe :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image92.png" data-desc-position="bottom"><img alt="" src="../images/media/image92.png"></a></p>
+<p>C'est une violation complète du principe du moindre privilège. Un
+technicien support à besoin de droits pour réinitialiser des mots de
+passe ou joindre des PC au domaine, mais pas de contrôler les
+contrôleurs de domaine. Si ce compte est compromis, l'attaquant devient
+maître de tout le réseau instantanément</p>
+<p>Remédiation de la faille&nbsp;de sécurité&nbsp;:</p>
+<p>Dans un premier temps nous allons supprimer l'utilisateur du Groupe
+Admins du domaine&nbsp;:</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image93.png" data-desc-position="bottom"><img alt="" src="../images/media/image93.png"></a></p>
+<p>A ce stade, le compte TechAdmin est redevenu un utilisateur lambda, il
+ne peut plus rien casser mais il ne peut plus travailler non plus, nous
+devons donc lui mettre des droits appropriés à ses tâches</p>
+<p>Pour faire ceci on va ajouter une nouvelle délégation de contrôle sur
+l'unité d'organisation Students&nbsp;:</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image94.png" data-desc-position="bottom"><img alt="" src="../images/media/image94.png"></a></p>
+<p>Bien sûr on sélectionne le compte TechAdmin comme nouvelle délégation de
+contrôle&nbsp;:</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image95.png" data-desc-position="bottom"><img alt="" src="../images/media/image95.png"></a></p>
+<p>Une fois qu'on clique sur OK on va obtenir confirmation que
+l'utilisateur a bien été ajouté en tant que contrôleur de cette OU&nbsp;:</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image96.png" data-desc-position="bottom"><img alt="" src="../images/media/image96.png"></a></p>
+<p>Pour finir on va lui donner deux droits fondamentaux pour réaliser ses
+tâches&nbsp;:</p>
+<ul>
+<li>
+<p>Le droit de «&nbsp;Réinitialiser les mots de passe utilisateur et forcer le
+  changement de mot de passe à la prochaine ouverture de session</p>
+</li>
+<li>
+<p>Le droit de «&nbsp;Créer, supprimer et gérer des comptes utilisateurs&nbsp;»</p>
+</li>
+</ul>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image97.png" data-desc-position="bottom"><img alt="" src="../images/media/image97.png"></a></p>
+<p>Vérification&nbsp;: Désormais nous allons nous connecter en tant que
+TechAdmin puis essayer si les changements ont été bien pris en compte</p>
+<p>Dans un premier temps en testant une manipulation autorisée, si on peut
+modifier le mot de passe d'un students</p>
+<p>Puis en essayant une manipulation de non autorisé en essayant de
+modifier le mdp de l'administrateur</p>
+<p>Si on essaye de modifier le mot de passe d'une simple utilisatrice, la
+manipulation est bien réussie&nbsp;:</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image98.png" data-desc-position="bottom"><img alt="" src="../images/media/image98.png"></a></p>
+<p>En revanche si on essaye de modifier le mot de passe d'un admin ce dont
+nous n'avons pas le droit alors l'accès sera refusé&nbsp;:</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image99.png" data-desc-position="bottom"><img alt="" src="../images/media/image99.png"></a></p>
+<p>Voilà la faille de sécurité est ainsi bien patchée</p>
+<h4 id="etape-2-analyser-et-restreindre-les-acls-reseau">Étape 2 : Analyser et restreindre les ACLs réseau</h4>
+<p>Nous créons un nouveau dossier appeller Data_Sensible sur notre disque C
+sur le serveur :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image100.png" data-desc-position="bottom"><img alt="" src="../images/media/image100.png"></a></p>
+<p>On peut observer que le groupe Users est présent par défaut avec des
+droits de Lecture/Exécution :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image101.png" data-desc-position="bottom"><img alt="" src="../images/media/image101.png"></a></p>
+<p>C'est une faille de sécurité, ça serait innaceptable par exemple dans le
+cas de données sensibles, les simples utilisateurs ne doivent pas
+accéder à tout</p>
+<p>Le groupe Users contient tout le monde dans le domaine (y compris Alice,
+Bob et d'autres). Par défaut Windows permet la lecture à tous. Pour des
+données confidentielles, il faut désactiver l'héritage des droits et
+supprimer le groupe Users pour ne laisser que les groupes RH spécifiques
+et Admins</p>
+<p>Remédiation de la faille&nbsp;:</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image102.png" data-desc-position="bottom"><img alt="" src="../images/media/image102.png"></a></p>
+<p>Après nous être rendu dans les propriétés du dossier Data_Sensible puis
+être aller dans l'onglet Sécurité et avoir cliquez sur le bouton Avancé</p>
+<p>Nous allons désactiver l'héritage et cliquer sur l'option «&nbsp;Convertir
+les autorisations héritées en autorisations explicites sur cet objet&nbsp;»
+Cela va permettre de garder les droits actuels pour les trier ensuite,
+plutôt que de tout vider d'un coup</p>
+<p>Nous allons ensuite supprimer toutes les autorisations du Groupe
+Utilisateurs sur ce fichier&nbsp;:</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image103.png" data-desc-position="bottom"><img alt="" src="../images/media/image103.png"></a></p>
+<p>Ainsi le groupe Utilisateurs n'est plus présent dans la liste des
+groupes qui ont des permissions sur ce fichier&nbsp;:</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image104.png" data-desc-position="bottom"><img alt="" src="../images/media/image104.png"></a></p>
+<p>Test&nbsp;:</p>
+<p>Sur notre Machine cliente nous allons essayer d'accéder aux partages de
+fichiers avec un compte Utilisateurs, avec notre nouvelle configuration
+ça ne doit pas être possible</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image105.png" data-desc-position="bottom"><img alt="" src="../images/media/image105.png"></a></p>
+<p>Nous ne pouvons pas accéder aux partage réseau, c'est normal nous
+n'appartenons pas un groupe assez haut dans la hiérarchie</p>
+<p>La faille a donc été patchée</p>
+<h4 id="etape-3-verification-des-droits-locaux">Étape 3 : Vérification des droits locaux</h4>
+<p>Ici on va utiliser la commande whoami /groups sur la machine cliente en
+étant connecté en tant qu'Alice, normalement nous ne devrions voir que
+les groupes en rapport avec son niveau de hiérarchie :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image106.png" data-desc-position="bottom"><img alt="" src="../images/media/image106.png"></a></p>
+<p>Effectivement, notre configuration est bonne Alice ne voit que les
+groupes en rapport avec son niveau dans la hiérarchie</p>
+<p>Heureusement d'ailleurs car si Alice était admin locale, un virus
+exécuté par Alice pourrait s'installer profondément dans le système,
+désactiver l'antivirus ou voler les mdp d'autres utilisateurs (comme
+celui d'un admin qui viendrait dépanner son PC)</p>
+<h3 id="63-phase-2-authentification-et-securisation-avancee">6.3. Phase 2 : Authentification et Sécurisation Avancée</h3>
+<h4 id="etape-1-audit-kerberos-vs-ntlm">Étape 1 : Audit Kerberos vs NTLM</h4>
+<p>Dans un premier temps nous allons nous connecter aux serveurs de fichier
+via le nom de domaine :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image107.png" data-desc-position="bottom"><img alt="" src="../images/media/image107.png"></a></p>
+<p>Si ensuite on exécute la commande </p>
+<div class="highlight"><pre><span></span><code>klist 
+</code></pre></div>
+<p>via le cmd on peut voir qu'un ticket à bien été demandé auprès de Kerberos, sûrement un ticket TGS puisque c'est une demande à un SPN :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image108.png" data-desc-position="bottom"><img alt="" src="../images/media/image108.png"></a></p>
+<p>Si on exécute la même commande via l'adresse IP du serveur nous n'allons
+pas obtenir de nouvelle demande à Kerberos :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image108.png" data-desc-position="bottom"><img alt="" src="../images/media/image108.png"></a></p>
+<p>Voici ce qu'on peut en déduire : L'accès par IP ne génère pas de ticket
+Kerberos</p>
+<p>Pourquoi ? Kerberos a besoin d'un SPN (Service Principal Name) basé sur
+un nom (DNS). Quand on tape une IP, Windows ne peut pas faire confiance
+à l'identité du serveur via Kerberos, il bascule donc sur NTLM
+(authentification plus ancienne et moins sécurisée, basée sur hash des
+mots de passe)</p>
+<p>Le risque est que NTLM est beaucoup plus vulnérable que Kerberos car il
+utilise les hash des mots de passe comme preuve d'identité</p>
+<h4 id="etape-2-analyse-et-migration-des-comptes-de-service-gmsa">Étape 2 : Analyse et migration des comptes de service (gMSA)</h4>
+<p>Ici nous avons un compte de service qui est rattaché à l'AD :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image109.png" data-desc-position="bottom"><img alt="" src="../images/media/image109.png"></a></p>
+<p>Nous pouvons voir que la case : "Le mot de passe n'expire jamais" est
+coché</p>
+<p>Est-ce que c'est un risque ? Ça peut effectivement poser problèmes</p>
+<p>Si le mot de passe expire : Le service de Backup plantera le jour où le
+mot de passe change, car le logiciel de backup ne se mettre pas à jour
+tout seul -&gt; risque de disponibilité</p>
+<p>Si le mot de passe n'expire jamais : Si un pirate vole ce mdp
+aujourd'hui, il pourra l'utiliser dans 3 ans -&gt; Risque de
+confidentialité</p>
+<p>Le mieux aujourd'hui est de mettre en place de gMSA (Group Managed
+Service Accounts) Ce sont des comptes spéciaux gérés par l'AD qui
+changent leur mdp tout seuls (des mots de passes de 120 caractères) sans
+faire planter les services.</p>
+<p><strong>Remédiation de la faille&nbsp;:</strong></p>
+<p>Pour remplacer le compte <code>svc_backup</code> (dont le mot de passe n'expire jamais), nous déployons un compte gMSA avec rotation automatique des secrets :</p>
+<div class="highlight"><pre><span></span><code><span class="c"># 1. Création de la clé racine KDS (requise pour Active Directory)</span>
+<span class="nb">Add-KdsRootKey</span> <span class="n">-EffectiveImmediately</span>
+
+<span class="c"># 2. Création du compte gMSA et autorisation de la machine serveur à l'utiliser</span>
+<span class="nb">New-ADServiceAccount</span> <span class="n">-Name</span> <span class="s2">"gmsa_backup"</span> <span class="n">-DNSHostName</span> <span class="s2">"gmsa_backup.lab.local"</span> <span class="n">-PrincipalsAllowedToRetrieveManagedPassword</span> <span class="s2">"PC-SERVEUR$"</span>
+
+<span class="c"># 3. Installation et validation du compte sur le serveur local</span>
+<span class="nb">Install-ADServiceAccount</span> <span class="n">-Identity</span> <span class="s2">"gmsa_backup"</span>
+<span class="nb">Test-ADServiceAccount</span> <span class="n">-Identity</span> <span class="s2">"gmsa_backup"</span>
+</code></pre></div>
+<p>Parfait notre compte gMSA a bien été mis en place</p>
+<h4 id="etape-3-application-dune-politique-de-mot-de-passe-granulaire-pso">Étape 3 : Application d'une politique de mot de passe granulaire (PSO)</h4>
+<p>Actuellement nous avons une politique de mot de passe qui demande 12
+caractères minimal :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image114.png" data-desc-position="bottom"><img alt="" src="../images/media/image114.png"></a></p>
+<p>Mais aujourd'hui l'ANSSI recommande une approche basée sur l'entropie :</p>
+<p>Pour un mdp classique (Mous, Chiffres, Lettres) : 12 caractères est le
+minimum vital aujourd'hui pour un utilisateur standard</p>
+<p>Pour un compte admin (comme Administrateur), 12 caractères est
+insuffisant. L'ANSSI recommande 15 caractères minimum ou l'utilisation
+de l'authentification multifacteur (MFA)</p>
+<p>Remédiation de la faille&nbsp;:</p>
+<p>Pour régler cette faille de sécurité nous allons créer une PSO (Password
+Settings Object)</p>
+<p>Nous allons dans un premier temps nous rendre dans le «&nbsp;Centre
+D'administration Active Directory&nbsp;»&nbsp;:</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image115.png" data-desc-position="bottom"><img alt="" src="../images/media/image115.png"></a></p>
+<p>Nous allons défiler de lab (local) -&gt; System -&gt; Password Settings
+Container&nbsp;:</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image116.png" data-desc-position="bottom"><img alt="" src="../images/media/image116.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image117.png" data-desc-position="bottom"><img alt="" src="../images/media/image117.png"></a></p>
+<p>Dans tâches nous allons cliquer sur Nouveau puis Paramètres de mot de
+passe&nbsp;:</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image118.png" data-desc-position="bottom"><img alt="" src="../images/media/image118.png"></a></p>
+<p>Nous allons appliquer la PSO suivante&nbsp;:</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image119.png" data-desc-position="bottom"><img alt="" src="../images/media/image119.png"></a></p>
+<p>On lui attribue une priorité de 10 pour avoir de la marge (plus le
+chiffre est petit et plus la PSO sera prioritaire)</p>
+<p>On impose une longueur minimale de mot de passe de 15 caractères</p>
+<p>On coche bien sûr la case qui demande que le mot de passe doive
+respecter des exigences de complexité</p>
+<p>On peut laisser les autres paramètres par défaut</p>
+<p>Nous devons ensuite se rendre dans l'onglet «&nbsp;S'applique directement à&nbsp;»
+et on va sélectionner notre groupe Admins du domaine&nbsp;:</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image120.png" data-desc-position="bottom"><img alt="" src="../images/media/image120.png"></a></p>
+<p>Il ne nous reste plus qu'à valider notre PSO</p>
+<p>Le test&nbsp;:</p>
+<p>Pour faire ceci on va tenter de modifier le mot de passe de l'admin mais
+seulement avec 14 caractères, si notre PSO a bien été appliqué
+normalement on devrait obtenir une erreur qui indique que le mot de
+passe ne respecte pas la complexité&nbsp;:</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image121.png" data-desc-position="bottom"><img alt="" src="../images/media/image121.png"></a></p>
+<p>Comme attendu on obtient bien une erreur</p>
+<p>En revanche si on essaye la même manipulation avec 15 caractères on ne
+devrait pas avoir d'erreur&nbsp;:</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image122.png" data-desc-position="bottom"><img alt="" src="../images/media/image122.png"></a></p>
+<p>Comme attendu la commande s'exécute sans problème</p>
+<p>Notre PSO est bien réalisé, la faille a bien été patché</p>
+<h2 id="7-bilan-synthese-securite">7. Bilan &amp; Synthèse Sécurité</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Axe de Sécurité</th>
+<th style="text-align: left;">Faille / Constat Initial</th>
+<th style="text-align: left;">Solution &amp; Remédiation Appliquée</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Gestion des Identités</strong></td>
+<td style="text-align: left;"><code>TechAdmin</code> membre des <em>Admins du domaine</em></td>
+<td style="text-align: left;">Retrait du groupe + Délégation de contrôle limitée sur l'OU <code>Students</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Sécurité des Données</strong></td>
+<td style="text-align: left;">Groupe <code>Users</code> en accès complet sur <code>Data_Sensible</code></td>
+<td style="text-align: left;">Désactivation de l'héritage + Suppression des accès du groupe <code>Users</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Comptes de Service</strong></td>
+<td style="text-align: left;"><code>svc_backup</code> avec mot de passe statique non expirant</td>
+<td style="text-align: left;">Migration vers un <strong>gMSA</strong> (<code>gmsa_backup</code>) avec clé racine KDS</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Politique Mots de Passe</strong></td>
+<td style="text-align: left;">Longueur unique de 12 caractères pour tous</td>
+<td style="text-align: left;">Application d'une <strong>PSO</strong> imposant 15 caractères minimum aux administrateurs</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.expand", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>
