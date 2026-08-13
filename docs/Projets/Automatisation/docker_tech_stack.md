@@ -36,6 +36,7 @@ resource "docker_container" "app" {
     external = 8080
   }
 }
+```
 
 ## 2. Les conteneurs en détail
 
