@@ -1,0 +1,2202 @@
+<!DOCTYPE html><html lang="en" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="Benjamin">
+      
+      
+        <link rel="canonical" href="https://benjkurious.github.io/Documatro_3000/Projets/Cloud/audit_detect_Azure/">
+      
+      
+        <link rel="prev" href="../../Supervision_SOC/projet_siem/">
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Audit, Durcissement IaC &amp; Détection de Menaces sur Azure - Documatro 3000</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <link href="../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#audit-durcissement-iac-detection-de-menaces-sur-azure" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Documatro 3000" class="md-header__button md-logo" aria-label="Documatro 3000" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Documatro 3000
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Audit, Durcissement IaC &amp; Détection de Menaces sur Azure
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="cyan" aria-label="Mode clair" type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Mode clair" for="__palette_1" hidden="">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="cyan" aria-label="Mode sombre" type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Mode sombre" for="__palette_0" hidden="">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required="">
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix="">
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Documatro 3000" class="md-nav__button md-logo" aria-label="Documatro 3000" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+
+    </a>
+    Documatro 3000
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix="">
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Accueil
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2">
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OverTheWire
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    OverTheWire
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_1">
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bandit
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Bandit
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../bandit/intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Intro
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../bandit/bandit0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bandit 0
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../bandit/bandit1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bandit 1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../bandit/bandit2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bandit 2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../bandit/bandit3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bandit 3
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3">
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Presentation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Presentation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Presentation/CV/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CV
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked="">
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Projets
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Projets
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_1">
+        
+          
+          <label class="md-nav__link" for="__nav_4_1" id="__nav_4_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows Server
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Windows Server
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Windows_Server/tp_ad_gpo_hardened/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Audit et Sécurisation d'une infrastructure Windows Server (AD + GPO)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_2">
+        
+          
+          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linux
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Linux
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Linux/audit_linux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Rapport d'Audit de sécurisation d'un service linux vulnérable
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_3">
+        
+          
+          <label class="md-nav__link" for="__nav_4_3" id="__nav_4_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Supervision &amp; SOC
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Supervision &amp; SOC
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Supervision_SOC/projet_siem/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Projet SIEM (Splunk) - Déploiement d'un SOC sous Splunk
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" checked="">
+        
+          
+          <label class="md-nav__link" for="__nav_4_4" id="__nav_4_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cloud
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Cloud
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Audit, Durcissement IaC &amp; Détection de Menaces sur Azure
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Audit, Durcissement IaC &amp; Détection de Menaces sur Azure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#installation-des-prerequis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installation des prérequis
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-gouvernance-iac-bicep-policies-rbac" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Gouvernance IaC (Bicep, Policies &amp; RBAC)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Gouvernance IaC (Bicep, Policies &amp; RBAC)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-audit-du-template-bicep" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 - Audit du template Bicep
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-defender-for-cloud-posture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Defender for cloud : posture
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#module-3-detection-kql-avec-microsoft-sentinel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Module 3 - Détection KQL avec Microsoft Sentinel
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Module 3 - Détection KQL avec Microsoft Sentinel">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-fondamentaux-kql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 - Fondamentaux KQL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-detection-force-brute-acces-suspect" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 - Détection : force brute + accès suspect
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-detection-escalade-de-privileges" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 --- Détection : escalade de privilèges
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-formaliser-une-regle-analytique-sentinel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 --- Formaliser une règle analytique Sentinel
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-azure-monitor-log-analytics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Azure Monitor &amp; Log Analytics
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Azure Monitor &amp; Log Analytics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-disponibilite-des-hotes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 --- Disponibilité des hôtes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-performance-visualisation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 --- Performance &amp; visualisation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-conception-dalertes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Conception d'alertes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-synthese-reconstituer-lintrusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Synthèse : reconstituer l'intrusion
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#installation-des-prerequis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installation des prérequis
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-gouvernance-iac-bicep-policies-rbac" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Gouvernance IaC (Bicep, Policies &amp; RBAC)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Gouvernance IaC (Bicep, Policies &amp; RBAC)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-audit-du-template-bicep" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 - Audit du template Bicep
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-defender-for-cloud-posture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Defender for cloud : posture
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#module-3-detection-kql-avec-microsoft-sentinel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Module 3 - Détection KQL avec Microsoft Sentinel
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Module 3 - Détection KQL avec Microsoft Sentinel">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-fondamentaux-kql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 - Fondamentaux KQL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-detection-force-brute-acces-suspect" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 - Détection : force brute + accès suspect
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-detection-escalade-de-privileges" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 --- Détection : escalade de privilèges
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-formaliser-une-regle-analytique-sentinel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 --- Formaliser une règle analytique Sentinel
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-azure-monitor-log-analytics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Azure Monitor &amp; Log Analytics
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Azure Monitor &amp; Log Analytics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-disponibilite-des-hotes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 --- Disponibilité des hôtes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-performance-visualisation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 --- Performance &amp; visualisation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-conception-dalertes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Conception d'alertes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-synthese-reconstituer-lintrusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Synthèse : reconstituer l'intrusion
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="audit-durcissement-iac-detection-de-menaces-sur-azure">Audit, Durcissement IaC &amp; Détection de Menaces sur Azure</h1>
+<div class="admonition info">
+<p class="admonition-title">Contexte du projet (Méthode STAR)</p>
+<ul>
+<li><strong>Situation</strong> : Audit et sécurisation d'une infrastructure Azure déployée via Bicep et compromise suite à des vulnérabilités de configuration et d'identités.</li>
+<li><strong>Tâche</strong> : Identifier les failles d'IaC, appliquer le hardening Bicep, analyser la posture avec Defender for Cloud et créer des règles de détection KQL sous Sentinel.</li>
+<li><strong>Action</strong> : Correction des secrets en clair, restriction des accès réseau/TLS, investigation KQL sur un cas de force brute et d'impossible travel, et écriture d'une règle analytique YAML.</li>
+<li><strong>Résultat</strong> : Un modèle Bicep conforme aux meilleures pratiques et une traçabilité complète de l'incident avec cartographie MITRE ATT&amp;CK.</li>
+</ul>
+</div>
+<h2 id="installation-des-prerequis">Installation des prérequis</h2>
+<p>Après avoir ajouté l'extension bicep via le gestionnaire d'extension, on
+peut l'installer avec la commande suivante&nbsp;:</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image1.png" data-desc-position="bottom"><img alt="" src="../images/media/image1.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image2.png" data-desc-position="bottom"><img alt="" src="../images/media/image2.png"></a>
+Cette commande prouve bien que notre extension est bien installée et
+reconnue par le système.</p>
+<p>Après avoir installé python 3 sur notre système, la commande pip est
+bien reconnu et permet d'installer pandas&nbsp;:</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image3.png" data-desc-position="bottom"><img alt="" src="../images/media/image3.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image4.png" data-desc-position="bottom"><img alt="" src="../images/media/image4.png"></a></p>
+<h2 id="1-gouvernance-iac-bicep-policies-rbac">1. Gouvernance IaC (Bicep, Policies &amp; RBAC)</h2>
+<h3 id="11-audit-du-template-bicep">1.1 - Audit du template Bicep</h3>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image5.png" data-desc-position="bottom"><img alt="" src="../images/media/image5.png"></a></p>
+<p>Test de l'importation de la bibliothèque panda</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image6.png" data-desc-position="bottom"><img alt="" src="../images/media/image6.png"></a></p>
+<p>C'est normal si le CLI ne nous retourne rien, cela signifie que la
+bibliothèque a déjà bien été importé et donc qu'il n'y a pas d'erreur.</p>
+<p>Le nom et les colonnes de chaque table&nbsp;:</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image7.png" data-desc-position="bottom"><img alt="" src="../images/media/image7.png"></a></p>
+<p>Module 1 -- Gouvernance&nbsp;: Bicep, Policy, RBAC</p>
+<p>1.1 -- Audit du template Bicep</p>
+<p>Dans un premier temps on ouvre le fichier à l'aide de la commande
+suivante&nbsp;:</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image8.png" data-desc-position="bottom"><img alt="" src="../images/media/image8.png"></a></p>
+<p>Lorsqu'on ouvre le fichier insecure.bicep plusieurs failles béantes sont
+visible dès un premier coup d'œil</p>
+<p>Tout d'abord le mot de passe est en clair, ce qui signifie que n'importe
+qui, qui aurait accès au code pourrait ainsi voir ce mot de passe et
+pourrait ainsi prendre le contrôle du système</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image9.png" data-desc-position="bottom"><img alt="" src="../images/media/image9.png"></a></p>
+<p>On peut d'ailleurs faire le lien avec le manque de key vault, ce qui
+serait un bon moyen de remédiations pour éviter d'avoir le mot de passe
+en clair et ainsi renforcer la sécurité. Notre mot de passe serait ainsi
+stocké en tant que secret dans le key Vault</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image10.png" data-desc-position="bottom"><img alt="" src="../images/media/image10.png"></a></p>
+<p>Q1.1&nbsp;: C'est une faille qui se rattache au pilier secrets</p>
+<p>Ensuite l'accès public est autorisé ce qui signifie que n'importe qui
+peut se connecter, il n'y a pas de contrôle d'accès mis en place, donc
+on ne sait pas qui se connecte, on ne sait pas les actions réalisées où
+l'heure à laquelle ça a été réalisé, également on ne sait pas les
+permissions qui seraient accorder à la personne</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image11.png" data-desc-position="bottom"><img alt="" src="../images/media/image11.png"></a></p>
+<p>On peut également faire le lien avec le fait qu'il n'y ai pas de
+diagnostic-setting aujourd'hui mis en place, on peut voir cela comme un
+mécanisme qui va collecter les logs et qui va envoyer les métriques vers
+diverses ressources.</p>
+<p>S'il n'est pas mis en place Azure monitor par exemple ne pourra pas
+collecter les logs et donc on n'a aucune information d'horodatage, on se
+pas qui réalise quelle action, qui se connecte, c'est l'anarchie et on
+est également forcément en tort en cas d'attaque informatique et qu'on
+nous demande une justification d'actions.</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image12.png" data-desc-position="bottom"><img alt="" src="../images/media/image12.png"></a></p>
+<p>Q1.1 C'est une faille qui se rattache au pilier journalisation</p>
+<p>Une autre faille béante est la tolérance de la connexion en http non
+chiffré, concrètement cela signifie que toutes les informations passent
+en clair dans le trafic. Si un attaquant se place en posture de
+man-in-the-middle il pourra alors intercepter le trafic et ainsi voir
+tous les flux en clair.</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image13.png" data-desc-position="bottom"><img alt="" src="../images/media/image13.png"></a></p>
+<p>C'est une faille qui se rattache au pilier chiffrement</p>
+<p>On peut souligner également la non-restriction réseau, chaque composant
+du réseau est présent dans un réseau central, il n'y a pas d'ACL mis en
+place, ce qui veut dire qu'un attaquant pourrais réaliser une attaque
+DDOS en saturant le traffic.</p>
+<p>On peut également noter que la version minimum de TLS est en 1.0 alors
+qu'elle devrait être en 3.0 minimum pour renforcer la sécurité.</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image14.png" data-desc-position="bottom"><img alt="" src="../images/media/image14.png"></a></p>
+<p>Q1.1 C'est une faille qui se rattache au pilier réseau</p>
+<p>On enchaine avec une très grosse faille&nbsp;: l'accès en SSH (Secure Shell)
+n'est pas restreint, n'importe qui peut se connecter en SSH via le port
+par défaut 22 et donc prendre le contrôle du système. Il est également
+important de noter que la priorité est de 100 ce qui signifie qu'elle
+prend le dessus sur d'autres règles du groupe de sécurité réseau et donc
+impossible de la limiter via une autre règle plus sécurisée. Cette
+faille concerne le trafic entrant via la direction 'Inbound'.</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image15.png" data-desc-position="bottom"><img alt="" src="../images/media/image15.png"></a></p>
+<p>Q1.1 C'est une faille qui se rattache au pilier exposition</p>
+<p>Toujours dans l'accès à distance une autre faille est présente&nbsp;: le RDP
+pour Remote Desktop Protocol, cela permet d'avoir accès encore une fois
+au système à distance ce qui est très grave et une faille de sécurité
+évidente&nbsp;:</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image16.png" data-desc-position="bottom"><img alt="" src="../images/media/image16.png"></a></p>
+<p>Comme pour le SSH n'importe qui peut se connecter via le trafic entrant,
+la priorité est réglée sur 110 donc elle est moins prioritaire que le
+SSH mais même chose, elle prend donc l'ascendant sur d'autres règle de
+sécurité qui n'ont pas de priorité indiquée.</p>
+<p>Q1.1 C'est une faille qui se rattache au pilier exposition</p>
+<p>Comme indiqué pour l'instant il n'y a aucun système de tags dans le code
+source, on ne sait pas ce qui correspond à quoi et donc ça rend le
+processus de gouvernance impossible en l'état actuel.</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image17.png" data-desc-position="bottom"><img alt="" src="../images/media/image17.png"></a></p>
+<p>Q1.1 C'est une faille qui se rattache au pilier gouvernance</p>
+<p>Q5&nbsp;: Avertissements du linter</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image18.png" data-desc-position="bottom"><img alt="" src="../images/media/image18.png"></a></p>
+<p>Plusieurs avertissements sont à notés&nbsp;:</p>
+<p>Les logins sont mis en clair via la fonction no-unused-parameter que ça
+soit pour adminUsername ou adminPassword</p>
+<p>Également on a un avertissement comme quoi adminPassword pourrait
+représenter un secret ce qui est vrai et qu'il faudrait la déclarer via
+l'attribut secure()</p>
+<p>1.2 -- Durcissement du Bicep</p>
+<p>On crée une copie de insecure.bicep qui s'appellera secure.bicep, dans
+ce fichier plusieurs remédiations vont être effectuer&nbsp;:</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image19.png" data-desc-position="bottom"><img alt="" src="../images/media/image19.png"></a></p>
+<p>Dans un premier temps on déclarer les deux chaines de caractères env et
+string</p>
+<p>Ensuite on déclare le paramètre adminPassword puis @secure() mais sans
+indiqué le mot de passe, de cette manière il n'est pas en clair et
+lorsqu'on en aura besoin, il faudra simplement le renseigner.</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image20.png" data-desc-position="bottom"><img alt="" src="../images/media/image20.png"></a></p>
+<p>Pour continuer dans la partie compte de stockage on modifie plusieurs
+paramètres&nbsp;:</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image21.png" data-desc-position="bottom"><img alt="" src="../images/media/image21.png"></a></p>
+<p>On rajoute les tags env et owner, la fonction «&nbsp;allowBlobPublicAccess&nbsp;»
+passe de true à false, supportsHttpsTrafficOnly passe de false à true
+pour forcer la connexion en HTTPS</p>
+<p>defaultAction passe de Allow à Deny et finalement la version minimum de
+TLS est mise en 1.2 au lieu de 1.0</p>
+<p>Pour la partie réseau on corrige les éléments suivants&nbsp;:</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image22.png" data-desc-position="bottom"><img alt="" src="../images/media/image22.png"></a></p>
+<p>On ajoute une nouvelle fois les tags env et owner</p>
+<p>Puis côté SSH on ajouter une plage d'adresse pour éviter que n'importe
+qui puisse se connecter</p>
+<p>Côté RDP même chose on laisse le port par défaut et on définit une plage
+d'adresse&nbsp;:</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image23.png" data-desc-position="bottom"><img alt="" src="../images/media/image23.png"></a></p>
+<p>Finalement pour le réseau virtuel on ajoute les tags&nbsp;:</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image24.png" data-desc-position="bottom"><img alt="" src="../images/media/image24.png"></a></p>
+<p>Si on effectue de nouveau la commande build on obtient seulement deux
+avertissements mais c'est normal puisque nous n'avons pas encore modifié
+ces éléments&nbsp;:</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image25.png" data-desc-position="bottom"><img alt="" src="../images/media/image25.png"></a></p>
+<p>Q1.3 Différence entre les effets</p>
+<p>Audit&nbsp;: génère une alerte dans les journaux de conformité sans bloquer
+l'action.</p>
+<p>Deny&nbsp;: Bloque immédiatement la création ou la modification de la
+ressource si elle ne respecte pas la règle</p>
+<p>DeployIfNotExists&nbsp;: Vérifie l'état d'une ressource et déploie
+automatiquement un composant correctif si la règle n'est pas respectée
+(par exemple, activer les logs sur un compte de stockage).</p>
+<p>1.4 RBAC au moindre privilège</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image26.png" data-desc-position="bottom"><img alt="" src="../images/media/image26.png"></a></p>
+<p>Voici les failles critiques relevées dans l'attribution des accès :</p>
+<ul>
+<li>
+<p><strong>Périmètre trop large (Scope /subscription)</strong> : La majorité des
+  utilisateurs ont des droits sur toute l'infrastructure. C'est une
+  violation directe du principe du moindre privilège ; ils devraient
+  être limités uniquement aux groupes de ressources dont ils ont besoin.</p>
+</li>
+<li>
+<p><strong>Abus du rôle Owner</strong> : a.dupont et j.martin sont propriétaires de
+  l'abonnement. Ce rôle est trop puissant, car il donne le contrôle
+  total sur les ressources, mais aussi sur la gestion des accès (IAM) et
+  la suppression des sécurités.</p>
+</li>
+<li>
+<p><strong>Escalade de privilèges suspecte</strong> : L'attribution du rôle Owner à
+  j.martin le 28/05 à 09 : 35 est anormale. C'est l'indicateur clé de
+  l'intrusion, confirmant une tentative d'escalade de privilèges pour
+  mener des actions malveillantes.</p>
+</li>
+</ul>
+<p>10.</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image27.png" data-desc-position="bottom"><img alt="" src="../images/media/image27.png"></a></p>
+<p><strong>Question Q1.4 : Quel est le rapport entre l'attribution suspecte de
+la table et ce que vous trouverez au module 3 ?</strong></p>
+<p>Réponse : L'attribution du rôle Owner à j.martin@novaretail le 28/05 à
+09:35 constitue l'indicateur principal d'une escalade de privilèges
+malveillante. Dans le module 3, nous verrons que ce compte est celui qui
+est utilisé pour mener les actions illégitimes (comme la modification de
+ressources ou la création de persistance) une fois que l'attaquant a
+réussi à compromettre ses identifiants et à obtenir des droits élevés.</p>
+<h2 id="2-defender-for-cloud-posture">2. Defender for cloud&nbsp;: posture</h2>
+<hr>
+<p><strong>ID</strong>      <strong>Catégorie</strong>   <strong>Sévérité</strong>   <strong>Impact sur l'intrusion</strong>  <strong>Priorité</strong></p>
+<hr>
+<p><strong>R-004</strong>   Identité        Critique       Bloque l'accès initial      1
+                                             (MFA)                        </p>
+<p><strong>R-001</strong>   Accès Réseau    Haute          Bloque l'accès distant non  1
+                                             sécurisé (JIT)               </p>
+<p><strong>R-002</strong>   Stockage        Haute          Empêche l'exposition des    2
+                                             données                      </p>
+<p><strong>R-003</strong>   Réseau          Haute          Réduit la surface d'attaque 2
+                                             (NSG)                        </p>
+<p><strong>R-005</strong>   Monitoring      Moyenne        Améliore la détection des    3
+                                             menaces                      </p>
+<p><strong>R-006</strong>   Audit           Moyenne        Assure la traçabilité des    3
+                                             actions                      </p>
+<p><strong>R-007</strong>   Chiffrement     Faible         Protection des données au    4
+                                             repos                        </p>
+<p><strong>R-008</strong>   Conformité      Faible         Alignement avec les          4
+                                             standards                    </p>
+<hr>
+<p>Q2.1 : Le Secure Score mesure le pourcentage de conformité de
+l'infrastructure par rapport aux meilleures pratiques de sécurité.</p>
+<p>Un score de 38 % est un signal d'alerte critique, indiquant que plus de
+60 % des contrôles de base ne sont pas activés, exposant ainsi
+l'entreprise à des risques élevés de compromission.</p>
+<p>2.2</p>
+<hr>
+<p><strong>Recommandation</strong>   <strong>Responsabilité</strong>   <strong>Justification</strong></p>
+<hr>
+<p><strong>R-001 (JIT)</strong>      <strong>Client</strong>           La gestion des accès réseau aux VMs
+                                            est une configuration client.</p>
+<p><strong>R-002 (Stockage)</strong> <strong>Client</strong>           La sécurisation des comptes de
+                                            stockage est une responsabilité de
+                                            configuration client.</p>
+<p><strong>R-003              </strong>Client<strong>           Les règles de filtrage réseau (NSG)
+  (Réseau/NSG)</strong>                            sont à la charge du client.</p>
+<p><strong>R-004              </strong>Client<strong>           La gestion des identités et des
+  (MFA/Identité)</strong>                          accès (IAM) est toujours sous la
+                                            responsabilité du client.</p>
+<p><strong>R-005              </strong>Client<strong>           La configuration des alertes et du
+  (Monitoring)</strong>                            monitoring sur tes ressources
+                                            t'incombe.</p>
+<p><strong>R-006 (Audit)</strong>    <strong>Client</strong>           L'activation et la revue des logs
+                                            d'activité sont des tâches client.</p>
+<p><strong>R-007              </strong>Client<strong>           Le chiffrement des données au repos
+  (Chiffrement)</strong>                           est une option de configuration
+                                            client.</p>
+<p><strong>R-008              </strong>Partagée<strong>         Le cadre est fourni par Microsoft,
+  (Conformité)</strong>                            mais son application est une tâche
+                                            client.</p>
+<hr>
+<p>Q2.2</p>
+<p><strong>R-004 (MFA - Authentification Multi-Facteurs) :</strong> C'est cette mesure
+qui aurait <strong>bloqué l'accès initial</strong>. Même si l'attaquant avait
+réussi à récupérer ou deviner le mot de passe du compte j.martin,
+l'absence de ce deuxième facteur de validation aurait empêché la
+finalisation de la connexion, stoppant l'attaque avant même qu'elle ne
+commence.</p>
+<p><strong>R-001 (JIT - Just-In-Time VM Access) :</strong> Cette mesure est une défense
+en profondeur qui aurait limité la surface d'attaque après
+l'authentification.</p>
+<p>Elle permet de restreindre l'accès aux ports d'administration
+(SSH/RDP) uniquement sur demande et pour une durée limitée. Dans le
+contexte de cette intrusion, elle aurait empêché l'attaquant de
+maintenir un accès réseau persistant vers les machines virtuelles une
+fois qu'il a cherché à se déplacer latéralement.</p>
+<p><strong>Question Q2.3 :</strong> À quel cadre (ex. Microsoft Cloud Security
+Benchmark) rattacheriez-vous le contrôle « Restreindre l'accès réseau »
+? Comment ajouterait-on ISO 27001 ou RGPD au suivi ?</p>
+<p><strong>1. Cadre pour le contrôle « Restreindre l'accès réseau »</strong></p>
+<p>Le contrôle « Restreindre l'accès réseau » se rattache directement au
+<strong>Microsoft Cloud Security Benchmark (MCSB)</strong>. Dans ce cadre, il est
+généralement classé sous le domaine de la <strong>Sécurité Réseau</strong> (ou
+<em>Network Security</em>), qui vise à protéger les ressources contre les accès
+non autorisés en appliquant le principe du moindre privilège aux flux
+réseau.</p>
+<p><strong>2. Ajout de l'ISO 27001 ou du RGPD au suivi</strong></p>
+<p>Pour intégrer des cadres comme l'ISO 27001 ou le RGPD à ton suivi de
+conformité dans Azure, la méthode consiste à utiliser les outils de
+gouvernance intégrés :</p>
+<ul>
+<li>
+<p><strong>Microsoft Defender for Cloud (Regulatory Compliance Dashboard)</strong> :
+  Tu peux ajouter des "Regulatory Compliance standards" directement
+  depuis le tableau de bord de conformité.</p>
+</li>
+<li>
+<p><strong>Application des standards</strong> :</p>
+</li>
+<li>
+<p>En sélectionnant l'<strong>ISO 27001</strong> ou le <strong>RGPD</strong> dans les paramètres
+    de conformité, Azure va automatiquement mapper tes ressources et tes
+    contrôles (comme le contrôle d'accès réseau) aux exigences
+    spécifiques de ces cadres.</p>
+</li>
+<li>
+<p>Le tableau de bord affichera alors ton score de conformité
+    spécifique pour chaque cadre ajouté, en identifiant les contrôles
+    réussis et ceux nécessitant une remédiation.</p>
+</li>
+</ul>
+<h2 id="module-3-detection-kql-avec-microsoft-sentinel">Module 3 - Détection KQL avec Microsoft Sentinel</h2>
+<h3 id="31-fondamentaux-kql">3.1 - Fondamentaux KQL</h3>
+<p>Écrivez les requêtes KQL répondant à :</p>
+<ul>
+<li>a) Les 20 dernières lignes de <code>SigninLogs</code>, colonnes utiles
+  uniquement.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="n">SigninLogs</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="p">,</span><span class="w"> </span><span class="n">UserPrincipalName</span><span class="p">,</span><span class="w"> </span><span class="n">IPAddress</span><span class="p">,</span><span class="w"> </span><span class="n">ResultType</span>
+<span class="p">|</span><span class="w"> </span><span class="k">top</span><span class="w"> </span><span class="mi">20</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="n">desc</span>
+</code></pre></div>
+<ul>
+<li>b) Le nombre de connexions par <code>UserPrincipalName</code>, trié
+  décroissant.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="n">SigninLogs</span>
+<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">NbConnexions</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">UserPrincipalName</span>
+<span class="p">|</span><span class="w"> </span><span class="k">sort</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">NbConnexions</span><span class="w"> </span><span class="n">desc</span>
+</code></pre></div>
+<ul>
+<li>c) Les alertes <code>SecurityAlert</code> groupées par <code>AlertSeverity</code>.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="n">SecurityAlert</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">Nombre</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">AlertSeverity</span>
+</code></pre></div>
+<p><strong>Question Q3.1 :</strong> Rôle de <code>where</code>, <code>project</code>, <code>summarize</code>,
+<code>sort</code> ; différence <code>take</code> vs <code>top</code>.</p>
+<p><strong>where</strong> : Filtre les lignes pour ne garder que celles qui répondent à
+une condition spécifique.</p>
+<p><strong>project</strong> : Sélectionne les colonnes à afficher, permettant de
+nettoyer l'affichage des données brutes.</p>
+<p><strong>summarize</strong> : Effectue des calculs d'agrégation (compter des
+éléments, sommer des valeurs) sur un ensemble de données.</p>
+<p><strong>sort</strong> : Trie les résultats selon une colonne donnée.</p>
+<p><strong>take vs top</strong> :</p>
+<ul>
+<li>
+<p><strong>take</strong> (ou limit) renvoie un nombre de lignes arbitraire sans ordre
+  précis.</p>
+</li>
+<li>
+<p><strong>top</strong> effectue d'abord un <strong>tri</strong> avant de limiter le nombre de
+  lignes, ce qui est indispensable pour extraire les données les plus
+  récentes ou les valeurs les plus élevées.</p>
+</li>
+</ul>
+<h3 id="32-detection-force-brute-acces-suspect">3.2 - Détection : force brute + accès suspect</h3>
+<ol>
+<li>Écrivez une requête qui détecte un compte ayant <strong>plus de 5 échecs
+    d'authentification</strong> (<code>ResultType != 0</code>) dans une fenêtre de 15
+    min, par utilisateur et IP.</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="c">// 1. Détecter les échecs (Force brute)</span>
+<span class="n">let</span><span class="w"> </span><span class="n">bruteforce</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">SigninLogs</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ResultType</span><span class="w"> </span><span class="p">!=</span><span class="w"> </span><span class="mi">0</span>
+<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">Echecs</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">UserPrincipalName</span><span class="p">,</span><span class="w"> </span><span class="n">IPAddress</span><span class="p">,</span><span class="w"> </span><span class="n">bin</span><span class="p">(</span><span class="n">TimeGenerated</span><span class="p">,</span><span class="w"> </span><span class="mi">15</span><span class="n">m</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">Echecs</span><span class="w"> </span><span class="p">&gt;</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span>
+
+<span class="c">// 2. Associer avec un succès ultérieur</span>
+<span class="n">bruteforce</span>
+<span class="p">|</span><span class="w"> </span><span class="k">join</span><span class="w"> </span><span class="n">kind</span><span class="p">=</span><span class="n">inner</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">SigninLogs</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ResultType</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="mi">0</span>
+<span class="p">)</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">UserPrincipalName</span><span class="p">,</span><span class="w"> </span><span class="n">IPAddress</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="p">&gt;</span><span class="w"> </span><span class="n">TimeGenerated1</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">UserPrincipalName</span><span class="p">,</span><span class="w"> </span><span class="n">IPAddress</span><span class="p">,</span><span class="w"> </span><span class="n">Echecs</span><span class="p">,</span><span class="w"> </span><span class="n">TimeGenerated1</span>
+</code></pre></div>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image28.png" data-desc-position="bottom"><img alt="" src="../images/media/image28.png"></a></p>
+<ol>
+<li>Vérifiez : implémentez <code>TODO_bruteforce</code> dans <code>lab.py</code> et
+    comparez à la sortie de référence (<code>python lab.py --check</code>).
+    <strong>Attendu : 8 échecs pour j.martin depuis 45.83.220.14.</strong></li>
+</ol>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image28.png" data-desc-position="bottom"><img alt="" src="../images/media/image28.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image29.png" data-desc-position="bottom"><img alt="" src="../images/media/image29.png"></a></p>
+<p><strong>Question Q3.2 :</strong> Quel signal désigne ici un <em>impossible travel</em> ?
+(indice : comparez 08:05 et 09:21).</p>
+<p>Le signal d'<strong>impossible travel</strong> désigne une anomalie de connexion où
+un même compte utilisateur effectue deux authentifications réussies à
+partir de deux adresses IP situées dans des zones géographiques
+distantes, dans un laps de temps trop court pour permettre un
+déplacement physique réel entre ces deux points.</p>
+<ul>
+<li>
+<p><strong>Analyse du cas j.martin :</strong></p>
+</li>
+<li>
+<p>À <strong>08:05</strong>, une tentative de connexion est enregistrée depuis une
+    IP donnée.</p>
+</li>
+<li>
+<p>À <strong>09:21</strong>, une nouvelle connexion réussie est enregistrée depuis
+    une autre localisation.</p>
+</li>
+<li>
+<p><strong>Le signal d'alerte :</strong> La distance géographique entre ces deux
+    points de connexion est telle qu'il serait physiquement impossible
+    pour l'utilisateur de s'y rendre en seulement 1 heure et 16
+    minutes.</p>
+</li>
+</ul>
+<h3 id="33-detection-escalade-de-privileges">3.3 --- Détection : escalade de privilèges</h3>
+<ol>
+<li>Écrivez la requête KQL détectant une <strong>attribution de rôle réussie</strong>
+    dans <code>AzureActivity</code>.</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="n">AzureActivity</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">OperationNameValue</span><span class="w"> </span><span class="k">has</span><span class="w"> </span><span class="s">"roleAssignments/write"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ActivityStatusValue</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"Success"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="p">,</span><span class="w"> </span><span class="n">Caller</span><span class="p">,</span><span class="w"> </span><span class="n">CallerIpAddress</span><span class="p">,</span><span class="w"> </span><span class="n">ResourceGroup</span>
+</code></pre></div>
+<ol>
+<li>Vérifiez via <code>TODO_privesc</code>. <strong>Attendu : 1 ligne, j.martin à
+    09:35.</strong> À quelle technique MITRE ATT&amp;CK cela correspond-il ?</li>
+</ol>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image30.png" data-desc-position="bottom"><img alt="" src="../images/media/image30.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image31.png" data-desc-position="bottom"><img alt="" src="../images/media/image31.png"></a></p>
+<h3 id="34-formaliser-une-regle-analytique-sentinel">3.4 --- Formaliser une règle analytique Sentinel</h3>
+<div class="highlight"><pre><span></span><code><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="s">"8c42a1b9-3d12-4e99-87a4-123456789abc"</span>
+<span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">"Escalade</span><span class="nv"> </span><span class="s">de</span><span class="nv"> </span><span class="s">privilèges</span><span class="nv"> </span><span class="s">:</span><span class="nv"> </span><span class="s">Attribution</span><span class="nv"> </span><span class="s">de</span><span class="nv"> </span><span class="s">rôle</span><span class="nv"> </span><span class="s">suspecte"</span>
+<span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">"Détecte</span><span class="nv"> </span><span class="s">une</span><span class="nv"> </span><span class="s">modification</span><span class="nv"> </span><span class="s">de</span><span class="nv"> </span><span class="s">rôle</span><span class="nv"> </span><span class="s">(roleAssignments/write)</span><span class="nv"> </span><span class="s">réussie</span><span class="nv"> </span><span class="s">par</span><span class="nv"> </span><span class="s">un</span><span class="nv"> </span><span class="s">utilisateur."</span>
+<span class="nt">severity</span><span class="p">:</span><span class="w"> </span><span class="s">"High"</span>
+<span class="nt">query</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">  </span><span class="no">AzureActivity</span>
+<span class="w">  </span><span class="no">| where OperationNameValue has "roleAssignments/write"</span>
+<span class="w">  </span><span class="no">| where ActivityStatusValue == "Success"</span>
+<span class="w">  </span><span class="no">| project TimeGenerated, Caller, CallerIpAddress, ResourceGroup, OperationNameValue</span>
+<span class="nt">queryFrequency</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5m</span>
+<span class="nt">queryPeriod</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5m</span>
+<span class="nt">triggerOperator</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">GreaterThan</span>
+<span class="nt">triggerThreshold</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
+<span class="nt">tactics</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PrivilegeEscalation</span>
+<span class="nt">techniques</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">T1098</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">T1098.003</span>
+<span class="nt">entityMappings</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">entityType</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Account</span>
+<span class="w">    </span><span class="nt">fieldMappings</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">identifier</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">FullName</span>
+<span class="w">        </span><span class="nt">columnName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Caller</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">entityType</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">IP</span>
+<span class="w">    </span><span class="nt">fieldMappings</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">identifier</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Address</span>
+<span class="w">        </span><span class="nt">columnName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CallerIpAddress</span>
+</code></pre></div>
+<p><strong>Question Q3.4 :</strong> Pourquoi le mapping d'entités est-il indispensable
+à l'investigation et à la corrélation dans Sentinel ? Que signifient
+SIEM et SOAR ?</p>
+<p><strong>1. Pourquoi le mapping d'entités est-il indispensable ?</strong></p>
+<p>Le mapping d'entités est le "liant" qui permet à Microsoft Sentinel
+de transformer des données brutes en informations exploitables. Il est
+indispensable pour deux raisons majeures:</p>
+<ul>
+<li>
+<p><strong>Corrélation automatique</strong> : En identifiant explicitement que Caller
+  est un <em>Compte</em> et CallerIpAddress est une <em>IP</em>, Sentinel peut lier
+  automatiquement cette alerte avec d'autres événements provenant de
+  sources totalement différentes (ex : logs de connexion, logs de
+  pare-feu, logs d'applications). Sans ce mapping, le système voit des
+  chaînes de caractères isolées ; avec, il voit une identité unique qui
+  traverse tout ton système.</p>
+</li>
+<li>
+<p><strong>Investigation graphique</strong> : Lors d'une enquête, Sentinel utilise ce
+  mapping pour générer automatiquement un <strong>graphique
+  d'investigation</strong>. Cela permet à l'analyste de voir visuellement
+  tous les liens entre l'utilisateur compromis, les machines qu'il a
+  touchées et les ressources Azure qu'il a modifiées, facilitant ainsi
+  la compréhension de la portée de l'attaque.</p>
+</li>
+</ul>
+<p><strong>2. Que signifient SIEM et SOAR ?</strong></p>
+<p>Ces deux outils sont complémentaires dans la gestion des opérations de
+sécurité (SecOps) :</p>
+<ul>
+<li>
+<p><strong>SIEM (Security Information and Event Management)</strong> : C'est le
+  <strong>cerveau analytique</strong>. Il collecte, centralise et analyse en temps
+  réel les logs de toute l'infrastructure. Son rôle est de détecter les
+  menaces via des règles analytiques (comme celles que tu as créées dans
+  ce TP) et de fournir une vue d'ensemble sur la sécurité.</p>
+</li>
+<li>
+<p><strong>SOAR (Security Orchestration, Automation, and Response)</strong> : C'est
+  le <strong>bras opérationnel</strong>. Il permet d'automatiser les actions de
+  réponse à la suite d'une alerte. Au lieu qu'un analyste doive bloquer
+  manuellement un compte ou isoler une machine, le SOAR utilise des
+  "Playbooks" pour exécuter ces actions instantanément, réduisant
+  ainsi le temps de réponse (MTTR - <em>Mean Time To Respond</em>).</p>
+</li>
+</ul>
+<h2 id="5-azure-monitor-log-analytics">5. Azure Monitor &amp; Log Analytics</h2>
+<h3 id="51-disponibilite-des-hotes">5.1 --- Disponibilité des hôtes</h3>
+<ol>
+<li>Écrivez une requête KQL sur <code>Heartbeat</code> donnant la <strong>dernière
+    vue</strong> de chaque machine, et signalant celles silencieuses depuis
+    plus de 30 min.</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="n">Heartbeat</span>
+<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">DerniereVue</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">max</span><span class="p">(</span><span class="n">TimeGenerated</span><span class="p">)</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">Computer</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">TempsSilencieux</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">datetime_diff</span><span class="p">(</span><span class="s">'minute'</span><span class="p">,</span><span class="w"> </span><span class="n">now</span><span class="p">(),</span>
+<span class="n">DerniereVue</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">TempsSilencieux</span><span class="w"> </span><span class="p">&gt;</span><span class="w"> </span><span class="mi">30</span>
+<span class="p">|</span><span class="w"> </span><span class="k">sort</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">DerniereVue</span><span class="w"> </span><span class="n">asc</span>
+</code></pre></div>
+<ol>
+<li>Vérifiez via <code>TODO_offline_host</code>. <strong>Quelle machine est tombée, et
+    à quelle heure ?</strong></li>
+</ol>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image32.png" data-desc-position="bottom"><img alt="" src="../images/media/image32.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image33.png" data-desc-position="bottom"><img alt="" src="../images/media/image33.png"></a></p>
+<h3 id="52-performance-visualisation">5.2 --- Performance &amp; visualisation</h3>
+<ol>
+<li>Écrivez une requête KQL sur <code>Perf</code> (<code>% Processor Time</code>) agrégée
+    par tranche de 15 min et par machine, avec <code>render timechart</code>.</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="n">Perf</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">CounterName</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"% Processor Time"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">AvgCPU</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">avg</span><span class="p">(</span><span class="n">CounterValue</span><span class="p">)</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">bin</span><span class="p">(</span><span class="n">TimeGenerated</span><span class="p">,</span><span class="w"> </span><span class="mi">15</span><span class="n">m</span><span class="p">),</span>
+<span class="n">Computer</span>
+<span class="p">|</span><span class="w"> </span><span class="k">render</span><span class="w"> </span><span class="n">timechart</span>
+</code></pre></div>
+<p><strong>Question Q4.2 :</strong> À quel moment <code>vm-web-01</code> est-elle en surcharge ?
+Que font <code>bin()</code> et <code>render</code> ?</p>
+<p><strong>Réponse à la Question Q4.2</strong></p>
+<p><strong>1. À quel moment vm-web-01 est-elle en surcharge ?</strong> D'après
+l'analyse des données de performance (et la visualisation graphique),
+la machine vm-web-01 présente un pic de surcharge significatif
+(utilisation CPU élevée) situé dans la tranche horaire <strong>10:15 -
+10:30</strong>.</p>
+<p><strong>2. Que font bin() et render ?</strong></p>
+<ul>
+<li>
+<p><strong>bin()</strong> : Cet opérateur regroupe les données par intervalles de
+  temps définis (ici, des tranches de 15 minutes). Cela permet de lisser
+  les données brutes pour mieux identifier les tendances temporelles
+  plutôt que de se perdre dans des variations à la seconde près.</p>
+</li>
+<li>
+<p><strong>render</strong> : Cette commande transforme le tableau de résultats KQL en
+  une représentation visuelle (graphique). Le paramètre timechart génère
+  spécifiquement un graphique chronologique, essentiel pour repérer
+  visuellement les pics de charge et les anomalies de performance sur
+  une période donnée.</p>
+</li>
+</ul>
+<h3 id="53-conception-dalertes">5.3 Conception d'alertes</h3>
+<ol>
+<li>Concevez <strong>deux alertes</strong> : (a) une alerte <strong>de métrique</strong> CPU &gt; 80
+    % ; (b) une alerte <strong>de recherche dans les journaux</strong> (KQL) sur
+    l'échec de heartbeat. Décrivez le groupe d'actions.</li>
+</ol>
+<p><strong>1. Conception des alertes</strong></p>
+<ul>
+<li>
+<p><strong>(a) Alerte de métrique CPU &gt; 80 %</strong> :</p>
+</li>
+<li>
+<p><strong>Type</strong> : Alerte de métrique (Azure Monitor).</p>
+</li>
+<li>
+<p><strong>Condition</strong> : Percentage CPU &gt; 80 % sur une période agrégée de 5
+    minutes.</p>
+</li>
+<li>
+<p><strong>(b) Alerte de recherche dans les journaux (KQL)</strong> :</p>
+</li>
+<li>
+<p><strong>Type</strong> : Alerte de journal (Log Analytics).</p>
+</li>
+<li>
+<p><strong>Requête</strong> :</p>
+</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="n">Heartbeat</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="p">&gt;</span><span class="w"> </span><span class="n">ago</span><span class="p">(</span><span class="mi">30</span><span class="n">m</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">LastCall</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">max</span><span class="p">(</span><span class="n">TimeGenerated</span><span class="p">)</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">Computer</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">LastCall</span><span class="w"> </span><span class="p">&lt;</span><span class="w"> </span><span class="n">ago</span><span class="p">(</span><span class="mi">10</span><span class="n">m</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Description du Groupe d'actions</strong></p>
+<p>Le <strong>groupe d'actions</strong> est une ressource Azure essentielle qui définit
+"qui" est notifié et "quoi" est exécuté lorsqu'une alerte est
+déclenchée. Il permet de structurer la réponse opérationnelle de la
+manière suivante :</p>
+<ul>
+<li>
+<p><strong>Notifications</strong> : Envoi d'alertes ciblées aux administrateurs ou
+  aux équipes SOC via différents canaux comme l'e-mail, les SMS, les
+  notifications Push (via l'application Azure), ou des appels vocaux.</p>
+</li>
+<li>
+<p><strong>Actions automatisées (Remédiation)</strong> : Déclenchement automatique de
+  <strong>Runbooks</strong> Azure Automation pour effectuer des tâches correctives
+  sans intervention humaine, comme le redémarrage d'une instance
+  vm-app-01 défaillante, l'isolation réseau d'une machine compromise,
+  ou l'ajustement dynamique de la capacité (autoscaling) en cas de
+  surcharge CPU prolongée.</p>
+</li>
+</ul>
+<p><strong>Question Q4.3 :</strong> Différence entre alerte de <strong>métrique</strong> et alerte de
+<strong>recherche dans les journaux</strong> ? Avantages/inconvénients.</p>
+<p><strong>Réponse à la Question Q4.3 : Métriques vs Journaux</strong></p>
+<p>La différence fondamentale réside dans la <strong>nature de la donnée</strong>
+surveillée et le <strong>temps de traitement</strong>.</p>
+<hr>
+<p><strong>Caractéristique</strong>   <strong>Alerte de Métrique</strong>    <strong>Alerte de recherche
+                                                  (Journaux)</strong></p>
+<hr>
+<p><strong>Type de données</strong>   Numériques (CPU, RAM,     Texte, logs d'événements,
+                        débit réseau).            traces système.</p>
+<p><strong>Granularité</strong>       Très précise, point dans  Basée sur une période
+                        le temps.                 (fenêtre d'ingestion).</p>
+<p><strong>Complexité</strong>        Basée sur des seuils      Basée sur des requêtes KQL
+                        simples.                  complexes.</p>
+<hr>
+<h2 id="6-synthese-reconstituer-lintrusion">6. Synthèse : reconstituer l'intrusion</h2>
+<p>En croisant <strong>toutes</strong> les tables, reconstituez l'attaque subie par
+NovaRetail le 28/05.</p>
+<ol>
+<li><strong>Chronologie</strong> --- établissez la timeline des événements (Signin →
+    Activity → Alert) du compte compromis.</li>
+</ol>
+<hr>
+<p><strong>Heure</strong>     <strong>Événement</strong>      <strong>Détails</strong></p>
+<hr>
+<p><strong>08:05</strong>     Tentative de force Début des échecs de connexion (IP :
+                brute              45.83.220.14).</p>
+<p><strong>09:21</strong>     Succès de          Connexion réussie depuis la même IP
+                connexion          (Compromission initiale).</p>
+<p><strong>09:35</strong>     Escalade de        Attribution de rôle réussie
+                privilèges         (roleAssignments/write) par j.martin.</p>
+<p><strong>~09:40</strong>   Alerte de sécurité Déclenchement de l'alerte Sentinel
+                                   corrélée.</p>
+<hr>
+<ol>
+<li><strong>Hunting</strong> --- écrivez une requête KQL qui relie le <strong>succès
+    d'authentification depuis l'IP malveillante</strong> aux <strong>actions
+    menées</strong> par le même <code>Caller</code> dans <code>AzureActivity</code>.</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="c">// 1. Définir l'IP malveillante détectée</span>
+<span class="n">let</span><span class="w"> </span><span class="n">MaliciousIP</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">"45.83.220.14"</span><span class="p">;</span>
+
+<span class="c">// 2. Identifier le compte compromis qui a réussi à se connecter depuis cette IP</span>
+<span class="n">let</span><span class="w"> </span><span class="n">CompromisedAccount</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">SigninLogs</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">IPAddress</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="n">MaliciousIP</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">ResultType</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="mi">0</span>
+<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">UserPrincipalName</span><span class="p">;</span>
+
+<span class="c">// 3. Rechercher toutes les actions réalisées par ce compte dans AzureActivity</span>
+<span class="n">AzureActivity</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">Caller</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="p">(</span><span class="n">CompromisedAccount</span><span class="p">)</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="n">CallerIpAddress</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="n">MaliciousIP</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="p">,</span><span class="w"> </span><span class="n">Caller</span><span class="p">,</span><span class="w"> </span><span class="n">CallerIpAddress</span><span class="p">,</span><span class="w"> </span><span class="n">OperationNameValue</span><span class="p">,</span><span class="w"> </span><span class="n">ActivityStatusValue</span><span class="p">,</span><span class="w"> </span><span class="n">ResourceGroup</span>
+<span class="p">|</span><span class="w"> </span><span class="k">sort</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="n">asc</span>
+</code></pre></div>
+<ol>
+<li><strong>MITRE</strong> --- mappez la chaîne complète (accès initial → escalade →
+    persistance → collecte).</li>
+</ol>
+<hr>
+<p><strong>Tactique</strong>      <strong>Technique     </strong>Action observée<strong>
+                    (ID)</strong>          </p>
+<hr>
+<p><strong>Accès initial</strong> <strong>T1110</strong>       Tentatives répétées d'authentification
+                    (Brute Force)   sur le compte de j.martin depuis l'IP
+                                    45.83.220.14.</p>
+<p><strong>Escalade de     </strong>T1098.003<strong>   Utilisation des accès compromis pour
+  privilèges</strong>      (Cloud Account  modifier des attributions de rôles Azure
+                    Mod.)           (roleAssignments/write).</p>
+<p><strong>Persistance</strong>   <strong>T1136.003</strong>   Création ou modification de permissions
+                    (Cloud Account) pour maintenir un accès à long terme
+                                    malgré une éventuelle réinitialisation
+                                    du mot de passe.</p>
+<p><strong>Collecte</strong>      <strong>T1537</strong>       (Hypothèse) L'accès aux ressources via
+                    (Transfer Data  les nouveaux privilèges permet
+                    to Cloud)       l'exfiltration ou l'accès aux données
+                                    stockées.</p>
+<hr>
+<ol>
+<li><strong>Remédiation &amp; prévention</strong> --- pour chaque étape, citez : la
+    recommandation Defender qui aurait aidé, la politique Azure / le
+    contrôle RBAC qui aurait prévenu, et la correction Bicep associée.</li>
+</ol>
+<hr>
+<p><strong>Étape de        </strong>Recommandation   <strong>Politique/Contrôle   </strong>Correction Bicep (concept)<strong>
+  l'attaque</strong>      Defender<strong>         RBAC</strong>                 </p>
+<hr>
+<p><strong>Accès initial</strong> Activer MFA        Appliquer une          Microsoft.Authorization/policyAssignments
+                    (Multi-Factor      politique d'accès   <br>
+                    Authentication).   conditionnel (MFA    <br>
+                                       obligatoire).          </p>
+<p><strong>Escalade</strong>      Privileged         Principe du "moindre  Microsoft.Authorization/roleAssignments
+                    Identity           privilège" (retirer <br>
+                    Management (PIM).  Owner/Contributor).    </p>
+<p><strong>Persistance</strong>   Surveillance des   Verrouillage des       Microsoft.Authorization/locks
+                    changements de     ressources           <br>
+                    rôles.             (ResourceLocks).       </p>
+<p><strong>Collecte</strong>      Analyse            Micro-segmentation     Microsoft.Network/networkSecurityGroups
+                    comportementale    réseau (NSG/ASG).    <br>
+                    (UEBA).                                   </p>
+<hr>
+<p><strong>Synthèse : Du SOC à la résilience (15-20 lignes)</strong></p>
+<p>Le cycle de gestion des incidents, illustré par cette étude de cas,
+repose sur une approche proactive et intégrée. <strong>La détection</strong> a débuté
+par l'analyse des logs SigninLogs, révélant une attaque par force
+brute. Cette alerte a déclenché une phase d'<strong>investigation</strong>
+approfondie où la corrélation entre les échecs d'authentification et
+l'activité Azure (AzureActivity) a permis de confirmer la compromission
+du compte j.martin et d'identifier un <em>impossible travel</em>. Le passage à
+l'étape de <strong>remédiation</strong> s'est traduit par la neutralisation de la
+menace (révocation de sessions, blocage de l'IP et suppression des
+rôles illégitimes).</p>
+<p>Toutefois, la sécurité ne peut se limiter à la réaction ; elle exige une
+<strong>prévention</strong> structurelle. Pour éviter la répétition de tels
+scénarios, nous recommandons le déploiement systématique de
+l'authentification multifacteur (MFA) via des politiques d'accès
+conditionnel, qui aurait bloqué l'accès initial malgré la découverte du
+mot de passe. De plus, l'utilisation de <em>Privileged Identity
+Management</em> (PIM) et la mise en œuvre du principe du moindre privilège
+via RBAC limitent drastiquement l'impact d'une escalade de privilèges
+en cas de compte compromis. Enfin, l'automatisation de
+l'infrastructure via le code (Bicep) garantit que les contrôles de
+sécurité, tels que les verrous de ressources (ResourceLocks) ou les
+politiques de conformité, sont appliqués de manière uniforme et
+auditable dès le déploiement. En bouclant cette boucle de rétroaction
+--- de la détection à l'amélioration continue des politiques ---
+l'organisation passe d'une posture défensive subie à une résilience
+architecturale robuste, capable d'anticiper et de neutraliser les
+vecteurs d'attaque modernes avant qu'ils ne deviennent des incidents
+majeurs.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.expand", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>

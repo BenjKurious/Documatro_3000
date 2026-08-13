@@ -40,10 +40,6 @@ Le nom et les colonnes de chaque table :
 
 ![](./images/media/image7.png)
 
-Module 1 -- Gouvernance : Bicep, Policy, RBAC
-
-1.1 -- Audit du template Bicep
-
 Dans un premier temps on ouvre le fichier à l'aide de la commande
 suivante :
 
@@ -383,7 +379,7 @@ gouvernance intégrés :
     spécifique pour chaque cadre ajouté, en identifiant les contrôles
     réussis et ceux nécessitant une remédiation.
 
-## Module 3 - Détection KQL avec Microsoft Sentinel
+## 3. Détection KQL avec Microsoft Sentinel
 
 ### 3.1 - Fondamentaux KQL
 
@@ -584,9 +580,9 @@ sécurité (SecOps) :
   "Playbooks" pour exécuter ces actions instantanément, réduisant
   ainsi le temps de réponse (MTTR - *Mean Time To Respond*).
 
-## 5. Azure Monitor & Log Analytics
+## 4. Azure Monitor & Log Analytics
 
-### 5.1 --- Disponibilité des hôtes
+### 4.1 --- Disponibilité des hôtes
 
 1.  Écrivez une requête KQL sur `Heartbeat` donnant la **dernière
     vue** de chaque machine, et signalant celles silencieuses depuis
@@ -608,7 +604,7 @@ DerniereVue)
 
 ![](./images/media/image33.png)
 
-### 5.2 --- Performance & visualisation
+### 4.2 --- Performance & visualisation
 
 3.  Écrivez une requête KQL sur `Perf` (`% Processor Time`) agrégée
     par tranche de 15 min et par machine, avec `render timechart`.
@@ -645,7 +641,7 @@ la machine vm-web-01 présente un pic de surcharge significatif
   visuellement les pics de charge et les anomalies de performance sur
   une période donnée.
 
-### 5.3 Conception d'alertes
+### 4.3 Conception d'alertes
 
 4.  Concevez **deux alertes** : (a) une alerte **de métrique** CPU > 80
     % ; (b) une alerte **de recherche dans les journaux** (KQL) sur
@@ -713,7 +709,7 @@ surveillée et le **temps de traitement**.
                         simples.                  complexes.
   ----------------------------------------------------------------------------
 
-## 6. Synthèse : reconstituer l'intrusion
+## 5. Synthèse : reconstituer l'intrusion
 
 En croisant **toutes** les tables, reconstituez l'attaque subie par
 NovaRetail le 28/05.
