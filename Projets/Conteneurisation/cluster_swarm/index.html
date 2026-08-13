@@ -1,0 +1,2309 @@
+<!DOCTYPE html><html lang="en" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="Benjamin">
+      
+      
+        <link rel="canonical" href="https://benjkurious.github.io/Documatro_3000/Projets/Conteneurisation/cluster_swarm/">
+      
+      
+        <link rel="prev" href="../../Supervision_SOC/projet_siem/">
+      
+      
+        <link rel="next" href="../../Automatisation/docker_tech_stack/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Sécurisation &amp; Orchestration d'un Cluster Docker Swarm - Documatro 3000</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <link href="../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#deploiement-securisation-dun-cluster-docker-swarm" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Documatro 3000" class="md-header__button md-logo" aria-label="Documatro 3000" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Documatro 3000
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Sécurisation &amp; Orchestration d'un Cluster Docker Swarm
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="cyan" aria-label="Mode clair" type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Mode clair" for="__palette_1" hidden="">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="cyan" aria-label="Mode sombre" type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Mode sombre" for="__palette_0" hidden="">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required="">
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix="">
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Documatro 3000" class="md-nav__button md-logo" aria-label="Documatro 3000" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+
+    </a>
+    Documatro 3000
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix="">
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Accueil
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2">
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OverTheWire
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    OverTheWire
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_1">
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bandit
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Bandit
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../bandit/intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Intro
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../bandit/bandit0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bandit 0
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../bandit/bandit1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bandit 1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../bandit/bandit2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bandit 2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../bandit/bandit3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bandit 3
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3">
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Presentation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Presentation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Presentation/CV/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CV
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked="">
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Projets
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Projets
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_1">
+        
+          
+          <label class="md-nav__link" for="__nav_4_1" id="__nav_4_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows Server
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Windows Server
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Windows_Server/tp_ad_gpo_hardened/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Audit et Sécurisation d'une infrastructure Windows Server (AD + GPO)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_2">
+        
+          
+          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linux
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Linux
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Linux/audit_linux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Rapport d'Audit de sécurisation d'un service linux vulnérable
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_3">
+        
+          
+          <label class="md-nav__link" for="__nav_4_3" id="__nav_4_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Supervision &amp; SOC
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Supervision &amp; SOC
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Supervision_SOC/projet_siem/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Projet SIEM (Splunk) - Déploiement d'un SOC sous Splunk
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" checked="">
+        
+          
+          <label class="md-nav__link" for="__nav_4_4" id="__nav_4_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Conteneurisation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Conteneurisation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sécurisation &amp; Orchestration d'un Cluster Docker Swarm
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sécurisation &amp; Orchestration d'un Cluster Docker Swarm
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#1-introduction-preparation-des-vms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Introduction &amp; Préparation des VMs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Introduction &amp; Préparation des VMs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-creation-des-machines-virtuelles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Création des machines virtuelles :**
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-erreur-amd-vrvi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Erreur AMD-V/RVI :
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-installation-configuration-de-docker-sur-alpine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Installation &amp; Configuration de Docker sur Alpine
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Installation &amp; Configuration de Docker sur Alpine">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-lancement-et-connexion-aux-machines" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Lancement et connexion aux machines
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-installation-et-lancement-de-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Installation et lancement de Docker :
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-ajout-du-compte-sysadmin-dans-le-groupe-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Ajout du compte sysadmin dans le groupe docker
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-renommage-des-hotes-preparation-reseau" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Renommage des Hôtes &amp; Préparation Réseau
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-initialisation-jonction-du-cluster-swarm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Initialisation &amp; Jonction du Cluster Swarm
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Initialisation &amp; Jonction du Cluster Swarm">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-initialisation-du-cluster-swarm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 : Initialisation du cluster SWARM
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-ajouts-de-nos-workers-sur-le-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 : Ajouts de nos workers sur le cluster :
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-deploiement-dun-service-web-replique-nginx" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Déploiement d'un Service Web Répliqué (Nginx)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-supervision-du-cluster-avec-portainer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Supervision du Cluster avec Portainer
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-hardening-securisation-avancee-du-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Hardening &amp; Sécurisation Avancée du Cluster
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Hardening &amp; Sécurisation Avancée du Cluster">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-chiffrement-des-communications-entre-nuds" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 Chiffrement des communications entre nœuds :
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-activation-de-lauto-lock-sur-swarm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 Activation de l'auto-lock sur Swarm :
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73-verification-des-logs-de-docker-pour-detecter-des-anomalies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3 Vérification des logs de Docker pour détecter des anomalies :
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-bilan-synthese-technique" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Bilan &amp; Synthèse Technique
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_5">
+        
+          
+          <label class="md-nav__link" for="__nav_4_5" id="__nav_4_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Automatisation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Automatisation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Automatisation/docker_tech_stack/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Déploiement d'une Stack Applicative avec Terraform &amp; Docker
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_6">
+        
+          
+          <label class="md-nav__link" for="__nav_4_6" id="__nav_4_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cloud
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Cloud
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cloud/audit_detect_Azure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Audit, Durcissement IaC &amp; Détection de Menaces sur Azure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#1-introduction-preparation-des-vms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Introduction &amp; Préparation des VMs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Introduction &amp; Préparation des VMs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-creation-des-machines-virtuelles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Création des machines virtuelles :**
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-erreur-amd-vrvi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Erreur AMD-V/RVI :
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-installation-configuration-de-docker-sur-alpine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Installation &amp; Configuration de Docker sur Alpine
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Installation &amp; Configuration de Docker sur Alpine">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-lancement-et-connexion-aux-machines" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Lancement et connexion aux machines
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-installation-et-lancement-de-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Installation et lancement de Docker :
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-ajout-du-compte-sysadmin-dans-le-groupe-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Ajout du compte sysadmin dans le groupe docker
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-renommage-des-hotes-preparation-reseau" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Renommage des Hôtes &amp; Préparation Réseau
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-initialisation-jonction-du-cluster-swarm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Initialisation &amp; Jonction du Cluster Swarm
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Initialisation &amp; Jonction du Cluster Swarm">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-initialisation-du-cluster-swarm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 : Initialisation du cluster SWARM
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-ajouts-de-nos-workers-sur-le-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 : Ajouts de nos workers sur le cluster :
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-deploiement-dun-service-web-replique-nginx" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Déploiement d'un Service Web Répliqué (Nginx)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-supervision-du-cluster-avec-portainer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Supervision du Cluster avec Portainer
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-hardening-securisation-avancee-du-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Hardening &amp; Sécurisation Avancée du Cluster
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Hardening &amp; Sécurisation Avancée du Cluster">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-chiffrement-des-communications-entre-nuds" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 Chiffrement des communications entre nœuds :
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-activation-de-lauto-lock-sur-swarm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 Activation de l'auto-lock sur Swarm :
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73-verification-des-logs-de-docker-pour-detecter-des-anomalies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3 Vérification des logs de Docker pour détecter des anomalies :
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-bilan-synthese-technique" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Bilan &amp; Synthèse Technique
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="deploiement-securisation-dun-cluster-docker-swarm">Déploiement &amp; Sécurisation d'un Cluster Docker Swarm</h1>
+<div class="admonition info">
+<p class="admonition-title">Contexte du projet (Méthode STAR)</p>
+<ul>
+<li><strong>Situation</strong> : Nécessité de déployer une infrastructure de conteneurs distribuée et hautement disponible, tout en garantissant la sécurité des communications inter-nœuds.</li>
+<li><strong>Tâche</strong> : Monter un cluster Docker Swarm de 3 nœuds (1 Manager, 2 Workers) sous Alpine Linux, déployer des services répliqués, intégrer la supervision avec Portainer et durcir la sécurité.</li>
+<li><strong>Action</strong> : Configuration du réseau overlay chiffré (<code>--opt encrypted</code>), activation du verouillage automatique des clés (<code>--autolock=true</code>), déploiement d'une stack Portainer en YAML et audit du trafic via <code>tcpdump</code>.</li>
+<li><strong>Résultat</strong> : Un cluster opérationnel, supervisé visuellement et protégé contre l'interception de trafic et le vol de clés en mémoire au redémarrage.</li>
+</ul>
+</div>
+<h2 id="1-introduction-preparation-des-vms">1. Introduction &amp; Préparation des VMs</h2>
+<p>Le but de ce TP est de créer un cluster à l'aide de Swarm basé sur
+trois machines alpines Linux.</p>
+<p>Ce rapport détaillera chaque étape de ce TP en commençant par la
+création de nos différentes VM, en passant par l'installation de Docker
+sur nos différentes machines, la création du cluster Swarm et l'ajout
+de nos différents workers, l'installation d'un service sur le cluster
+et en finissant par l'ajout de Portainer dans le cluster et une
+conclusion.</p>
+<p>L'objectif de ce cluster est de pouvoir mieux comprendre le
+fonctionnement d'un cluster (Comment est-ce que l'on peut mettre cela en
+place, comment installer des services sur un cluster ? Comment protéger
+un cluster ?)</p>
+<p>J'ai choisi Swarm car il est plus léger, rapide et simple à déployer,
+contrairement à des solutions plus puissantes mais complexes comme
+Kubernetes.</p>
+<p>Swarm est idéal pour mettre en place un cluster léger avec nos 3
+machines</p>
+<p>J'ai choisi Alpine Linux comme distribution pour mes machines virtuelle
+car c'est une distribution très légère et simple à configurer.</p>
+<p>De plus, Alpine fonctionne très bien avec Docker pour créer des images
+légères et rapides, ce qui en fait un excellent choix pour notre
+cluster.</p>
+<h3 id="11-creation-des-machines-virtuelles">1.1 Création des machines virtuelles :**</h3>
+<p>Dans un premier temps nous allons créer trois machines virtuelles qui
+seront basées sur la distribution Linux alpine</p>
+<p>Pour mettre en place ces machines virtuelles nous avons récupéré une OVA
+(Open Virtual Appliance) de notre formateur M. Franck Soubières.</p>
+<p>L'<strong>OVA</strong> est une version compressée et encapsulée d'un <strong>OVF</strong>. Plutôt
+que d'avoir plusieurs fichiers séparés, tout est regroupé dans un seul
+fichier <strong>.ova</strong> (qui est en fait une simple archive TAR contenant les
+fichiers OVF, VMDK, MF, etc.).</p>
+<p>L'<strong>OVF</strong> est un format standard ouvert pour le packaging et la
+distribution de machines virtuelles. Il permet de décrire la
+configuration d'une machine virtuelle (VM) de manière portable et
+indépendante d'un hyperviseur spécifique (VMware, VirtualBox, Hyper-V,
+etc.)</p>
+<p>Un fichier OVF est en réalité un dossier contenant plusieurs fichiers :</p>
+<ul>
+<li>
+<p><strong>.ovf</strong> : un fichier XML décrivant la configuration de la VM (Mémoire
+  vive, Nombre de CPU, disque, réseau, etc.).</p>
+</li>
+<li>
+<p><strong>.vmdk</strong> : le ou les fichiers contenant l'image du disque dur de la
+  VM.</p>
+</li>
+<li>
+<p><strong>.mf</strong> (Manifest) : contient des checksums (somme de contrôle) pour
+  vérifier l'intégrité des fichiers.</p>
+</li>
+<li>
+<p><strong>.cert</strong> (optionnel) : certificat pour signer l'OVF et garantir son
+  authenticité.</p>
+</li>
+</ul>
+<p>L'hyperviseur utilisé sera le logiciel VMWare Workstation</p>
+<p>Pour créer les machines virtuelles nous allons nous rendre dans notre
+hyperviseur puis utiliser la fonctionnalité ouvrir, à partir de là il
+nous reste plus qu'à sélectionner notre fichier en .ova pour créer la
+machine virtuelle alpine :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image.png" data-desc-position="bottom"><img alt="" src="../images/media/image.png"></a></p>
+<p>Ensuite une nouvelle fenêtre va apparaître nous demandant d'indiquer le
+nom de notre nouvelle machine virtuelle :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image2.png" data-desc-position="bottom"><img alt="" src="../images/media/image2.png"></a></p>
+<p>Ainsi, la machine virtuelle est bien créée :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image3.png" data-desc-position="bottom"><img alt="" src="../images/media/image3.png"></a></p>
+<p>Il ne nous reste plus qu'à créer deux autres machines alpines pour mener
+à bien ce TP, nous allons avoir besoin d'une première machine (Manager)
+et de deux autres machines (Workers) qui seront affiliées à ce manager.</p>
+<p>Notre machine manager est déjà créé, il ne nous reste plus qu'à créer
+nos workers :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image4.png" data-desc-position="bottom"><img alt="" src="../images/media/image4.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image5.png" data-desc-position="bottom"><img alt="" src="../images/media/image5.png"></a></p>
+<p>Ainsi nos trois VM sont ainsi bien créées.</p>
+<h3 id="12-erreur-amd-vrvi">1.2 Erreur AMD-V/RVI :</h3>
+<p>Dans mon cas précis, lorsque je vais essayer de lancer l'une des
+machines virtuelles, je vais obtenir le message d'informations suivant :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image6.png" data-desc-position="bottom"><img alt="" src="../images/media/image6.png"></a></p>
+<p>Ainsi qu'une erreur si je clique sur le bouton yes :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image7.png" data-desc-position="bottom"><img alt="" src="../images/media/image7.png"></a></p>
+<p>Ce problème vient du fait que je possède un processeur AMD sur mon
+ordinateur portable et que la virtualisation imbriquée (<strong>Nested
+Virtualization</strong>) n'est pas prise en charge ou activée sur ma machine.</p>
+<p>Pour pouvoir tout de même lancer mes différentes machines virtuelles, je
+vais me rendre dans les paramètres de mes machines</p>
+<p>Puis, dans la partie processeur, je vais décocher l'option suivante :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image8.png" data-desc-position="bottom"><img alt="" src="../images/media/image8.png"></a></p>
+<p>Ainsi je pourrais tout de même lancer mes VMs au prix d'une moins bonne
+optimisation sur l'hyperviseur</p>
+<h2 id="2-installation-configuration-de-docker-sur-alpine">2. Installation &amp; Configuration de Docker sur Alpine</h2>
+<h3 id="21-lancement-et-connexion-aux-machines">2.1 Lancement et connexion aux machines</h3>
+<p>Après avoir lancé une machine, pour se connecter, on va nous demander un
+nom d'utilisateur ainsi qu'un mot de passe</p>
+<p>Ces données confidentielles sont les suivantes :</p>
+<p>Nom d'utilisateur : "sysadmin"</p>
+<p>Mot de Passe : "5ecuri+Y"</p>
+<p>Après s'être authentifié, le message suivant va s'afficher :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image9.png" data-desc-position="bottom"><img alt="" src="../images/media/image9.png"></a></p>
+<p>Nous pouvons désormais passer à l'installation de Docker</p>
+<h3 id="22-installation-et-lancement-de-docker">2.2 Installation et lancement de Docker :</h3>
+<p>Pour débuter cette étape nous allons écrire la commande <strong>sudo apk
+update</strong> pour mettre à jour la liste des paquets disponible dans les
+dépôts :</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apk<span class="w"> </span>update
+</code></pre></div>
+<p>À noter : apk update ne met pas nos paquets installés à jour, il met
+juste à jour la liste des versions disponible. C'est pour cela que nous
+allons enchaîner avec la commande <strong>sudo apk upgrade</strong> pour mettre à
+jour nos différents paquets installés :</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apk<span class="w"> </span>upgrade
+</code></pre></div>
+<p>Une fois que nous sommes sûr d'avoir nos paquets installés à jour nous
+pouvons passer à l'installation de Docker</p>
+<p>Pour l'installer, on va écrire la commande suivante :</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apk<span class="w"> </span>add<span class="w"> </span>docker
+</code></pre></div>
+<p>Décomposition de la commande :</p>
+<ul>
+<li>
+<p>sudo -&gt;Exécute la commande avec les privilèges admin (sinon,
+  l'installation sera refusée).</p>
+</li>
+<li>
+<p>apk -&gt; Utilise Alpine Package Keeper, le gestionnaire de paquets
+  d'Alpine Linux (équivalent de apt sur Debian ou dnf sur fedora par
+  exemple).</p>
+</li>
+<li>
+<p>add -&gt; Indique qu'on veut installer un paquet.</p>
+</li>
+<li>
+<p>docker -&gt;Nom du paquet à installer<strong>.</strong></p>
+</li>
+</ul>
+<p>La commande va installer Docker ainsi que ses dépendances et elle va
+également configurer certains fichiers nécessaires au bon fonctionnement
+de Docker.</p>
+<p>Pour vérifier que Docker est bien installé sur notre machine on peut
+utiliser la commande <strong>docker --version</strong> :</p>
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>--version
+</code></pre></div>
+<p>Cette commande nous prouve que Docker est bien installé sur notre
+système et affiche également la version de Docker installé.</p>
+<p>Une fois Docker installé, nous allons désormais le démarrer</p>
+<p>Pour démarrer le service Docker, nous allons écrire dans notre terminal
+la commande suivante :</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>rc-service<span class="w"> </span>docker<span class="w"> </span>start
+</code></pre></div>
+<p>Ainsi notre service Docker est bien démarré</p>
+<p>Pour que le service Docker puisse se lancer au démarrage de notre
+système nous allons taper dans le terminal la commande suivante :</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>rc-update<span class="w"> </span>add<span class="w"> </span>docker
+</code></pre></div>
+<p>Pour finir, nous pouvons utiliser la commande <strong>docker info</strong> pour
+obtenir des infos détaillées sur l'installation et la configuration de
+notre docker :</p>
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>info
+</code></pre></div>
+<h3 id="23-ajout-du-compte-sysadmin-dans-le-groupe-docker">2.3 Ajout du compte sysadmin dans le groupe docker</h3>
+<p>L'erreur que nous obtenons dans la partie "<strong>Server</strong>" provient du fait
+que le compte utilisateur que nous utilisons actuellement n'est pas dans
+le groupe docker</p>
+<p>Pour vérifier quel compte nous utilisons actuellement on va taper la
+commande <strong>whoami</strong> qui permet de connaître notre nom d'utilisateur :</p>
+<div class="highlight"><pre><span></span><code>whoami
+</code></pre></div>
+<p>Nous sommes donc connectés en tant que l'utilisateur <strong>sysadmin</strong></p>
+<p>Pour l'ajouter au groupe docker on va taper la commande suivante :</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>addgroup<span class="w"> </span><span class="k">$(</span>sysadmin<span class="k">)</span><span class="w"> </span>docker
+</code></pre></div>
+<p>Malheureusement nous obtenons l'erreur <strong>addgroup : group 'docker' in
+use.</strong> Cela signifie qu'un groupe docker est déjà créé et donc nous ne
+pouvons utiliser cette commande pour ajouter un nouvel utilisateur.</p>
+<p>Nous ne pouvons pas non plus utiliser la commande usermod car elle n'est
+pas disponible sur la distribution alpine.</p>
+<p>Nous allons donc devoir modifier les fichiers de configuration des
+groupes dans un éditeur de texte</p>
+<p>On va taper la commande suivante :</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>nano<span class="w"> </span>/etc/group
+</code></pre></div>
+<p>Pour pouvoir ouvrir le fichier /etc/group dans un éditeur de texte et
+ainsi pouvoir modifier ses propriétés</p>
+<p>Lorsque nous ouvrons le fichier en question, on se retrouve avec un
+fichier contenant tous les groupes présents sur notre système :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image14.png" data-desc-position="bottom"><img alt="" src="../images/media/image14.png"></a></p>
+<p>On va ainsi se rendre tous en bas du fichier dans la partie docker pour
+y ajouter notre utilisateur qui s'appelle <strong>sysadmin :</strong></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image15.png" data-desc-position="bottom"><img alt="" src="../images/media/image15.png"></a></p>
+<p>Il ne reste plus qu'à sauvegarder les changements :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image16.png" data-desc-position="bottom"><img alt="" src="../images/media/image16.png"></a></p>
+<p>Puis, à quitter le fichier :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image17.png" data-desc-position="bottom"><img alt="" src="../images/media/image17.png"></a></p>
+<p>Pour appliquer nos changements, nous allons redémarrer notre machine :</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>reboot<span class="w"> </span>now
+</code></pre></div>
+<p>Pour vérifier que notre utilisateur est désormais bien dans le groupe
+docker nous allons taper la commande groups suivi de notre nom
+d'utilisateur :</p>
+<div class="highlight"><pre><span></span><code>groups<span class="w"> </span>sysadmin
+</code></pre></div>
+<p>Notre utilisateur sysadmin est donc bien désormais présent dans le
+groupe docker. Si nous retapons la commande docker info nous ne devrions
+plus avoir de message d'erreur :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image1a.png" data-desc-position="bottom"><img alt="" src="../images/media/image1a.png"></a></p>
+<p>Nous pouvons exécuter la commande <strong>docker run hello-world</strong> pour être
+sûr que notre Docker fonctionne correctement et que nous pouvons générer
+et utiliser des conteneurs :</p>
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>run<span class="w"> </span>hello-world
+</code></pre></div>
+<p>Ainsi le logiciel Docker est bien installé sur notre machine manager, il
+nous reste plus qu'à faire de même sur les deux machines workers :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image1c.png" data-desc-position="bottom"><img alt="" src="../images/media/image1c.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image1d.png" data-desc-position="bottom"><img alt="" src="../images/media/image1d.png"></a></p>
+<h2 id="3-renommage-des-hotes-preparation-reseau">3. Renommage des Hôtes &amp; Préparation Réseau</h2>
+<p>Avant de mettre en place le cluster et d'y ajouter nos trois machines
+nous allons les renommer, ce qui nous permettra de les distinguer par la
+suite</p>
+<p>Notre machine manager sera ainsi renommée node1 et nos deux autres
+machines seront renommées respectivement node2 et node3.</p>
+<p>Pour faire ceci, on va taper la commande suivante dans le terminal :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image1e.png" data-desc-position="bottom"><img alt="" src="../images/media/image1e.png"></a>
+Pour être sûr que la modification du nom de la machine est permanente,
+nous allons ouvrir le fichier /etc/hostname à l'aide de l'éditeur de
+texte nano :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image1f.png" data-desc-position="bottom"><img alt="" src="../images/media/image1f.png"></a></p>
+<p>Dans ce fichier, nous allons voir le nom de notre machine de base :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image20.png" data-desc-position="bottom"><img alt="" src="../images/media/image20.png"></a></p>
+<p>Que nous allons modifier en :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image21.png" data-desc-position="bottom"><img alt="" src="../images/media/image21.png"></a></p>
+<p>Il ne nous reste plus qu'à sauvegarder et quitter</p>
+<p>Pour finir, il faudra reboot la machine pour être sûr que tous les
+changements ont bien été appliqués :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image22.png" data-desc-position="bottom"><img alt="" src="../images/media/image22.png"></a></p>
+<p>La même chose sera appliquée sur les deux machines workers pour
+différencier chaque machine :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image23.png" data-desc-position="bottom"><img alt="" src="../images/media/image23.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image24.png" data-desc-position="bottom"><img alt="" src="../images/media/image24.png"></a></p>
+<h2 id="4-initialisation-jonction-du-cluster-swarm">4. Initialisation &amp; Jonction du Cluster Swarm</h2>
+<h3 id="41-initialisation-du-cluster-swarm">4.1 : Initialisation du cluster SWARM</h3>
+<p>Pour initialiser Swarm sur notre machine manager nous avons besoin de
+connaître notre adresse IP, c'est pour cela que nous allons utiliser la
+commande <strong>ifconfig :</strong></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image25.png" data-desc-position="bottom"><img alt="" src="../images/media/image25.png"></a></p>
+<p>Nous pouvons voir que l'adresse IP de notre machine manager est
+192.168.1.131</p>
+<p>Nous pouvons maintenant initialiser Swarm sur notre machine manager avec
+la commande suivante 
+docker swarm init --advertise-addr adresse_IP_machine :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image26.png" data-desc-position="bottom"><img alt="" src="../images/media/image26.png"></a></p>
+<p>Ainsi notre cluster Swarm est bien initialisé il nous reste plus qu'à
+rajouter nos workers à l'aide de la commande suivi d'un token qui nous
+est affiché dans le terminal</p>
+<h3 id="42-ajouts-de-nos-workers-sur-le-cluster">4.2 : Ajouts de nos workers sur le cluster :</h3>
+<p>Pour cette étape nous allons nous connecter à l'aide du protocole SSH à
+notre machine manager puis à nos deux machines worker, cela nous
+permettra de copier la commande pour ajouter un worker au cluster puis
+de la coller sur les machines worker sans avoir à taper la commande
+manuellement avec le token, ce qui serait très long et fastidieux</p>
+<p>Pour cette étape, il va nous falloir l'adresse IP de nos deux machines
+worker :</p>
+<p>Adresse IP de notre machine Manager : 192.168.1.131 :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image27.png" data-desc-position="bottom"><img alt="" src="../images/media/image27.png"></a></p>
+<p>Adresse IP de notre machine Worker1 : 192.168.1.132 :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image28.png" data-desc-position="bottom"><img alt="" src="../images/media/image28.png"></a></p>
+<p>Adresse IP de notre machine Worker2 : 192.168.1.133 :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image29.png" data-desc-position="bottom"><img alt="" src="../images/media/image29.png"></a></p>
+<p>Dans le logiciel on va donc taper l'adresse IP de notre machine manager
+:</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image2a.png" data-desc-position="bottom"><img alt="" src="../images/media/image2a.png"></a></p>
+<p>On va accepter la connexion même si la clé hôte est en clair pour le
+serveur :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image2b.png" data-desc-position="bottom"><img alt="" src="../images/media/image2b.png"></a></p>
+<p>Pour se connecter, on va renseigner notre nom d'utilisateur suivi de
+notre mot de passe :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image2c.png" data-desc-position="bottom"><img alt="" src="../images/media/image2c.png"></a></p>
+<p>Ainsi, une connexion en SSH a bien été établie</p>
+<p>Pour afficher de nouveau le token pour ajouter des worker sur notre
+cluster on va taper la commande suivante :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image2d.png" data-desc-position="bottom"><img alt="" src="../images/media/image2d.png"></a></p>
+<p>L'intérêt d'ouvrir une session SSH sur nos différentes machines va être
+de pouvoir copier/coller la commande <strong>docker swarm join</strong> avec le token
+pour rajouter rapidement et facilement nos worker</p>
+<p>Ainsi, les worker1 et 2 ont bien rejoint le cluster :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image2e.png" data-desc-position="bottom"><img alt="" src="../images/media/image2e.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image2f.png" data-desc-position="bottom"><img alt="" src="../images/media/image2f.png"></a></p>
+<p>Pour être sûr que tout fonctionne correctement sur notre cluster et que
+nos deux worker soient bien connectés au cluster, on va utiliser la
+commande docker node ls :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image30.png" data-desc-position="bottom"><img alt="" src="../images/media/image30.png"></a></p>
+<p>Ainsi on peut voir que nos trois machines sont bien connectées entre
+elles à l'aide du cluster, le leader peut être identifié et chaque
+machine est distinguable puisque on a modifié le nom de chaque machine.</p>
+<h2 id="5-deploiement-dun-service-web-replique-nginx">5. Déploiement d'un Service Web Répliqué (Nginx)</h2>
+<p>Dans notre cas nous allons mettre en place le service nginx pour faire
+le test</p>
+<p>On va taper la commande suivante sur la machine manager :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image31.png" data-desc-position="bottom"><img alt="" src="../images/media/image31.png"></a></p>
+<ul>
+<li>
+<p>docker service create : Crée un nouveau service dans Docker Swarm. Un
+  service dans Docker Swarm est une appli qui peut être déployée sur
+  plusieurs nœuds dans le cluster.</p>
+</li>
+<li>
+<p>--name web : Donne le nom du service créé. Ici, le service créé
+  s'appelle web.</p>
+</li>
+<li>
+<p>--replicas 3 : Spécifie le nombre de réplicas (instances) du service
+  que Docker doit exécuter. Dans ce cas, Docker va créer 3 réplicats du
+  service, ce qui signifie 3 conteneurs identiques exécutant le même
+  service Nginx.</p>
+</li>
+<li>
+<p>-p 8080:80 : Lie le port 8080 de la machine hôte (le nœud qui exécute
+  le service) au port 80 du conteneur. Ainsi, chaque fois qu'on va
+  accéder à <strong>http://<adresse-ip-manager****>:8080</adresse-ip-manager****></strong>, alors on
+  accèdera au service Nginx qui s'exécute sur le port 80 dans les
+  conteneurs.</p>
+</li>
+<li>
+<p><strong>nginx</strong> : Il s'agit de l'image Docker à utiliser pour créer les
+  conteneurs du service. Dans ce cas, l'image Nginx est utilisée pour
+  exécuter un serveur web Nginx dans chaque réplique du service.</p>
+</li>
+</ul>
+<p>On va ensuite vérifier que les services tournent :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image32.png" data-desc-position="bottom"><img alt="" src="../images/media/image32.png"></a></p>
+<p>Ainsi que les conteneurs :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image33.png" data-desc-position="bottom"><img alt="" src="../images/media/image33.png"></a></p>
+<p>Nous allons tester le bon fonctionnement de Nginx en accédant à
+l'adresse http://192.168.1.131:8000.</p>
+<p>Ainsi lorsqu'on se connecte sur l'URL indiquée plus haut sur notre
+navigateur on arrive sur la page par défaut de Nginx, le service est
+donc bien installé :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image34.png" data-desc-position="bottom"><img alt="" src="../images/media/image34.png"></a></p>
+<p>Il est également possible de prouver le bon fonctionnement du service à
+l'aide de la commande curl
+<strong><a href="http://192.168.1.129/8000">http://192.168.1.129:8000</a></strong> :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image35.png" data-desc-position="bottom"><img alt="" src="../images/media/image35.png"></a></p>
+<h2 id="6-supervision-du-cluster-avec-portainer">6. Supervision du Cluster avec Portainer</h2>
+<p>Pour finir la mise en place de notre cluster, nous allons utiliser
+Portainer pour avoir une vue globale sur notre infrastructure.</p>
+<p>Pour faire ceci, sur notre machine manageur nous allons créer un nouveau
+fichier qui s'appellera docker-compose.yml et nous allons l'ouvrir à
+l'aide de l'éditeur de texte nano :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image36.png" data-desc-position="bottom"><img alt="" src="../images/media/image36.png"></a></p>
+<p>Dans ce fichier fraichement crée nous allons ajouter le contenu suivant
+:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">'3.8'</span>
+<span class="nt">services</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">portainer</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">portainer/portainer-ce:latest</span>
+<span class="w">    </span><span class="nt">volumes</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/var/run/docker.sock:/var/run/docker.sock</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">portainer_data:/data</span>
+<span class="w">    </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">9000:9000</span>
+<span class="w">    </span><span class="nt">deploy</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">      </span><span class="nt">placement</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">constraints</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">node.role == manager</span>
+<span class="nt">volumes</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">portainer_data</span><span class="p">:</span>
+</code></pre></div>
+<p><strong>Explication du fichier :</strong></p>
+<ul>
+<li>
+<p>version: '3.8' : Spécifie la version de Docker Compose utilisée.</p>
+</li>
+<li>
+<p>services : Définit les services qu'on souhaite déployer. Ici, ce sera
+  Portainer.</p>
+</li>
+<li>
+<p>portainer : C'est le nom du service. Ici ce sera l'application
+  Portainer.</p>
+</li>
+<li>
+<p>image : Spécifie l'image Docker à utiliser. Ici, on utilise l'image
+  officielle de Portainer.</p>
+</li>
+<li>
+<p>volumes : Monte le socket Docker (/var/run/docker.sock) afin que
+  Portainer puisse interagir avec le Docker de notre nœud. Le volume
+  portainer_data est également utilisé pour stocker les données de
+  Portainer.</p>
+</li>
+<li>
+<p>ports : Le port 9000 est mappé pour accéder à l'interface graphique
+  de Portainer.</p>
+</li>
+<li>
+<p>deploy : Spécifie les options de déploiement dans Docker Swarm, comme
+  le nombre de répliques et où le service doit être déployé (ici sur un
+  nœud manager).</p>
+</li>
+</ul>
+<p>Il ne nous reste plus qu'à sauvegarder et à quitter le fichier</p>
+<p>Pour finir, nous allons déployer Portainer à l'aide de la commande
+suivante :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image38.png" data-desc-position="bottom"><img alt="" src="../images/media/image38.png"></a></p>
+<p>Désormais il ne nous reste plus qu'à accéder à portainer à l'aide de
+l'adresse suivante : http://192.168.1.131:9000</p>
+<p>Nous allons arriver sur la page de connexion qui va nous demander de
+créer un utilisateur admin et d'y ajouter un nouveau mot de passe puis
+de le confirmer :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image39.png" data-desc-position="bottom"><img alt="" src="../images/media/image39.png"></a></p>
+<p>Sur portainer nous allons avoir une interface avec de nombreuses options
+de personnalisation concernant les utilisateurs ou l'environnement, par
+exemple :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image3a.png" data-desc-position="bottom"><img alt="" src="../images/media/image3a.png"></a></p>
+<p>Justement, dans la partie Environnement on peut voir que notre cluster
+est bien détecté :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image3b.png" data-desc-position="bottom"><img alt="" src="../images/media/image3b.png"></a></p>
+<p>On peut y retrouver nos conteneurs :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image3c.png" data-desc-position="bottom"><img alt="" src="../images/media/image3c.png"></a></p>
+<p>Nos stacks :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image3d.png" data-desc-position="bottom"><img alt="" src="../images/media/image3d.png"></a></p>
+<p>Nos services :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image3e.png" data-desc-position="bottom"><img alt="" src="../images/media/image3e.png"></a></p>
+<p>Nos images :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image3f.png" data-desc-position="bottom"><img alt="" src="../images/media/image3f.png"></a></p>
+<p>Nos volumes :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image40.png" data-desc-position="bottom"><img alt="" src="../images/media/image40.png"></a></p>
+<p>Et nos réseaux :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image41.png" data-desc-position="bottom"><img alt="" src="../images/media/image41.png"></a></p>
+<p>Pour finir dans la partie Swarm on peut voir nos différents nœuds
+présent dans le cluster :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image42.png" data-desc-position="bottom"><img alt="" src="../images/media/image42.png"></a></p>
+<p>Pour finir voici une représentation graphique de notre cluster :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image43.png" data-desc-position="bottom"><img alt="" src="../images/media/image43.png"></a></p>
+<h2 id="7-hardening-securisation-avancee-du-cluster">7. Hardening &amp; Sécurisation Avancée du Cluster</h2>
+<p>Plusieurs améliorations peuvent être mis en place sur notre cluster
+notamment au niveau de la sécurité</p>
+<h3 id="71-chiffrement-des-communications-entre-nuds">7.1 Chiffrement des communications entre nœuds :</h3>
+<p>Pour faire ceci on va taper la commande suivante :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image44.png" data-desc-position="bottom"><img alt="" src="../images/media/image44.png"></a></p>
+<p>Cette commande va permettre de créer un nouveau réseau docker de type
+overlay avec un chiffrement de communication entre les différents nœuds
+du cluster Swarm.</p>
+<p>Désormais pour vérifier si le chiffrement des communications est bien
+actif nous allons utiliser l'outil tcpdump</p>
+<p>Après avoir installé l'outil sur nos worker nous allons taper la
+commande suivante :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image45.png" data-desc-position="bottom"><img alt="" src="../images/media/image45.png"></a></p>
+<p>Explication des ports :</p>
+<ul>
+<li>
+<p>2377 -&gt; Port utilisé par Swarm pour le contrôle du cluster.</p>
+</li>
+<li>
+<p>7946 -&gt; Port utilisé pour la découverte des nœuds et la communication
+  entre eux.</p>
+</li>
+<li>
+<p>4789 -&gt; Port utilisé pour le trafic overlay des services Docker
+  Swarm.</p>
+</li>
+</ul>
+<p>Cette commande va permettre d'écouter les paquets en transit sur le
+réseau Swarm</p>
+<p>Voici ce que nous allons obtenir à l'aide de la commande :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image46.png" data-desc-position="bottom"><img alt="" src="../images/media/image46.png"></a></p>
+<p>Comme nous pouvons le constater, les valeurs affichées sont en
+hexadécimal et illisibles, ce qui prouve que le chiffrement est bien
+actif.</p>
+<p>Normalement, sans chiffrement, nous devrions voir des requêtes HTTP en
+clair. Ici, le chiffrement fonctionne correctement.</p>
+<h3 id="72-activation-de-lauto-lock-sur-swarm">7.2 Activation de l'auto-lock sur Swarm :</h3>
+<p>L'auto-lock va obliger l'administrateur à déverrouiller manuellement les
+nœuds manager après un redémarrage</p>
+<p>Pourquoi mettre en place ce dispositif de sécurité ? :</p>
+<ul>
+<li>
+<p>Par défaut, Swarm stocke ses clés de chiffrement dans la Mémoire vive
+  du manager.</p>
+</li>
+<li>
+<p>Si le manager redémarre, les clés sont automatiquement rechargées, ce
+  qui peut être un risque de sécurité.</p>
+</li>
+<li>
+<p>Avec --autolock=true, Swarm exige une intervention manuelle pour
+  déverrouiller le cluster après un redémarrage.</p>
+</li>
+</ul>
+<p>Pour mettre en place l'option auto-lock on va taper la commande suivante
+:</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image47.png" data-desc-position="bottom"><img alt="" src="../images/media/image47.png"></a></p>
+<p>Voici ce que la commande va retourner :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image48.png" data-desc-position="bottom"><img alt="" src="../images/media/image48.png"></a></p>
+<p>Ainsi la clé de déverrouillage nous est affichée il faudra donc bien la
+conserver pour le prochain redémarrage</p>
+<p>De la même manière si on tape la commande suivante :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image49.png" data-desc-position="bottom"><img alt="" src="../images/media/image49.png"></a></p>
+<p>On obtient également la clé de déverrouillage</p>
+<p>Pour tester notre nouvelle mesure de sécurité on va redémarrer notre
+machine manager en prenant bien soin de conserver notre clé de
+déverrouillage</p>
+<p>Lorsque je vais taper la commande docker swarm unlock-key pour afficher
+ma clé de déverrouillage je vais obtenir le message suivant :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image4a.png" data-desc-position="bottom"><img alt="" src="../images/media/image4a.png"></a></p>
+<p>Pour débloquer ma machine manager je vais taper la commande suivante :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image4b.png" data-desc-position="bottom"><img alt="" src="../images/media/image4b.png"></a></p>
+<p>Puis ici je vais rentrer ma clé :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image4c.png" data-desc-position="bottom"><img alt="" src="../images/media/image4c.png"></a></p>
+<p>Ainsi, mon nœud manager est bien déverrouillé.</p>
+<h3 id="73-verification-des-logs-de-docker-pour-detecter-des-anomalies">7.3 Vérification des logs de Docker pour détecter des anomalies :</h3>
+<p>Sur Alpine Linux, nous allons utiliser docker logs ou lire
+/var/log/docker.log pour lire nos fichiers de logs et voir les erreurs
+éventuelles.</p>
+<p>Par exemple nous allons lire les logs de notre service Nginx :</p>
+<p>Pour cela nous allons vérifier nos conteneurs en cours de démarrage à
+l'aide de la commande docker ps :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image4d.png" data-desc-position="bottom"><img alt="" src="../images/media/image4d.png"></a></p>
+<p>Pour donner suite à cela nous allons taper la commande docker logs suivi
+de l'ID de notre conteneur :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image4e.png" data-desc-position="bottom"><img alt="" src="../images/media/image4e.png"></a></p>
+<p>Voici ce que nous obtenons comme résultat :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image4f.png" data-desc-position="bottom"><img alt="" src="../images/media/image4f.png"></a></p>
+<p>Nous n'avons pas d'erreur ou de possible intrusion dans les logs de
+notre service Nginx</p>
+<h2 id="8-bilan-synthese-technique">8. Bilan &amp; Synthèse Technique</h2>
+<p>Ainsi nous avons pu mettre en place un cluster avec l'outil
+d'orchestration Swarm à l'aide de trois machines alpines.</p>
+<p>Sur ces trois machines nous avons installé docker puis nous l'avons
+testé en utilisant l'image hello-world</p>
+<p>Nous avons ensuite initialisé Swarm sur la machine manager, ce qui a
+généré une commande permettant aux machines worker de rejoindre le
+cluster.</p>
+<p>Une fois le cluster mis en place et les trois machines connectées, nous
+avons installé le service Nginx pour illustrer le déploiement d'une
+application sur Swarm.</p>
+<p>Enfin, nous avons ajouté Portainer pour superviser plus facilement notre
+cluster.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.expand", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>
