@@ -7,31 +7,31 @@
         <meta name="author" content="Benjamin">
       
       
-        <link rel="canonical" href="https://benjkurious.github.io/Documatro_3000/bandit/bandit1/">
+        <link rel="canonical" href="https://benjkurious.github.io/Documatro_3000/Projets/Automatisation/terraform_ha_proxmox/">
       
       
-        <link rel="prev" href="../bandit0/">
+        <link rel="prev" href="../terraform_on_proxmox/">
       
       
-        <link rel="next" href="../bandit2/">
+        <link rel="next" href="../../Cloud/audit_detect_Azure/">
       
       
         
       
       
-      <link rel="icon" href="../../assets/images/favicon.png">
+      <link rel="icon" href="../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
-        <title>Bandit 1 - Documatro 3000</title>
+        <title>Haute Disponibilité sur Proxmox - Documatro 3000</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -50,13 +50,13 @@
       
     
     
-    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
     
     
-  <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+  <link href="../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
             html.glightbox-open { overflow: initial; height: 100%; }
             .gslide-title { margin-top: 0px; user-select: text; }
             .gslide-desc { color: #666; user-select: text; }
@@ -84,6 +84,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#tp-haute-disponibilite-sur-proxmox" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -96,7 +101,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="Documatro 3000" class="md-header__button md-logo" aria-label="Documatro 3000" data-md-component="logo">
+    <a href="../../.." title="Documatro 3000" class="md-header__button md-logo" aria-label="Documatro 3000" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
@@ -116,7 +121,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Bandit 1
+              Haute Disponibilité sur Proxmox
             
           </span>
         </div>
@@ -220,7 +225,7 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="Documatro 3000" class="md-nav__button md-logo" aria-label="Documatro 3000" data-md-component="logo">
+    <a href="../../.." title="Documatro 3000" class="md-nav__button md-logo" aria-label="Documatro 3000" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
@@ -238,7 +243,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../.." class="md-nav__link">
+      <a href="../../.." class="md-nav__link">
         
   
   
@@ -262,20 +267,20 @@
       
   
   
-    
   
   
-  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked="">
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2">
         
           
           <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
@@ -296,7 +301,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             
@@ -311,20 +316,20 @@
                 
   
   
-    
   
   
-  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" checked="">
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_1">
         
           
           <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
@@ -345,7 +350,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2_1">
             <span class="md-nav__icon md-icon"></span>
             
@@ -363,7 +368,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../intro/" class="md-nav__link">
+      <a href="../../../bandit/intro/" class="md-nav__link">
         
   
   
@@ -391,7 +396,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../bandit0/" class="md-nav__link">
+      <a href="../../../bandit/bandit0/" class="md-nav__link">
         
   
   
@@ -416,17 +421,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../../bandit/bandit1/" class="md-nav__link">
         
   
   
@@ -442,7 +440,6 @@
   
 
       </a>
-      
     </li>
   
 
@@ -455,7 +452,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../bandit2/" class="md-nav__link">
+      <a href="../../../bandit/bandit2/" class="md-nav__link">
         
   
   
@@ -483,7 +480,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../bandit3/" class="md-nav__link">
+      <a href="../../../bandit/bandit3/" class="md-nav__link">
         
   
   
@@ -575,7 +572,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Presentation/CV/" class="md-nav__link">
+      <a href="../../../Presentation/CV/" class="md-nav__link">
         
   
   
@@ -607,20 +604,20 @@
       
   
   
+    
   
   
+  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4">
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked="">
         
           
           <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
@@ -641,7 +638,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             
@@ -708,7 +705,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Projets/Windows_Server/tp_ad_gpo_hardened/" class="md-nav__link">
+      <a href="../../Windows_Server/tp_ad_gpo_hardened/" class="md-nav__link">
         
   
   
@@ -793,7 +790,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Projets/Linux/audit_linux/" class="md-nav__link">
+      <a href="../../Linux/audit_linux/" class="md-nav__link">
         
   
   
@@ -878,7 +875,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Projets/Supervision_SOC/projet_siem/" class="md-nav__link">
+      <a href="../../Supervision_SOC/projet_siem/" class="md-nav__link">
         
   
   
@@ -963,7 +960,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Projets/Conteneurisation/cluster_swarm/" class="md-nav__link">
+      <a href="../../Conteneurisation/cluster_swarm/" class="md-nav__link">
         
   
   
@@ -996,20 +993,20 @@
                 
   
   
+    
   
   
+  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_5">
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_5" checked="">
         
           
           <label class="md-nav__link" for="__nav_4_5" id="__nav_4_5_label" tabindex="0">
@@ -1030,7 +1027,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_5_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_5_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_4_5">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1048,7 +1045,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Projets/Automatisation/docker_tech_stack/" class="md-nav__link">
+      <a href="../docker_tech_stack/" class="md-nav__link">
         
   
   
@@ -1076,7 +1073,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Projets/Automatisation/terraform_on_proxmox/" class="md-nav__link">
+      <a href="../terraform_on_proxmox/" class="md-nav__link">
         
   
   
@@ -1101,10 +1098,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../Projets/Automatisation/terraform_ha_proxmox/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Haute Disponibilité sur Proxmox
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1120,6 +1144,154 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#1-mise-en-place-du-cluster-proxmox" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Mise en place du cluster Proxmox
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Mise en place du cluster Proxmox">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-creation-de-la-grappe-de-serveurs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Création de la grappe de serveurs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-integration-des-nuds-secondaires" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Intégration des nœuds secondaires
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#14-installation-et-configuration-de-ceph" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4 Installation et configuration de Ceph
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.4 Installation et configuration de Ceph">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#15-ajout-dun-disque-virtuel-et-creation-des-osd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.5 Ajout d'un disque virtuel et création des OSD
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#17-ajout-de-moniteurs-mon-sur-les-nuds-2-et-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.7 Ajout de moniteurs (MON) sur les nœuds 2 et 3
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#18-integration-du-pool-dans-proxmox-stockage-rbd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.8 Intégration du Pool dans Proxmox (Stockage RBD)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#19-creation-et-configuration-dune-vm-pour-la-haute-disponibilite" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.9 Création et configuration d'une VM pour la Haute Disponibilité
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-mise-en-place-de-la-haute-disponibilite-ha-et-test-de-panne" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Mise en place de la Haute Disponibilité (HA) et test de panne
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Mise en place de la Haute Disponibilité (HA) et test de panne">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-simulation-de-panne-failover" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Simulation de panne (Failover)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1189,7 +1361,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Projets/Cloud/audit_detect_Azure/" class="md-nav__link">
+      <a href="../../Cloud/audit_detect_Azure/" class="md-nav__link">
         
   
   
@@ -1217,7 +1389,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Projets/Cloud/terraform_on_azure/" class="md-nav__link">
+      <a href="../../Cloud/terraform_on_azure/" class="md-nav__link">
         
   
   
@@ -1270,6 +1442,144 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#1-mise-en-place-du-cluster-proxmox" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Mise en place du cluster Proxmox
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Mise en place du cluster Proxmox">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-creation-de-la-grappe-de-serveurs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Création de la grappe de serveurs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-integration-des-nuds-secondaires" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Intégration des nœuds secondaires
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#14-installation-et-configuration-de-ceph" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4 Installation et configuration de Ceph
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.4 Installation et configuration de Ceph">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#15-ajout-dun-disque-virtuel-et-creation-des-osd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.5 Ajout d'un disque virtuel et création des OSD
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#17-ajout-de-moniteurs-mon-sur-les-nuds-2-et-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.7 Ajout de moniteurs (MON) sur les nœuds 2 et 3
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#18-integration-du-pool-dans-proxmox-stockage-rbd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.8 Intégration du Pool dans Proxmox (Stockage RBD)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#19-creation-et-configuration-dune-vm-pour-la-haute-disponibilite" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.9 Création et configuration d'une VM pour la Haute Disponibilité
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-mise-en-place-de-la-haute-disponibilite-ha-et-test-de-panne" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Mise en place de la Haute Disponibilité (HA) et test de panne
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Mise en place de la Haute Disponibilité (HA) et test de panne">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-simulation-de-panne-failover" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Simulation de panne (Failover)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -1286,21 +1596,80 @@
 
 
 
-  <h1>Bandit 1</h1>
-
-<p>Nous sommes désormais connectés sur notre domaine distant, le problème étant, comment interagir avec ce domaine ? Quelle commande utiliser, que faire tout simplement ?
-La description du niveau nous explique que dans notre dossier perso du niveau, il existe un fichier qui s'appelle readme. Ce fichier contient le mot de passe qui nous permettra d'accéder au niveau suivant</p>
-<p>Comme je l'ai expliqué pour le niveau bandit0, il faut absolument créer un fichier pour prendre des notes sur la résolution des niveaux et noter les mots de passe puisqu'ils ne sont pas sauvegardés automatiquement, sinon on encourt la perte de notre progression</p>
-<p>La logique pour les prochains niveaux va être toujours quasiment la même, on doit trouver le pass du niveau à l'aide de la description, ce pass nous permettra d'accéder au niveau suivant et ainsi de suite, il est tout de même à noter que par la suite cette logique va être bafouée.</p>
-<p>Tout d'abord, pour vérifier où se trouve le fichier readme on peut utiliser la commande ls
-ls qui est un diminutif pour list est une commande qui permet de voir le contenu de notre répertoire courant si on ne lui donne pas d'option. 
-On verra par la suite qu'on peut voir le contenu d'un dossier précis, voir les permissions et les propriétaires des fichiers ou même voir des fichiers invisibles</p>
-<p>En faisant un simple ls, on constate qu'un seul fichier est présent dans notre répertoire courant : readme
-<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/bandit1_1.png" data-desc-position="bottom"><img alt="alt text" src="../images/bandit1_1.png"></a></p>
-<p>Pour lire le contenu de ls il y a plusieurs manière de faire comme nano, vim mais pour rester dans la simplicité il faut simplement utiliser la commande cat comme ceci : 
-<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/bandit1_2.png" data-desc-position="bottom"><img alt="alt text" src="../images/bandit1_2.png"></a></p>
-<p>Cat qui est un diminutif de concatenate est une commande qui affiche le contenu d'un fichier dans le terminal, c'est parfait pour notre cas d'utilisation actuel mais on verra qu'il atteindra vite ses limites pour des fichiers conséquents.</p>
-<p>Le pass est ainsi obtenu, lors de la connexion au prochain niveau il n'y aura plus qu'à le renseigner.</p>
+<h1 id="tp-haute-disponibilite-sur-proxmox">TP : Haute Disponibilité sur Proxmox</h1>
+<div class="admonition info">
+<p class="admonition-title">Contexte du projet (Méthode STAR)</p>
+<ul>
+<li><strong>Situation</strong> : Nécessité de garantir la continuité de service et la résilience d'une infrastructure virtualisée face à la panne d'un hyperviseur.</li>
+<li><strong>Tâche</strong> : Mettre en place un cluster Proxmox à 3 nœuds, configurer un stockage partagé distribué avec <strong>Ceph</strong>, et activer la Haute Disponibilité (HA) sur une machine virtuelle.</li>
+<li><strong>Action</strong> : Création de la grappe de serveurs, ajout et jonction des nœuds secondaires, installation de Ceph et configuration des OSD avec ajout de disques virtuels dédiés, paramétrage des moniteurs, création d'un pool RBD résilient, et test de bascule (faille) par extinction forcée d'un nœud.</li>
+<li><strong>Résultat</strong> : Un cluster hautement disponible où la VM critique est automatiquement redémarrée et prise en charge par un autre nœud en cas de panne matérielle.</li>
+</ul>
+</div>
+<h2 id="1-mise-en-place-du-cluster-proxmox">1. Mise en place du cluster Proxmox</h2>
+<h3 id="11-creation-de-la-grappe-de-serveurs">1.1 Création de la grappe de serveurs</h3>
+<p>Après avoir installé notre machine Proxmox principale (<code>pve</code>) sur l'hyperviseur VMware Workstation, nous accédons à l'interface web d'administration. Pour créer le cluster, il faut se rendre dans le <strong>Centre de données</strong> &gt; <strong>Grappe de serveurs</strong> &gt; <strong>Créer une grappe de serveurs</strong>.</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images_thaprox/media/image2.png" data-desc-position="bottom"><img alt="" src="../images_thaprox/media/image2.png"></a></p>
+<p>On nomme le cluster "Cluster" en conservant l'adresse IP par défaut.</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images_thaprox/media/image3.png" data-desc-position="bottom"><img alt="" src="../images_thaprox/media/image3.png"></a></p>
+<p>La grappe de serveurs est désormais opérationnelle.</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images_thaprox/media/image4.png" data-desc-position="bottom"><img alt="" src="../images_thaprox/media/image4.png"></a></p>
+<h3 id="12-integration-des-nuds-secondaires">1.2 Intégration des nœuds secondaires</h3>
+<p>Pour obtenir un quorum bien équilibré et fonctionnel, un cluster de Haute Disponibilité requiert au moins 3 nœuds. Deux autres instances de Proxmox ont donc été déployées sur l'hyperviseur.</p>
+<p>Depuis le premier nœud, on récupère les informations de jonction du cluster.</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images_thaprox/media/image5.png" data-desc-position="bottom"><img alt="" src="../images_thaprox/media/image5.png"></a></p>
+<p>En se connectant au second nœud, on renseigne les informations du cluster ainsi que le mot de passe du nœud primaire pour l'y intégrer.</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/image6.png" data-desc-position="bottom"><img alt="" src="./images/media/image6.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images_thaprox/media/image7.png" data-desc-position="bottom"><img alt="" src="../images_thaprox/media/image7.png"></a></p>
+<p>La même opération est réalisée pour le troisième nœud. Les trois machines font désormais partie du même cluster.</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images_thaprox/media/image8.png" data-desc-position="bottom"><img alt="" src="../images_thaprox/media/image8.png"></a></p>
+<hr>
+<h2 id="14-installation-et-configuration-de-ceph">1.4 Installation et configuration de Ceph</h2>
+<p>Pour configurer le stockage distribué, nous passons par l'onglet <strong>Ceph</strong> pour lancer l'installation.</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images_thaprox/media/image9.png" data-desc-position="bottom"><img alt="" src="../images_thaprox/media/image9.png"></a></p>
+<p>On sélectionne la dernière version de Ceph sans abonnement.</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images_thaprox/media/imagea.png" data-desc-position="bottom"><img alt="" src="../images_thaprox/media/imagea.png"></a></p>
+<p>Une fois l'installation des composants terminée sur les trois nœuds :</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images_thaprox/media/imagec.png" data-desc-position="bottom"><img alt="" src="../images_thaprox/media/imagec.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images_thaprox/media/imaged.png" data-desc-position="bottom"><img alt="" src="../images_thaprox/media/imaged.png"></a></p>
+<h3 id="15-ajout-dun-disque-virtuel-et-creation-des-osd">1.5 Ajout d'un disque virtuel et création des OSD</h3>
+<p>Avant de configurer les OSD (Object Storage Daemon), chaque nœud doit disposer d'un disque virtuel supplémentaire non utilisé, configuré depuis VMware Workstation.</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images_thaprox/media/image10.png" data-desc-position="bottom"><img alt="" src="../images_thaprox/media/image10.png"></a></p>
+<p>On procède ensuite à la création des OSD en sélectionnant le disque non utilisé pour chaque nœud.</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images_thaprox/media/image12.png" data-desc-position="bottom"><img alt="" src="../images_thaprox/media/image12.png"></a></p>
+<p>Une fois configurés sur les trois nœuds, le stockage distribué est en place.</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images_thaprox/media/image13.png" data-desc-position="bottom"><img alt="" src="../images_thaprox/media/image13.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images_thaprox/media/image14.png" data-desc-position="bottom"><img alt="" src="../images_thaprox/media/image14.png"></a></p>
+<h3 id="17-ajout-de-moniteurs-mon-sur-les-nuds-2-et-3">1.7 Ajout de moniteurs (MON) sur les nœuds 2 et 3</h3>
+<ul>
+<li><strong>Le problème</strong> : Le Moniteur (MON) est le cerveau du cluster Ceph. Si le nœud principal <code>pve</code> tombe en panne, le cluster deviendrait aveugle et se bloquerait sans redondance des moniteurs. La bonne pratique sur 3 nœuds est d'avoir 3 moniteurs (un par nœud).</li>
+</ul>
+<p>On crée ensuite un nouveau pool pour nos trois nœuds avec les options avancées recommandées :
+* <strong>Min. Size</strong> : Réglé sur 2 (garantit l'écriture sur au moins 2 nœuds avant validation).
+* <strong>Application</strong> : Sélection de <code>rbd</code> (optimisé pour les disques de machines virtuelles).</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images_thaprox/media/image16.png" data-desc-position="bottom"><img alt="" src="../images_thaprox/media/image16.png"></a></p>
+<h3 id="18-integration-du-pool-dans-proxmox-stockage-rbd">1.8 Intégration du Pool dans Proxmox (Stockage RBD)</h3>
+<p>Le stockage RBD est ensuite intégré à Proxmox.</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images_thaprox/media/image17.png" data-desc-position="bottom"><img alt="" src="../images_thaprox/media/image17.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images_thaprox/media/image18.png" data-desc-position="bottom"><img alt="" src="../images_thaprox/media/image18.png"></a></p>
+<hr>
+<h2 id="19-creation-et-configuration-dune-vm-pour-la-haute-disponibilite">1.9 Création et configuration d'une VM pour la Haute Disponibilité</h2>
+<p>Après avoir téléversé l'image ISO, nous procédons à la création de la machine virtuelle dédiée aux tests de résilience.</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images_thaprox/media/image1a.png" data-desc-position="bottom"><img alt="" src="../images_thaprox/media/image1a.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images_thaprox/media/image1b.png" data-desc-position="bottom"><img alt="" src="../images_thaprox/media/image1b.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images_thaprox/media/image1c.png" data-desc-position="bottom"><img alt="" src="../images_thaprox/media/image1c.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images_thaprox/media/image1d.png" data-desc-position="bottom"><img alt="" src="../images_thaprox/media/image1d.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images_thaprox/media/image1e.png" data-desc-position="bottom"><img alt="" src="../images_thaprox/media/image1e.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images_thaprox/media/image1f.png" data-desc-position="bottom"><img alt="" src="../images_thaprox/media/image1f.png"></a></p>
+<hr>
+<h2 id="2-mise-en-place-de-la-haute-disponibilite-ha-et-test-de-panne">2. Mise en place de la Haute Disponibilité (HA) et test de panne</h2>
+<p>Une fois la VM installée et fonctionnelle sur le premier nœud, nous activons la règle de Haute Disponibilité.</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images_thaprox/media/image20.png" data-desc-position="bottom"><img alt="" src="../images_thaprox/media/image20.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images_thaprox/media/image21.png" data-desc-position="bottom"><img alt="" src="../images_thaprox/media/image21.png"></a></p>
+<h3 id="21-simulation-de-panne-failover">2.1 Simulation de panne (Failover)</h3>
+<p>Pour valider le comportement du cluster, nous simulons la panne matérielle en éteignant de force le nœud 1 (<code>pve</code>) qui héberge la machine virtuelle.</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images_thaprox/media/image22.png" data-desc-position="bottom"><img alt="" src="../images_thaprox/media/image22.png"></a></p>
+<p><strong>Résultat</strong> : Face à l'interruption du nœud primaire, le cluster détecte la défaillance et transfère / redémarre automatiquement la machine virtuelle sur un autre nœud disponible (<code>pve2</code> ou <code>pve3</code>), garantissant ainsi le maintien du service et le principe de la Haute Disponibilité.</p>
 
 
 
@@ -1350,10 +1719,10 @@ On verra par la suite qu'on peut voir le contenu d'un dossier précis, voir les 
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.expand", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.expand", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   
