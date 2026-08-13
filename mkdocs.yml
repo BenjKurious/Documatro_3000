@@ -62,6 +62,10 @@ nav:
           - Audit et Sécurisation d'une infrastructure Windows Server (AD + GPO): Projets/Windows_Server/tp_ad_gpo_hardened.md
       - Linux:
           - Rapport d'Audit de sécurisation d'un service linux vulnérable: Projets/Linux/audit_linux.md
+      - Supervision & SOC:
+          - Projet SIEM (Splunk) - Déploiement d'un SOC sous Splunk: Projets/Supervision_SOC/projet_siem.md
+      - Cloud:
+          - Audit, Durcissement IaC & Détection de Menaces sur Azure: Projets/Cloud/audit_detect_Azure.md
   # - Virtualisation:
   # - Automatisation:
   # - Scripting:
