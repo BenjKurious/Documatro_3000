@@ -10,6 +10,10 @@
         <link rel="canonical" href="https://benjkurious.github.io/Documatro_3000/Projets/Windows_Server/tp_ad_gpo_hardened/">
       
       
+        <link rel="prev" href="../../../Presentation/CV/">
+      
+      
+        <link rel="next" href="../../Linux/audit_linux/">
       
       
         
@@ -600,20 +604,20 @@
       
   
   
+    
   
   
+  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4">
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked="">
         
           
           <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
@@ -634,7 +638,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             
@@ -649,20 +653,20 @@
                 
   
   
+    
   
   
+  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_1">
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_1" checked="">
         
           
           <label class="md-nav__link" for="__nav_4_1" id="__nav_4_1_label" tabindex="0">
@@ -683,7 +687,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_1_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_1_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_4_1">
             <span class="md-nav__icon md-icon"></span>
             
@@ -698,17 +702,44 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../Mise_en_place_infrastructure.md" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Audit et Sécurisation d'une infrastructure Windows Server (AD + GPO)
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
   <span class="md-ellipsis">
     
   
-    Mise en place d'une infrastructure Windows Server
+    Audit et Sécurisation d'une infrastructure Windows Server (AD + GPO)
   
 
     
@@ -717,6 +748,309 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#1-configuration-de-base-pour-notre-machine-serveur" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Configuration de base pour notre machine serveur
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-installation-et-configuration-dad-ds" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Installation et configuration d'AD DS
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-creation-des-unites-dorganisation-et-comptes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Création des Unités d'Organisation et Comptes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-ajout-de-la-machine-cliente-dans-le-domaine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Ajout de la machine cliente dans le domaine
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-deploiement-des-politiques-de-securite-gpo-hardening" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Déploiement des Politiques de Sécurité (GPO &amp; Hardening)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Déploiement des Politiques de Sécurité (GPO &amp; Hardening)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-gpo-daudit-avance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 GPO d'Audit Avancé
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-gpo-firewall" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 GPO Firewall
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-configuration-dapplocker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Configuration d'AppLocker
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-tests-audits-et-remediations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Tests, Audits et Remédiations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Tests, Audits et Remédiations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-validation-des-politiques-de-base-mots-de-passe-applocker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1. Validation des politiques de base (Mots de passe &amp; AppLocker)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6.1. Validation des politiques de base (Mots de passe &amp; AppLocker)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#modification-du-mot-de-passe-dalice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Modification du mot de passe d'Alice
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verification-du-fonctionnement-applocker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vérification du fonctionnement AppLocker
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-verrouillage-de-comptes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Test Verrouillage de comptes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mise-en-place-de-nouveaux-comptes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mise en place de nouveaux comptes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-phase-1-observation-cartographie-et-securisation-des-identites" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2. Phase 1 : Observation, Cartographie et Sécurisation des Identités
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6.2. Phase 1 : Observation, Cartographie et Sécurisation des Identités">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#etape-1-lister-les-privileges-et-appliquer-le-moindre-privilege" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 1 : Lister les privilèges et appliquer le moindre privilège
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-2-analyser-et-restreindre-les-acls-reseau" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 2 : Analyser et restreindre les ACLs réseau
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-3-verification-des-droits-locaux" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 3 : Vérification des droits locaux
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-phase-2-authentification-et-securisation-avancee" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3. Phase 2 : Authentification et Sécurisation Avancée
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6.3. Phase 2 : Authentification et Sécurisation Avancée">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#etape-1-audit-kerberos-vs-ntlm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 1 : Audit Kerberos vs NTLM
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-2-analyse-et-migration-des-comptes-de-service-gmsa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 2 : Analyse et migration des comptes de service (gMSA)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-3-application-dune-politique-de-mot-de-passe-granulaire-pso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 3 : Application d'une politique de mot de passe granulaire (PSO)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-bilan-synthese-securite" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Bilan &amp; Synthèse Sécurité
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 

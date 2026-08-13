@@ -10,7 +10,7 @@
         <link rel="canonical" href="https://benjkurious.github.io/Documatro_3000/Projets/Linux/audit_linux/">
       
       
-        <link rel="prev" href="../../../Presentation/CV/">
+        <link rel="prev" href="../../Windows_Server/tp_ad_gpo_hardened/">
       
       
       
@@ -703,14 +703,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Windows_Server/Mise_en_place_infrastructure.md" class="md-nav__link">
+      <a href="../../Windows_Server/tp_ad_gpo_hardened/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Mise en place d'une infrastructure Windows Server
+    Audit et Sécurisation d'une infrastructure Windows Server (AD + GPO)
   
 
     
@@ -2041,12 +2041,12 @@ risques futurs.</em></p>
   beaucoup d'anciennes versions de logiciels qui contiennent des
   vulnérabilités simples à exploiter.</li>
 </ul>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/image2.png" data-desc-position="bottom"><img alt="" src="./images/media/image2.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image2.png" data-desc-position="bottom"><img alt="" src="../images/media/image2.png"></a></p>
 <ul>
 <li>Une seconde machine a été utilisée comme <strong>machine attaquante</strong>.
   Cette machine tourne sur un système Kali Linux.</li>
 </ul>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/image3.png" data-desc-position="bottom"><img alt="" src="./images/media/image3.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image3.png" data-desc-position="bottom"><img alt="" src="../images/media/image3.png"></a></p>
 <h3 id="22-service-vulnerable-installe">2.2 Service vulnérable installé</h3>
 <ul>
 <li>Sur la <strong>machine cible</strong>, un service vulnérable a été installé, un
@@ -2056,7 +2056,7 @@ risques futurs.</em></p>
 <p>Pour montrer que ce service est bien installé on va réaliser dans un
 premier temps un ping sur la machine cible pour bien vérifier que nos
 deux machines sont en communication :</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/image4.png" data-desc-position="bottom"><img alt="" src="./images/media/image4.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image4.png" data-desc-position="bottom"><img alt="" src="../images/media/image4.png"></a></p>
 <p>On obtient bien une réponse de la part de la <strong>machine cible</strong> on peut
 donc en conclure qu'il y a bien communication entre les deux machines</p>
 <p>Pour débuter notre attaque et montrer la présence d'un ancien serveur
@@ -2065,10 +2065,10 @@ FTP (vsftpd 2.3.4) nous allons réaliser une commande **nmap --sV
 <p>Voilà ce que nous allons obtenir après le scan à l'aide de l'outil nmap
 qui nous permet d'analyser le trafic réseau et de voir les différents
 ports ouverts à l'aide de l'option sV :</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/image5.png" data-desc-position="bottom"><img alt="" src="./images/media/image5.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image5.png" data-desc-position="bottom"><img alt="" src="../images/media/image5.png"></a></p>
 <p>Plus précisément nous voyons bien que l'ancien serveur ftp est bien
 présent :</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/image6.png" data-desc-position="bottom"><img alt="" src="./images/media/image6.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image6.png" data-desc-position="bottom"><img alt="" src="../images/media/image6.png"></a></p>
 <ul>
 <li><em>Cette version est connue car les développeurs avaient installé une
   backdoor pour des fonctions de maintenance et de réparation,
@@ -2081,14 +2081,14 @@ présent :</p>
 <li>Le service était accessible via le réseau entre les deux machines
   (testé en utilisant nmap).</li>
 </ul>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/image7.png" data-desc-position="bottom"><img alt="" src="./images/media/image7.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image7.png" data-desc-position="bottom"><img alt="" src="../images/media/image7.png"></a></p>
 <p>La communication est bien fonctionnelle entre les deux machines car le
 scan fonctionne et nous rapporte les ports ouverts ainsi que des détails
 sur les logiciels et leurs versions qui exploitent ces ports</p>
 <ul>
 <li>Ping pour vérifier la bonne communication entre les deux machines</li>
 </ul>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/image8.png" data-desc-position="bottom"><img alt="" src="./images/media/image8.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image8.png" data-desc-position="bottom"><img alt="" src="../images/media/image8.png"></a></p>
 <p>Même chose ici les pings sont bien fonctionnels à partir de l'adresse IP
 de notre machine cible, aucune erreur n'est à déployer et le temps en
 millisecondes de chaque ping est très rapide, rien ne pose donc un
@@ -2104,12 +2104,12 @@ souci.</p>
 </ul>
 <p>Comme nous pouvons le voir, le logiciel est déjà présent nativement sur
 la machine Kali :</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/image9.png" data-desc-position="bottom"><img alt="" src="./images/media/image9.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image9.png" data-desc-position="bottom"><img alt="" src="../images/media/image9.png"></a></p>
 <p>Il est également possible de le lancer à l'aide de la commande suivante
 :</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/imagea.png" data-desc-position="bottom"><img alt="" src="./images/media/imagea.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/imagea.png" data-desc-position="bottom"><img alt="" src="../images/media/imagea.png"></a></p>
 <p>Voici à quoi ressemble l'interface de l'outil metasploit :</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/imageb.png" data-desc-position="bottom"><img alt="" src="./images/media/imageb.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/imageb.png" data-desc-position="bottom"><img alt="" src="../images/media/imageb.png"></a></p>
 <h2 id="3-scan-et-collecte-dinformations">3. Scan et collecte d'informations</h2>
 <h3 id="31-scan-avec-nmap">3.1 Scan avec nmap</h3>
 <ul>
@@ -2124,18 +2124,18 @@ la machine Kali :</p>
   utilisent ces ports :</p>
 </li>
 </ul>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/imagec.png" data-desc-position="bottom"><img alt="" src="./images/media/imagec.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/imagec.png" data-desc-position="bottom"><img alt="" src="../images/media/imagec.png"></a></p>
 <ul>
 <li>Les résultats ont révélé que le port 21 (FTP) était ouvert et
   exécutait une version vulnérable de vsftpd :</li>
 </ul>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/imaged.png" data-desc-position="bottom"><img alt="" src="./images/media/imaged.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/imaged.png" data-desc-position="bottom"><img alt="" src="../images/media/imaged.png"></a></p>
 <h3 id="32-vulnerabilites-identifiees">3.2 Vulnérabilités identifiées</h3>
 <p>Comme nous avons pu voir lors du scan de nmap, la machine cible possède
 le service vsftpd 2.3.4. Si nous allons voir rapidement sur le net nous
 pouvons voir qu'un rapport de CVE (Common Vulnerabilities Exposure) a
 déjà été déposé sur cette version de vsftpd :</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/imagee.png" data-desc-position="bottom"><img alt="" src="./images/media/imagee.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/imagee.png" data-desc-position="bottom"><img alt="" src="../images/media/imagee.png"></a></p>
 <p>Nous pouvons voir que cette version contient une backdoor qui ouvre un
 terminal shell sur le port 6200/tcp</p>
 <p>Cette vulnérabilité a obtenu un score de 8.1 en CVSS ce qui signifie que
@@ -2161,8 +2161,8 @@ donc passer à la phase d'attaque sur la machine cible</p>
 <h3 id="33-scan-specifique-au-service">3.3 Scan spécifique au service</h3>
 <p><strong>Utilisation de la commande Nikto</strong> pour scanner le service web et
 vérifier les vulnérabilités potentielles dans ce service <strong>:</strong></p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/imagef.png" data-desc-position="bottom"><img alt="" src="./images/media/imagef.png"></a></p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/image10.png" data-desc-position="bottom"><img alt="" src="./images/media/image10.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/imagef.png" data-desc-position="bottom"><img alt="" src="../images/media/imagef.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image10.png" data-desc-position="bottom"><img alt="" src="../images/media/image10.png"></a></p>
 <p>Ce scan est plus spécifique pour des services utilisant les services web
 comme Apache ou Nginx mais cela était pour trouver potentiellement
 d'autres failles à réaliser</p>
@@ -2170,13 +2170,13 @@ d'autres failles à réaliser</p>
 <h3 id="41-demarche-dexploitation">4.1 Démarche d'exploitation</h3>
 <p>maintenant que nous connaissons le logiciel exploité (vsftpd 2.3.4) nous pouvons démarrer notre attaque</p>
 <p>On démarre Metasploit :</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/image11.png" data-desc-position="bottom"><img alt="" src="./images/media/image11.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image11.png" data-desc-position="bottom"><img alt="" src="../images/media/image11.png"></a></p>
 <p>Nous allons ensuite taper la commande search qui permet de rechercher
 une vulnérabilité suivie du nom du service que nous souhaitons exploiter
 :</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/image12.png" data-desc-position="bottom"><img alt="" src="./images/media/image12.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image12.png" data-desc-position="bottom"><img alt="" src="../images/media/image12.png"></a></p>
 <p>On obtient deux failles concernant deux versions différentes de vsftpd :</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/image13.png" data-desc-position="bottom"><img alt="" src="./images/media/image13.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image13.png" data-desc-position="bottom"><img alt="" src="../images/media/image13.png"></a></p>
 <p>Nous pouvons voir que deux failles sont disponibles, la première qui
 permet de réaliser un DDOS ou une interruption de service sur la version
 2.3.2, malheureusement, nous ne possédons pas cette version de vsftpd et
@@ -2185,9 +2185,9 @@ si facile que cela à exploiter pour des résultats moins intéressants</p>
 <p>Heureusement la seconde vulnérabilité concerne notre version installée
 et son rang est excellent, nous allons donc vérifier les informations de
 cette vulnérabilité :</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/image14.png" data-desc-position="bottom"><img alt="" src="./images/media/image14.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image14.png" data-desc-position="bottom"><img alt="" src="../images/media/image14.png"></a></p>
 <p>Voici les informations que nous obtenons :</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/image15.png" data-desc-position="bottom"><img alt="" src="./images/media/image15.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image15.png" data-desc-position="bottom"><img alt="" src="../images/media/image15.png"></a></p>
 <p>Comme nous avons pu voir précédemment cette faille utilise une backdoor,
 elle est exploitable sur les plateformes Unix ce qui est une excellente
 nouvelle pour nous car il est possible d'avoir des CVE qui ne sont pas
@@ -2195,47 +2195,47 @@ compatibles avec notre OS.</p>
 <p>Pour exploiter cette faille nous pouvons également voir que nous devons
 renseigner l'adresse IP de la cible ainsi que le numéro de port exploité
 :</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/image16.png" data-desc-position="bottom"><img alt="" src="./images/media/image16.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image16.png" data-desc-position="bottom"><img alt="" src="../images/media/image16.png"></a></p>
 <p>Maintenant que nous avons ces informations il est temps d'attaquer</p>
 <h3 id="42-acces-non-autorise">4.2 Accès non autorisé</h3>
 <p>Pour débuter l'attaque, nous allons utiliser la commande use suivi du
 chemin de la vulnérabilité que nous avons trouvé plus tôt :</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/image17.png" data-desc-position="bottom"><img alt="" src="./images/media/image17.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image17.png" data-desc-position="bottom"><img alt="" src="../images/media/image17.png"></a></p>
 <p>Voici ce que cela va donner en commande :</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/image18.png" data-desc-position="bottom"><img alt="" src="./images/media/image18.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image18.png" data-desc-position="bottom"><img alt="" src="../images/media/image18.png"></a></p>
 <p>Désormais il ne nous reste plus qu'à renseigner l'adresse IP de l'hôte
 et le ping exploité</p>
 <p>Renseignement de l'adresse IP de l'hôte ou de la cible :</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/image19.png" data-desc-position="bottom"><img alt="" src="./images/media/image19.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image19.png" data-desc-position="bottom"><img alt="" src="../images/media/image19.png"></a></p>
 <p>Puis renseigment du port exploité :</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/image1a.png" data-desc-position="bottom"><img alt="" src="./images/media/image1a.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image1a.png" data-desc-position="bottom"><img alt="" src="../images/media/image1a.png"></a></p>
 <p>Il n'y a plus qu'à lancer la commande exploit pour lancer un terminal
 sur la machine cible avec une élévation de privilège :</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/image1b.png" data-desc-position="bottom"><img alt="" src="./images/media/image1b.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image1b.png" data-desc-position="bottom"><img alt="" src="../images/media/image1b.png"></a></p>
 <p>Nous allons obtenir le résultat suivant :</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/image1c.png" data-desc-position="bottom"><img alt="" src="./images/media/image1c.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image1c.png" data-desc-position="bottom"><img alt="" src="../images/media/image1c.png"></a></p>
 <p>On peut voir que nous avons bien pu démarrer un terminal en tant que
 l'utilisateur root</p>
 <p>Désormais nous allons tester ce que nous pouvons faire avec nos nouveaux
 privilèges</p>
 <p>Si je fais la commande <strong>ls</strong> je peux voir tous les répertoires présents
 sur la machine :</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/image1d.png" data-desc-position="bottom"><img alt="" src="./images/media/image1d.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image1d.png" data-desc-position="bottom"><img alt="" src="../images/media/image1d.png"></a></p>
 <p>Si je fais un pwd du côté de la machine cible je peux voir que je me
 trouve dans le répertoire suivant :</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/image1e.png" data-desc-position="bottom"><img alt="" src="./images/media/image1e.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image1e.png" data-desc-position="bottom"><img alt="" src="../images/media/image1e.png"></a></p>
 <p>Du côté de ma machine attaquante, je vais donc créer un nouveau fichier
 dans ce répertoire pour voir si la modification est bien présente sur la
 machine cible</p>
 <p>Je me rends donc dans le répertoire utilisé par l'admin sur la machine
 cible puis je crée un fichier qui s'appelle HACKED :</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/image1f.png" data-desc-position="bottom"><img alt="" src="./images/media/image1f.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image1f.png" data-desc-position="bottom"><img alt="" src="../images/media/image1f.png"></a></p>
 <p>Et si je regarde du côté de ma machine cible le fichier est donc bien
 présent :</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/image20.png" data-desc-position="bottom"><img alt="" src="./images/media/image20.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image20.png" data-desc-position="bottom"><img alt="" src="../images/media/image20.png"></a></p>
 <p>Je peux également utiliser la commande "whoami" pour prouver que je suis
 bien connecté en tant qu'utilisateur super-user ou root</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/image21.png" data-desc-position="bottom"><img alt="" src="./images/media/image21.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image21.png" data-desc-position="bottom"><img alt="" src="../images/media/image21.png"></a></p>
 <p>Ainsi j'ai bien pu me connecter en tant que root à la machine cible et
 créer un fichier du nom de HACKED, désormais je vais me déconnecter et
 nous allons passer à l'analyse post-exploitation, pour vérifier les
@@ -2250,13 +2250,13 @@ différentes traces liées à l'attaque.</p>
 IP 192.168.126.130 s'est connectée à notre machine sans notre
 autorisation à l'aide du logiciel metasploit vers 8h41 (la bonne heure
 n'est pas renseignée sur notre machine metasploit) :</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/image22.png" data-desc-position="bottom"><img alt="" src="./images/media/image22.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image22.png" data-desc-position="bottom"><img alt="" src="../images/media/image22.png"></a></p>
 <p>Cette image est également intéressante car on peut voir que Metasploit
 surveille les adresses réseau de notre machine cible :</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/image23.png" data-desc-position="bottom"><img alt="" src="./images/media/image23.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image23.png" data-desc-position="bottom"><img alt="" src="../images/media/image23.png"></a></p>
 <p>On obtient de plus amples détails en inspectant le fichier
 /var/log/auth.log :</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/image24.png" data-desc-position="bottom"><img alt="" src="./images/media/image24.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image24.png" data-desc-position="bottom"><img alt="" src="../images/media/image24.png"></a></p>
 <p>L'adresse IP 192.168.126.130 s'est connectée en tant que root au port
 22 à l'aide du logiciel metasploit, il y a eu une erreur de login car
 cet utilisateur n'est pas reconnu par le système et donc ne devrait pas
@@ -2265,7 +2265,7 @@ nous arrivons à outrepasser le service d'authentification pam et nous
 obtenons un accès complet au système</p>
 <p>Nous pouvons également voir que le message suivant s'est affiché,
 signifiant que nous étions en train de surveiller les ports ouverts :</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/image25.png" data-desc-position="bottom"><img alt="" src="./images/media/image25.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image25.png" data-desc-position="bottom"><img alt="" src="../images/media/image25.png"></a></p>
 <h3 id="52-chronologie-de-lattaque">5.2 Chronologie de l'attaque</h3>
 <p>Reconstitution des étapes de l'attaque en fonction des informations des
 logs.</p>
@@ -2286,7 +2286,7 @@ machine cible.</p>
 (changer la version du serveur FTP, configurer correctement le service).</p>
 <p>Voici ce que nous avons comme port ouvert exploité par des services avec
 leur version visible en clair :</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/image26.png" data-desc-position="bottom"><img alt="" src="./images/media/image26.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image26.png" data-desc-position="bottom"><img alt="" src="../images/media/image26.png"></a></p>
 <p>Dans un premier temps nous allons faire une mise à jour complète des
 différents logiciels pour ne plus avoir de vulnérabilité de ce côté,
 nous rajouterons d'autres mesures de sécurité ensuite</p>
@@ -2297,61 +2297,61 @@ nous rajouterons d'autres mesures de sécurité ensuite</p>
 patcher certaines des vulnérabilités</p>
 <p>Nous obtenons les mêmes résultats dans sV. Nous allons faire en sorte de
 ne plus pouvoir voir les logiciels pour une personne extérieure :</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/image27.png" data-desc-position="bottom"><img alt="" src="./images/media/image27.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image27.png" data-desc-position="bottom"><img alt="" src="../images/media/image27.png"></a></p>
 <h4 id="611-mesure-de-protection-de-apache2">6.1.1 Mesure de protection de Apache2</h4>
 <p>Pour protéger Apache nous allons ajouter la ligne server tokens et
 serversignature pour ne plus afficher de détails sur le logiciel utilisé
 :</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/image28.png" data-desc-position="bottom"><img alt="" src="./images/media/image28.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image28.png" data-desc-position="bottom"><img alt="" src="../images/media/image28.png"></a></p>
 <h4 id="612-masquage-de-la-version-du-serveur">6.1.2 Masquage de la version du serveur</h4>
 <p>On rajoute dans le fichier /etc/ssh/sshd_config la commande
 "VersionAddendum none" pour ne plus afficher la version du serveur :</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/image29.png" data-desc-position="bottom"><img alt="" src="./images/media/image29.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image29.png" data-desc-position="bottom"><img alt="" src="../images/media/image29.png"></a></p>
 <h4 id="613-fermeture-manuellement-des-services-ftp">6.1.3 : Fermeture manuellement des services ftp :</h4>
 <p>On va ensuite fermer manuellement les services FTP à l'aide de la
 commande sudo kill suivi de l'id du service :</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/image2a.png" data-desc-position="bottom"><img alt="" src="./images/media/image2a.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image2a.png" data-desc-position="bottom"><img alt="" src="../images/media/image2a.png"></a></p>
 <p>Ici 5049 et 15074</p>
 <h3 id="62-configuration-dun-pare-feu">6.2 Configuration d'un pare-feu</h3>
 <p>Utilisation de iptables ou ufw pour restreindre l'accès au service vulnérable.</p>
 <h4 id="621-les-regles-predefinies">6.2.1 : Les règles prédéfinies</h4>
 <p>On va ensuite mettre en place un pare-feu, dans un premier temps je vais
 vérifier les règles de sécurité mises en place :</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/image2b.png" data-desc-position="bottom"><img alt="" src="./images/media/image2b.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image2b.png" data-desc-position="bottom"><img alt="" src="../images/media/image2b.png"></a></p>
 <p>Voici les règles prédéfinies :</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/image2c.png" data-desc-position="bottom"><img alt="" src="./images/media/image2c.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image2c.png" data-desc-position="bottom"><img alt="" src="../images/media/image2c.png"></a></p>
 <h4 id="622-ajouts-de-nouvelles-regles">6.2.2 : Ajouts de nouvelles règles</h4>
 <p>Nous allons désormais ajouter plusieurs règles pour filtrer le trafic
 entrant et sortant :</p>
 <p>La commande suivante :</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/image2d.png" data-desc-position="bottom"><img alt="" src="./images/media/image2d.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image2d.png" data-desc-position="bottom"><img alt="" src="../images/media/image2d.png"></a></p>
 <p>Va permettre de bloquer tout le trafic entrant</p>
 <p>La commande suivante :</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/image2e.png" data-desc-position="bottom"><img alt="" src="./images/media/image2e.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image2e.png" data-desc-position="bottom"><img alt="" src="../images/media/image2e.png"></a></p>
 <p>Va permettre d'autoriser tout le trafic sortant</p>
 <p>La commande suivante :</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/image2f.png" data-desc-position="bottom"><img alt="" src="./images/media/image2f.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image2f.png" data-desc-position="bottom"><img alt="" src="../images/media/image2f.png"></a></p>
 <p>Va permettre de bloquer tout le trafic de transfert</p>
 <h4 id="623-autorisation-des-connexions-etablies-et-des-connexions-liees">6.2.3 : Autorisation des connexions établies et des connexions liées</h4>
 <p>On va ensuite autoriser les connexions établies et les connexions liées,
 Pour permettre aux connexions déjà établies de continuer à fonctionner
 (par exemple, une session SSH active)</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/image30.png" data-desc-position="bottom"><img alt="" src="./images/media/image30.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image30.png" data-desc-position="bottom"><img alt="" src="../images/media/image30.png"></a></p>
 <h3 id="624-autorisation-des-connexions-en-ssh">6.2.4 : Autorisation des connexions en SSH</h3>
 <p>On va ensuite ajouter la règle suivante pour permettre les connexions
 SSH :</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/image31.png" data-desc-position="bottom"><img alt="" src="./images/media/image31.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image31.png" data-desc-position="bottom"><img alt="" src="../images/media/image31.png"></a></p>
 <h4 id="625-test-du-pare-feu">6.2.5 : Test du pare-feu</h4>
 <p>Désormais si on fait un scan à l'aide de nmap via la machine Kali voyons
 ce que nous obtenons :</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/image32.png" data-desc-position="bottom"><img alt="" src="./images/media/image32.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image32.png" data-desc-position="bottom"><img alt="" src="../images/media/image32.png"></a></p>
 <p>Pour donner suite aux différentes règles que nous avons appliquées nous
 pouvons voir que seul un service est encore visible openSSH</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/image33.png" data-desc-position="bottom"><img alt="" src="./images/media/image33.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image33.png" data-desc-position="bottom"><img alt="" src="../images/media/image33.png"></a></p>
 <p>Pour que l'attaquant ne puisse plus voir le service OpenSSH via nmap
 nous allons rajouter la règle suivante qui va empêcher toute connexion
 entrante sur le port 22 et donc Nmap ne pourra pas le détecter :</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/image34.png" data-desc-position="bottom"><img alt="" src="./images/media/image34.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image34.png" data-desc-position="bottom"><img alt="" src="../images/media/image34.png"></a></p>
 <h3 id="63-verrouillage-de-lacces-a-la-machine">6.3 : Verrouillage de l'accès à la machine</h3>
 <p>attaquante : Vérifier que l'attaquant n'a plus accès au service et à
 la machine.</p>
@@ -2361,16 +2361,16 @@ sécurité</p>
 <h4 id="631-identification-de-lattaquant">6.3.1 : Identification de l'attaquant</h4>
 <p>Pour débuter nous allons nous rendre dans le fichier /var/log/vsftpd.log
 à l'aide de la commande suivante :</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/image35.png" data-desc-position="bottom"><img alt="" src="./images/media/image35.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image35.png" data-desc-position="bottom"><img alt="" src="../images/media/image35.png"></a></p>
 <p>Voici ce que le fichier nous retourne</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/image36.png" data-desc-position="bottom"><img alt="" src="./images/media/image36.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image36.png" data-desc-position="bottom"><img alt="" src="../images/media/image36.png"></a></p>
 <p>Nous pouvons donc voir que l'adresse IP de la machine attaquante est
 192.168.126.130</p>
 <p>Il est donc temps de bloquer cette adresse IP pour éviter toute future
 attaque</p>
 <h4 id="632-blocage-sur-le-pare-feu-de-ladresse-ip-de-lattaquant">6.3.2 : Blocage sur le pare-feu de l'adresse IP de l'attaquant</h4>
 <p>Nous allons ajouter la règle suivante dans notre pare-feu :</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/image37.png" data-desc-position="bottom"><img alt="" src="./images/media/image37.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image37.png" data-desc-position="bottom"><img alt="" src="../images/media/image37.png"></a></p>
 <p>Ainsi cette IP est bloquée, elle ne pourra plus se connecter à notre
 machine même à l'aide d'une backdoor ou d'une autre vulnérabilité en
 théorie</p>
@@ -2379,25 +2379,25 @@ l'attaquant encore ouvertes pour lui réfuter tout accès à notre machine</p>
 <h4 id="633-verification-des-sessions-ouvertes-sur-la-machine">6.3.3 : Vérification des sessions ouvertes sur la machine</h4>
 <p>On va utiliser la commande suivante pour voir les processus actifs
 utilisés en SSH :</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/image38.png" data-desc-position="bottom"><img alt="" src="./images/media/image38.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image38.png" data-desc-position="bottom"><img alt="" src="../images/media/image38.png"></a></p>
 <p>Voici ce que nous retourne la commande :</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/image39.png" data-desc-position="bottom"><img alt="" src="./images/media/image39.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image39.png" data-desc-position="bottom"><img alt="" src="../images/media/image39.png"></a></p>
 <p>Deux utilisateurs sont connectés en SSH, le premier qui est msfadmin qui
 est la session par défaut pour pouvoir se connecter à la machine mais il
 y a également un second utilisateur qui est connecté en root, cela doit
 être la session de l'attaquant qui n'a pas été éteinte, nous allons nous
 empresser de le faire</p>
 <p>On va utiliser la commande suivante :</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/image3a.png" data-desc-position="bottom"><img alt="" src="./images/media/image3a.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image3a.png" data-desc-position="bottom"><img alt="" src="../images/media/image3a.png"></a></p>
 <p>Pour pouvoir tuer la connexion SSH en root donc celle utilisée par
 l'attaquant</p>
 <h4 id="634-verification-et-fermeture-des-connexions-ip-de-lattaquant">6.3.4: Vérification et fermeture des connexions IP de l'attaquant</h4>
 <p>En utilisant la commande suivante :</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/image3b.png" data-desc-position="bottom"><img alt="" src="./images/media/image3b.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image3b.png" data-desc-position="bottom"><img alt="" src="../images/media/image3b.png"></a></p>
 <p>Nous pouvons voir toutes les connexions IP de la machine attaquante sur
 notre machine</p>
 <p>Pour toutes les fermer, nous allons utiliser la commande suivante :</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/image3c.png" data-desc-position="bottom"><img alt="" src="./images/media/image3c.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image3c.png" data-desc-position="bottom"><img alt="" src="../images/media/image3c.png"></a></p>
 <p>Désormais pour renforcer la sécurité nous allons modifier certaines
 parties de notre machine</p>
 <h4 id="635-desactivation-de-lacces-root-a-laide-de-ssh">6.3.5 : Désactivation de l'accès root à l'aide de SSH</h4>
@@ -2405,22 +2405,22 @@ parties de notre machine</p>
 l'aide du protocole SSH</p>
 <p>Nous allons nous rendre dans le fichier /etc/ssh/sshd_config, puis on va
 changer la ligne PermitRootLoginin de yes en no :</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/image3d.png" data-desc-position="bottom"><img alt="" src="./images/media/image3d.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image3d.png" data-desc-position="bottom"><img alt="" src="../images/media/image3d.png"></a></p>
 <p>Devient</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/image3e.png" data-desc-position="bottom"><img alt="" src="./images/media/image3e.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image3e.png" data-desc-position="bottom"><img alt="" src="../images/media/image3e.png"></a></p>
 <h4 id="636-installation-et-configuration-de-loutil-fail2ban">6.3.6 : Installation et configuration de l'outil fail2ban</h4>
 <p>Nous allons activer le bannissement des IP suspectes à l'aide de l'outil
 fail2ban, dans un premier temps nous allons l'installer :</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/image3f.png" data-desc-position="bottom"><img alt="" src="./images/media/image3f.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image3f.png" data-desc-position="bottom"><img alt="" src="../images/media/image3f.png"></a></p>
 <p>Nous allons ensuite taper la commande suivante pour copier le fichier de
 configuration par défaut</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/image40.png" data-desc-position="bottom"><img alt="" src="./images/media/image40.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image40.png" data-desc-position="bottom"><img alt="" src="../images/media/image40.png"></a></p>
 <p>Une fois dans le fichier, nous allons nous rendre dans la partie SSH
 pour modifier les lignes suivantes</p>
 <p>Cette partie</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/image41.png" data-desc-position="bottom"><img alt="" src="./images/media/image41.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image41.png" data-desc-position="bottom"><img alt="" src="../images/media/image41.png"></a></p>
 <p>Devient :</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/image42.png" data-desc-position="bottom"><img alt="" src="./images/media/image42.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image42.png" data-desc-position="bottom"><img alt="" src="../images/media/image42.png"></a></p>
 <p>Ainsi on indique bien le bon port (port 22), le maxretry bannis l'IP au
 bout de 3 mauvais mot de passe ce qui réduit le risque d'intrusion d'un
 personnel non autorisé et on ajoute un bantime de 600 secondes qui
@@ -2430,17 +2430,17 @@ connexion d'individu criminel</p>
 connectés sur la machine, l'user de base sur le terminal et un root qui
 est connecté à distance donc potentiellement via SSH ou FTP par exemple
 :</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/image43.png" data-desc-position="bottom"><img alt="" src="./images/media/image43.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image43.png" data-desc-position="bottom"><img alt="" src="../images/media/image43.png"></a></p>
 <p>Pts/0 signifie que la connexion est à distance, et non localement sur la
 machine</p>
 <p>Pour pallier cela, nous allons utiliser la commande suivante :</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/image44.png" data-desc-position="bottom"><img alt="" src="./images/media/image44.png"></a>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image44.png" data-desc-position="bottom"><img alt="" src="../images/media/image44.png"></a>
 Pour tuer toutes les sessions SSH ouvertes par root</p>
 <h3 id="64-validation-des-mesures-verifier-lefficacite-des-mesures-mises-en-place">6.4 Validation des mesures : Vérifier l'efficacité des mesures mises en place.</h3>
 <p>Nous allons désormais essayer de nous connecter avec la même faille pour
 voir si c'est encore possible ou si le système de défense que nous avons
 mis en place va nous bloquer</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/image45.png" data-desc-position="bottom"><img alt="" src="./images/media/image45.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image45.png" data-desc-position="bottom"><img alt="" src="../images/media/image45.png"></a></p>
 <p>Comme nous pouvons voir, il nous est désormais impossible de nous
 connecter via le service vsftpd, ni par l'hôte en lui-même d'ailleurs
 puisque nous avons interdit toutes les connexions distantes et nous
@@ -2557,7 +2557,7 @@ au système.</p>
 <li><strong>Audit régulier</strong> : L'administrateur doit contrôler périodiquement les journaux à la recherche d'anomalies ou de tentatives d'intrusion.</li>
 </ol>
 </div>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/image47.png" data-desc-position="bottom"><img alt="" src="./images/media/image47.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image47.png" data-desc-position="bottom"><img alt="" src="../images/media/image47.png"></a></p>
 <div class="admonition example">
 <p class="admonition-title">Recommandations</p>
 <ul>
@@ -2593,7 +2593,7 @@ au système.</p>
 <li><strong>Remédiation</strong> : Analyser les journaux et corriger la faille exploitée.</li>
 </ol>
 </div>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/media/image48.png" data-desc-position="bottom"><img alt="" src="./images/media/image48.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/media/image48.png" data-desc-position="bottom"><img alt="" src="../images/media/image48.png"></a></p>
 <div class="admonition example">
 <p class="admonition-title">Recommandations</p>
 <ul>
