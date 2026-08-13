@@ -64,8 +64,11 @@ nav:
           - Rapport d'Audit de sécurisation d'un service linux vulnérable: Projets/Linux/audit_linux.md
       - Supervision & SOC:
           - Projet SIEM (Splunk) - Déploiement d'un SOC sous Splunk: Projets/Supervision_SOC/projet_siem.md
+      - Conteneurisation:
+          - Sécurisation & Orchestration d'un Cluster Docker Swarm: Projets/Conteneurisation/cluster_swarm.md
+      - Automatisation:
+          - Déploiement d'une Stack Applicative avec Terraform & Docker: Projets/Automatisation/docker_tech_stack.md
       - Cloud:
           - Audit, Durcissement IaC & Détection de Menaces sur Azure: Projets/Cloud/audit_detect_Azure.md
   # - Virtualisation:
-  # - Automatisation:
   # - Scripting:
