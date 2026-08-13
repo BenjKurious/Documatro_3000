@@ -59,7 +59,7 @@ nav:
     - CV: Presentation/CV.md
   - Projets:
       - Windows Server:
-          - Mise en place d'une infrastructure Windows Server: Projets/Windows_Server/Mise_en_place_infrastructure.md
+          - Audit et Sécurisation d'une infrastructure Windows Server (AD + GPO): Projets/Windows_Server/tp_ad_gpo_hardened.md
       - Linux:
           - Rapport d'Audit de sécurisation d'un service linux vulnérable: Projets/Linux/audit_linux.md
   # - Virtualisation:
